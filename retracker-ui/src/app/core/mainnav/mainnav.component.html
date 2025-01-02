@@ -1,0 +1,19 @@
+<mat-toolbar >
+    @if(secondaryNavService.isToggleEnabled()) {
+        <button mat-icon-button class="responsive-hamburger" aria-label="icon-button with menu icon" (click)="secondaryNavService.toogleSideNav()" [class.opened]="secondaryNavService.isOpen()">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+    }
+    @else {
+      <span class="app-name">Re-Tracker</span>
+    }
+    <app-global-search></app-global-search>
+    <span class="spacer"></span>
+    <button mat-icon-button  aria-label="icon-button with account icon">
+      <mat-icon>user</mat-icon>
+    </button>
+    <button mat-icon-button  aria-label="icon-button with settings icon">
+      <mat-icon>settings</mat-icon>
+    </button>
+</mat-toolbar>

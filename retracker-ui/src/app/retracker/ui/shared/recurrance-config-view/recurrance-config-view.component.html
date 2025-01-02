@@ -1,0 +1,13 @@
+@if(showIcon()){
+    <mat-icon>alarm_on</mat-icon>
+}
+@if(recurrance()) {
+    <span i18n>
+        {recurrance()!.recurrenceInterval, plural,
+            =1 {{recurrance()!.recurrenceTimeUnit, select, WEEK {nach einer Woche} DAY {am nächsten Tg} YEAR {nach einem Jahr} MONTH {nach einem Monat} other {?}}}
+            other {nach {{recurrance()!.recurrenceInterval}} {recurrance()!.recurrenceTimeUnit, select, WEEK {Wochen} DAY {Tagen} YEAR {Jahren} MONTH {Monaten} other {?}}}}
+    </span>
+}
+@else {
+    <span i18n>Keine</span> 
+}

@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+
+.container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-content: stretch;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+mat-sidenav {
+  width:110px;
+  background-color: var(--nav-side-background-color);
+  border-top-right-radius: 0;
+}
+
+mat-sidenav-content {
+  flex: 1;
+  position: relative;
+}
+
+.navGroup {
+  padding: 0 16px;
+}

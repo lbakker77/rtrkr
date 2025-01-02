@@ -1,0 +1,44 @@
+<app-responsive-master-detail>
+    <app-master-part >
+        @if(store.isLoading()){
+            <span>Loading...</span>
+        }
+        @else {
+            <div class="master-part">
+                @if(store.dueEntries().length > 0) {
+                    <span i18n>Fällig</span>
+                    @for(item of store.dueEntries(); track item.id) {
+                        <app-retracker-overview-entry-select [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-entry-select>
+                    }
+                }
+                @if(store.dueNextSevenDays().length > 0) {
+                    <span i18n>Bald</span>
+                    @for(item of store.dueNextSevenDays(); track item.id) {
+                        <app-retracker-overview-entry-select [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-entry-select>
+                    }
+                }
+                <span i18n>Zukunft oder ungeplant</span>
+                @for(item of store.otherEntries(); track item.id) {
+                    <app-retracker-overview-entry-select [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-entry-select>
+                }
+            </div>
+        }
+
+    </app-master-part>
+    <app-master-absolute-positioned>
+        <button class="add-entry-button"mat-fab extended (click)="newEntry()"><mat-icon>add</mat-icon>Hinzufügen</button>
+        @if(store.createNewModeEnabled()) {
+            
+            <app-retracker-create (abort)="closeCreate()" (saved)="registerNewEntry($event)" [listId]="store.id()"></app-retracker-create>
+        }
+    </app-master-absolute-positioned>
+    <app-detail-part > 
+        <app-retracker-editor [id]="store.selectedId()" (entryChange)="entryChanged($event)" (deleted)="entryDeleted($event)"></app-retracker-editor>
+    </app-detail-part>
+</app-responsive-master-detail>
+
+
+<!--<div class="selected-part" [class.mobile]="responsivnesService.isSmallScreen()">
+</div>-->
+
+

@@ -1,0 +1,63 @@
+:host {
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+
+.master-part {
+  overflow-y: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  row-gap: 16px;
+  padding-bottom: 10px;
+  :last-child {
+    margin-bottom: 70px;
+  }
+}
+
+
+.add-entry-button-wrapper {
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+}
+.add-entry-button {
+  position: absolute;
+  bottom: var(--spacing);
+  right: var(--spacing);
+  z-index: 100;
+}
+
+
+
+app-retracker-create {
+  position:absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  max-height: 100%;
+  z-index: 1001;
+  background-color: var(--mat-sys-surface-container-low);
+  opacity: 1;
+}
+
+.backdrop {
+  position: fixed;
+  z-index: 1001;
+  background-color: rgba(0,0,0,0.31); 
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+}

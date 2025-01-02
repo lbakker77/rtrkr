@@ -1,0 +1,132 @@
+:host {
+  height: 100%; 
+  width: 100%;
+  display: block;
+}
+.area {
+  height: 100%; 
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.master-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+  position: relative;
+}
+.master-for-positioning {
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
+}
+
+
+.mobile .master-for-positioning.detailOpened {
+  display: none;
+}
+
+.master {
+  display: block;
+  overflow-y: auto;  
+  width: 100%;
+  padding: var(--spacing);
+  box-sizing: border-box;
+  position: relative;  
+}
+
+.detail {
+  display: block;
+  padding: var(--spacing);
+  box-sizing: border-box;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.mobile .detail {
+  position:fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding-top: 0px;
+  bottom: 0;
+  display: none;
+  overflow-y: auto;
+}
+
+.mobile .detail.opened {
+  display: block;
+  z-index: 1;
+  background-color: white;
+}
+
+.mobile .buttonOverlay {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  
+  padding: 12px 12px;
+  background-color: var(--mat-sys-background);
+  
+}
+
+.buttonOverlay {
+  display: none;
+}
+
+
+.devider-placeholder {
+  width: 6px;
+}
+
+.mobile .devider-placeholder {
+  display: none;
+}
+
+.devider-outside {
+  width: 6px;
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom:0 ;
+  visibility:  visible;
+}
+
+.devider-grab-visual {
+  visibility:  visible;
+  position: absolute;
+  background-color: var(--mat-sys-surface-container-highest);
+  cursor: col-resize	;
+  top:0; 
+  bottom:0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+
+  span  {
+    background-color: var(--mat-sys-on-background);
+    border-radius: 100px;
+    border: 2px solid var(--mat-sys-on-secondary-fixed-variant);
+    height: 0px;
+    width: 0px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+}
+
+.devider-grab-visual:active {
+  opacity: 1;
+
+}

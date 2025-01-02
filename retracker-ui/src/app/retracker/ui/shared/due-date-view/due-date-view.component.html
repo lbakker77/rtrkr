@@ -1,0 +1,29 @@
+@if (dueIn() != null){
+    @if (dueIn()!  === 0) {
+        @if(showIcon()){
+            <mat-icon class="alertColor">error</mat-icon>
+        }
+        <span class="due-date-text" i18n>heute</span>
+    }
+    @else if (dueIn()! < 0) {
+        @if(showIcon()){
+            <mat-icon class="alertColor">error</mat-icon>
+        }
+        <span class="due-date-text" i18n> {overDueDays(), plural, =1 {seit gestern} other {seit {{overDueDays()}} Tagen}}</span>
+    }
+    @else if (dueIn()! < 14){
+        @if(showIcon()){
+            <mat-icon >schedule</mat-icon>
+        }
+        <span class="due-date-text" i18n>{dueIn(), plural, =1 {morgen} other {in {{dueIn()}} Tagen}}</span> 
+    }
+    @else {
+        @if(showIcon()){
+            <mat-icon>schedule</mat-icon>
+        }        
+        <span class="due-date-text" i18n> {{dueDate() | date}}</span>
+    }
+}
+@else {
+    <span> {{dueIn()}}</span>
+}

@@ -1,0 +1,26 @@
+<div class="area" #container cdkDropList [class.mobile]="service.isMobileMode()">
+  <div class="master-wrapper" [style.width]="masterWidth()" #master>
+    <div class="master-for-positioning"  [class.detailOpened]="service.isDetailOpened()">
+        <ng-content select="app-master-absolute-positioned"></ng-content>
+    </div>
+    <div class="master">
+      <ng-content select="app-master-part">
+      </ng-content>
+    </div>
+  </div>
+  <div class="devider-placeholder"></div>
+  <div class="detail" [class.opened]="service.isDetailOpened()" >
+    <ng-content select="app-detail-header-bar"></ng-content>
+    <ng-content select="app-detail-part"></ng-content>
+  </div>
+</div>
+@if (!service.isMobileMode()){
+<div class="devider-outside" [style.left]="dividerPosition()" > 
+    <div class="devider-grab-visual" cdkDrag cdkDragLockAxis="x" cdkDragBoundary=".boundary" (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" role="separator" and aria-orientation="horizontal" >
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+</div>
+}

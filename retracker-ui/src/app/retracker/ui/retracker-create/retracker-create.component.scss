@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  z-index: 100;
+  padding: var(--spacing);
+  overflow-y: auto;
+  border-top: 1px solid black;
+}
+form {
+  z-index: 1000;
+}
+
+
+
+label {
+  display: block;
+}
+mat-radio-group {
+  display: block;
+}
+.form-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 5px;
+}
+
+
+.placeholder {
+  height: 81px;
+}

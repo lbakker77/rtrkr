@@ -1,0 +1,58 @@
+<form [formGroup]="retrackerForm">
+    <div class="form-row">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" required [errorStateMatcher]="matcher" />
+            @if(retrackerForm.controls.name.hasError('required')){
+            <mat-error>Name muss angegeben werden</mat-error>
+            }
+        </mat-form-field>
+    </div>
+    <div class="form-row" >
+        <mat-form-field>
+            <mat-label i18n>Kategorie</mat-label>
+            <mat-select formControlName="userCategory" >
+                <mat-select-trigger>
+                    {{retrackerForm.controls.userCategory.value?.categoryName}}
+                  </mat-select-trigger>
+              @for (category of categories; track category) {
+                <mat-option [value]="category"  >
+                    <div class="category-option">
+                        <app-category-icon [userCategory]="category" size="small"></app-category-icon>
+                        <span>{{category.categoryName}}</span>
+                    </div>    
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+    </div>
+    <div class="form-row">
+        <mat-checkbox formControlName="configureRecurrance" i18n>Erinnerung konfigurieren</mat-checkbox>
+    </div>
+    @if (retrackerForm.controls.configureRecurrance.value){
+        <div class="form-row" formGroupName="recurrenceConfig">
+            <mat-form-field>
+                <mat-label i18n>Erinnere alle</mat-label>
+                <input matInput  type="number"  formControlName="recurrenceInterval" min="1" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Zeitraum</mat-label>
+                <mat-select formControlName="recurrenceTimeUnit" >
+                  @for (unit of timeunits; track unit) {
+                    <mat-option [value]="unit">{unit, select, WEEK {Woche(n)} DAY {Tag(e)} YEAR {Jahr(e)} MONTH {Monat(e)} other {?}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            
+        </div>
+    }
+
+
+    <div class="action-bar">
+        <button mat-flat-button (click)="save()">Speichern</button>
+        <button mat-button (click)="abort()">Abbrechen</button>
+    </div>
+
+
+</form>

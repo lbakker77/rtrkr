@@ -1,0 +1,27 @@
+:host {
+  display: inline-block;
+}
+
+.display {
+  padding: 5px 0px;
+  display: flex;
+  flex-flow : column nowrap;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  gap: 2px;
+}
+
+
+.label, .value {
+  margin: 0px;
+}
+
+.label {
+  font: var(--mat-sys-label-large);
+}
+.value {
+  font: var(--mat-sys-body-large); 
+  margin-inline-start: 0;
+}

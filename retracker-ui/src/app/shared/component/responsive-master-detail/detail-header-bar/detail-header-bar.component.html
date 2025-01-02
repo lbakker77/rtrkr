@@ -1,0 +1,11 @@
+<div class="bar" [class.mobile]="responsivMasterDetail.isMobileMode()">
+<div class="left-arrow-back">
+    @if(responsivMasterDetail.isMobileMode()){
+        <button mat-icon-button (click)="closeDetail()"><mat-icon>keyboard_arrow_left</mat-icon></button>
+    }
+</div>
+
+<div class="user-content">
+    <ng-content></ng-content>
+</div>
+</div>

@@ -1,0 +1,9 @@
+
+<div class="app" [class.phone]="responsivnesService.isPhone()" [class.tablet]="responsivnesService.isTablet()" [class.phoneOrTablet]="responsivnesService.isPhoneOrTablet()" [class.desktop]="responsivnesService.isDesktop()">
+  <app-mainnav></app-mainnav>
+  <main class="app-main" [class.mobile]="responsivnesService.isPhone()">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+

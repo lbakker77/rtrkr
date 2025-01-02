@@ -1,0 +1,96 @@
+
+<h3>Neuen Eintrag erfassen</h3>
+<form [formGroup]="retrackerForm" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" >
+    <div class="form-row">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" required cdkFocusInitial />
+            @if(retrackerForm.controls.name.hasError('required')){
+                <mat-error>Name muss angegeben werden</mat-error>
+            }
+        </mat-form-field>
+    </div>
+    <div class="form-row" >
+        <mat-form-field>
+            <mat-label i18n>Kategorie</mat-label>
+            <mat-select formControlName="userCategory" >
+                <mat-select-trigger>
+                    {{retrackerForm.controls.userCategory.value?.categoryName}}
+                  </mat-select-trigger>
+              @for (category of categories; track category) {
+                <mat-option [value]="category"  >
+                    <div class="category-option">
+                        <app-category-icon [userCategory]="category" size="small"></app-category-icon>
+                        <span>{{category.categoryName}}</span>
+                    </div>    
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="form-row">
+        <mat-checkbox formControlName="configureRecurrance" i18n>Regelmäßige Erinnerung konfigurieren</mat-checkbox>
+    </div>
+    @if (retrackerForm.controls.configureRecurrance.value){
+        <div class="form-row" formGroupName="recurrenceConfig">
+            <mat-form-field>
+                <mat-label i18n>Erinnere alle</mat-label>
+                <input matInput  type="number"  formControlName="recurrenceInterval" min="1" >
+                @if(retrackerForm.controls.recurrenceConfig.controls.recurrenceInterval.hasError('required')){
+                    <mat-error>Muss angegeben werden</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Zeitraum</mat-label>
+                <mat-select formControlName="recurrenceTimeUnit" >
+                  @for (unit of timeunits; track unit) {
+                    <mat-option [value]="unit">{unit, select, WEEK {Woche(n)} DAY {Tag(e)} YEAR {Jahr(e)} MONTH {Monat(e)} other {?}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>   
+        </div>
+    }
+    @else {
+        <div class="placeholder">Manuelle Erinnerung</div>
+    }
+    <div class="form-row"> 
+        <div>
+        <label id="completion-radio-group-label" i18n>Erledigung</label>
+        <mat-radio-group aria-labelledby="completion-radio-group-label" formControlName="completionChoice">    
+            <mat-radio-button value="logCompleted" >Schon erledigt</mat-radio-button>
+            <mat-radio-button value="plan">Erledigung planen</mat-radio-button>
+            <mat-radio-button value="logLater">Später erledigen</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    </div>
+    @if( retrackerForm.value.completionChoice === "logCompleted") {
+        <div class="form-row">
+            <mat-form-field>
+                  <mat-label i18n>Erledigungsdatum</mat-label>
+                  <input matInput [matDatepicker]="lastEntryPicker" formControlName="lastEntryDate"  />
+                  <mat-datepicker-toggle matSuffix [for]="lastEntryPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #lastEntryPicker></mat-datepicker>
+              </mat-form-field>
+          </div>
+    }
+    @else if (retrackerForm.value.completionChoice === "plan") {
+        <div class="form-row">
+            <mat-form-field>
+                  <mat-label i18n>Erstes Fälligkeitsdatum</mat-label>
+                  <input matInput [matDatepicker]="dueDatepicker" formControlName="dueDate"  />
+                  <mat-datepicker-toggle matSuffix [for]="dueDatepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #dueDatepicker></mat-datepicker>
+              </mat-form-field>
+          </div>
+    }
+    @else {
+        <div class="placeholder">Später Erfassen</div>
+    }
+
+    <div class="action-bar">
+        <button mat-flat-button (click)="saveClicked()">Speichern</button>
+        <button mat-button (click)="abortClicked()">Abbrechen</button>
+    </div>
+
+
+</form>

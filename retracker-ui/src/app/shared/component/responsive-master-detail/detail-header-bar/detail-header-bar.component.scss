@@ -1,0 +1,47 @@
+.bar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  margin-top: -16px;
+}
+
+
+.mobile.bar {
+  top:0;
+  left:0;
+  right:0;
+  margin: 0;
+  background-color: var(--mat-sys-surface-container);
+  position: fixed;
+  padding:  0 16px;
+}
+.bar:not(.mobile):has(.user-content:empty) {
+  display: none;
+}
+
+:host:has(.bar:not(.mobile)):has(.user-content:empty) {
+  display: none;;
+}
+
+:host {
+  display: block;
+  
+}
+
+:host:has(.bar.mobile) {
+  padding-top: 72px;
+}
+
+
+.user-content {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.left-arrow-back button{
+  margin-right: 10px;
+}
+

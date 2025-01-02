@@ -1,0 +1,16 @@
+<mat-card [appearance]="'outlined'" tabindex="0" (click)="select()"  [class.selected]="imSelected()" [responsiveClass]="['phoneOrTablet', 'desktop', 'phone']" >
+    <mat-card-content >
+        <div class="background"> </div>
+        <div class="selectableCard">
+        <app-category-icon [userCategory]="item().userCategory"></app-category-icon>
+        <h3>{{item().name}}</h3>
+        <span class="lastEntry" i18n>Zuletzt: {{item().lastEntryDate ? (item().lastEntryDate | date) : "Nie"}}</span>
+        <app-recurrance-config-view class="repeat" [recurrance]="item().recurrenceConfig"></app-recurrance-config-view>
+        <app-due-date-view class="due-date" [dueDate]="item().dueDate"></app-due-date-view>    
+    </div>
+    </mat-card-content>      
+  </mat-card> 
+
+
+
+ 

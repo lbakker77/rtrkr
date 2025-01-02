@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+ 
+.form-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 5px;
+}
+
+mat-checkbox {
+  margin-bottom: 16px;
+}

@@ -1,0 +1,73 @@
+
+<app-detail-header-bar>
+    @if(!store.isLoading() && store.hasSelectedEntry()) {
+
+    <div class="toolbar">
+    <div>{{store.selectedEntry()?.name ?? ''}} </div>  
+    <button mat-icon-button (click)="delete()"  [disabled]="store.isInEditMode()"><mat-icon>delete</mat-icon></button>
+
+    <button mat-icon-button (click)="edit()" [disabled]="store.isInEditMode()"><mat-icon>edit</mat-icon></button>
+    </div>
+    }
+</app-detail-header-bar>
+
+
+@if(store.isLoading()){
+   
+}
+@else {
+    @if(store.hasSelectedEntry()){
+        @if(!store.isInEditMode()){
+            <div class="display">
+                <app-display-value > 
+                    <app-display-label i18n>Kategorie</app-display-label>
+                    <app-display-content>{{store.selectedEntry()!.userCategory.categoryName}}</app-display-content>           
+                </app-display-value> 
+                <app-display-value > 
+                    <app-display-label i18n>Letzte Eintragung am</app-display-label>
+                    <app-display-content>{{store.selectedEntry()?.lastEntryDate != null ? (store.selectedEntry()?.lastEntryDate | date) : "Nie"}}</app-display-content>    
+                </app-display-value>
+                <app-display-value> 
+                    <app-display-label i18n>Erinnerung</app-display-label>
+                    <app-display-content>
+                        <app-recurrance-config-view [recurrance]="store.selectedEntry()?.recurrenceConfig" [showIcon]="false"></app-recurrance-config-view>
+                    </app-display-content>    
+                </app-display-value>
+                <app-display-value >
+                    <app-display-label i18n>Fällig</app-display-label>
+                    <app-display-content>
+                        <app-due-date-view [dueDate]="store.selectedEntry()!.dueDate" [showIcon]="false"></app-due-date-view>
+                    </app-display-content>    
+                </app-display-value>
+            </div>    
+            <div class="action-bar">
+                <button mat-flat-button [matMenuTriggerFor]="doneMenu" i18n>Erledigen</button>
+                <mat-menu #doneMenu="matMenu" >
+                <button mat-menu-item (click)="doneToday()" i18n>Heute</button>
+                <button mat-menu-item (click)="doneYesterday()" i18n>Gestern</button>
+                <button mat-menu-item (click)="doneChooseDate()" i18n>Datum wählen</button>
+                </mat-menu>
+                @if(! store.selectedEntry()?.dueDate) {
+                    <button mat-button i18n>Planen</button>
+                }
+                @if(store.selectedEntry()?.dueDate ) {
+                    <button mat-button [matMenuTriggerFor]="postponeMenu" i18n>Verschieben</button>
+                    <mat-menu #postponeMenu="matMenu" >
+                        <button mat-menu-item (click)="postponeOneDay()" i18n>ein Tag</button>
+                        <button mat-menu-item (click)="postponeOneWeek()" i18n>eine Woche</button>
+                        <button mat-menu-item (click)="postponeChooseDate()" i18n>Datum wählen</button>
+                    </mat-menu>
+                }
+
+
+
+            </div>
+        }@else {
+            <app-retracker-editor-basedata ></app-retracker-editor-basedata>    
+        }
+}
+   
+
+
+}
+ 

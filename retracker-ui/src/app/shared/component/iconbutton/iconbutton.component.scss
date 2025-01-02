@@ -1,0 +1,72 @@
+:host {
+  text-decoration: none;
+  color: inherit;
+}
+
+.clickableArea {
+  cursor: pointer;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-bottom:20px;
+}
+
+.iconButton {
+  padding: 0 24px;
+  height: var(--mdc-text-button-container-height, 40px);
+  position: relative;
+  overflow: visible;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0,0,0,0);
+  color: var(--mdc-text-button-label-text-color, var(--mat-sys-primary));
+  border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
+}
+
+.clickableArea   {
+  .background {
+    border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
+    background-color: var(--mat-text-button-state-layer-color, var(--mat-sys-primary));
+    opacity: 0;
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+  }
+  .rippleHolder {
+    border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+  }
+  .badgeHolder {
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+  }
+}
+
+.clickableArea:hover .background {
+  opacity: var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
+}
+
+.clickableArea.active .background {
+  opacity: var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
+  background-color: var(--mat-sys-tertiary);
+}
+
+.clickableArea.active .title {
+  font-weight: 600;
+}
+
+.title {
+  font: var(--mat-sys-title-small);
+  padding-top: 2px;
+}

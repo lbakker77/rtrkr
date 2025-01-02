@@ -1,0 +1,10 @@
+
+<div class="clickableArea" routerLinkActive="active" #trigger >
+    <div class="iconButton"  >
+        <span class="background" ></span> 
+        <span class="badgeHolder" [matBadge]="badgeCounter()" matBadgeSize="large" [matBadgeHidden]="badgeHidden()" ></span>
+        <span class="rippleHolder"  matRipple [matRippleTrigger]="trigger" [matRippleCentered]="true" ></span>
+        <mat-icon>{{icon()}}</mat-icon>
+    </div>
+    <span class="title">{{title()}}</span>
+</div> 
