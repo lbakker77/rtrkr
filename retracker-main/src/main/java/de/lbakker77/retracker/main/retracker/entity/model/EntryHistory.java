@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 @Embeddable
 public record EntryHistory(
-        @Column(nullable = false) ZonedDateTime completionDate,
-        @Column() ZonedDateTime lastDueDate,
+        @Column(nullable = false) LocalDate completionDate,
+        @Column() LocalDate lastDueDate,
         @Column(nullable = false) int postponedDays) {
 }

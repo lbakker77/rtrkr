@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,5 +33,8 @@ public class RetrackerList {
     private boolean shared;
 
     private boolean defaultList;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<ShareConfig> shareConfigEntries = new LinkedList<>();
 
 }

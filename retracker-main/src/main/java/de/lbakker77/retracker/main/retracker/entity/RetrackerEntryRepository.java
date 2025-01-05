@@ -12,6 +12,6 @@ public interface RetrackerEntryRepository extends CrudRepository<RetrackerEntry,
     List<RetrackerEntry> findByRetrackerListId(UUID listId);
 
 
-    long countByRetrackerListIdAndDueDateLessThanEqual(UUID listId, ZonedDateTime date);
+    long countByRetrackerListIdAndDueDateLessThanEqual(UUID listId, LocalDate date);
 }
 

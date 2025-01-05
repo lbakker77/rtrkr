@@ -57,7 +57,6 @@ export interface RetrackerDataChangeRequest {
     recurrenceConfig?: RecurrenceConfig;
 }
 
-
 export interface MarkRetrackerEntryDoneRequest {
     id: string;
     doneAt: Date;

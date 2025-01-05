@@ -43,6 +43,8 @@ export class RetrackerListViewStore extends signalStore(
       const due =this.retrackerEntries().filter(e => e.dueDate != null && e.dueDate.getTime() < (new Date()).getTime())
       return due;
     });
+
+    dueEntrieCount = computed(() => this.dueEntries().length);
     
     dueNextSevenDays = computed(() => {
       const now = new Date();

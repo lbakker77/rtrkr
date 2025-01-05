@@ -6,24 +6,27 @@ import de.lbakker77.retracker.main.retracker.entity.model.RetrackerList;
 import de.lbakker77.retracker.main.retracker.entity.model.UserCategory;
 import de.lbakker77.retracker.main.retracker.usecase.CreateRetrackerEntryRequest;
 import de.lbakker77.retracker.main.retracker.usecase.dtos.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.TimeZone;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING  )
 public interface RetrackerMapper {
     RetrackerListDto toRetrackerListDto(RetrackerList retrackerList, long dueCount);
 
-    RetrackerEntryDto toRetrackerEntryDto(RetrackerEntry retrackerEntry);
+    RetrackerEntryDto toRetrackerEntryDto(RetrackerEntry retrackerEntry, @Context TimeZone timeZone);
 
     @Mapping( target = "recurrenceConfig", source = "recurrenceConfig" )
     @Mapping( target = "userCategory", source = "userCategory" )
 
-    List<RetrackerOverviewEntryDto> toRetrackerOverviewEntryDtos(Iterable<RetrackerEntry> retrackerEntries);
+    List<RetrackerOverviewEntryDto> toRetrackerOverviewEntryDtos(Iterable<RetrackerEntry> retrackerEntries, @Context TimeZone timeZone);
 
+    default ZonedDateTime fromLocalDate(LocalDate date, @Context TimeZone timeZone) {
+        return date == null ? null : date.atStartOfDay(timeZone.toZoneId());
+    }
 
     RecurrenceConfigDto toRecurrenceConfigDto(RecurrenceConfig recurrenceConfig);
 

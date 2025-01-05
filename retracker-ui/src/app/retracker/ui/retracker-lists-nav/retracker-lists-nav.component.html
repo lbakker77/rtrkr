@@ -3,17 +3,23 @@
         <mat-sidenav [mode]="secodaryNavService.isToggleEnabled() ? 'over': 'side'" [opened]="secodaryNavService.isOpen()" (openedChange)="openchanged($event)" #sidenav>
             <div class="navGroup">
                 <h5>Eigene</h5>
-                @if(!retrackerListsResource.isLoading()){
-                    @for (list of retrackerListsResource.value(); track list.id) {
-                        <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="list.dueCount" (click)="secodaryNavService.closeSidenav()"></a>         
+                @if(!store.isLoading()){
+                    @for (list of store.lists(); track list.id) {
+                        @if (!list.shared) {
+                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="this.store.dueCountMap().get(list.id) || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                        }
                     }
                 }
             </div>
             <div class="navGroup">
                 <h5>Geteilt</h5>
-                <a iconbutton icon="schedule" title="Privat" routerLink="/asdf." [badgeCounter]="20" (click)="secodaryNavService.closeSidenav()"></a>         
-                <a iconbutton icon="alarm" title="Alarm" routerLink="/irgendwas" (click)="secodaryNavService.closeSidenav()"></a>
-                <a iconbutton icon="group" title="Habits" routerLink="/irgendwas" [badgeCounter]="2" (click)="secodaryNavService.closeSidenav()"></a>
+                @if(!store.isLoading()){
+                    @for (list of store.lists(); track list.id) {
+                        @if (list.shared) {
+                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="this.store.dueCountMap().get(list.id) || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                        }
+                    }
+                }
             </div>
         </mat-sidenav>
         <mat-sidenav-content>

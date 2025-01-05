@@ -6,34 +6,38 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } fr
 import { SecodaryNavService } from '../../../shared/service/secodaryNav.service';
 import { RetrackerService } from '../../data/retracker.service';
 import { firstValueFrom } from 'rxjs';
+import { RetrackerListsNavStore } from './retracker-lists-nav.store';
 
 @Component({
   selector: 'app-retracker-lists-nav',
   imports: [MatSidenavModule, MatListModule, IconbuttonComponent, RouterLink, RouterOutlet],
   templateUrl: './retracker-lists-nav.component.html',
   styleUrl: './retracker-lists-nav.component.scss', 
+  providers: [RetrackerListsNavStore],
+  
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RetrackerListsNavComponent {
   secodaryNavService = inject(SecodaryNavService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private retrackerService = inject(RetrackerService);
+  private currentListId: string = '';
+  store = inject(RetrackerListsNavStore);
+  
 
   constructor() {
+    this.store.loadLists();
+
     effect(() => {
-      if (this.retrackerListsResource.hasValue() && this.retrackerListsResource.value()!.length > 0) {
-        const firstEntry = this.retrackerListsResource.value()!.at(0) ;
-        this.router.navigate(['personal', firstEntry!.id],  { relativeTo: this.route });
+      if (this.store.lists() != null && this.store.lists().length > 0) {
+        const firstEntry = this.store.lists().at(0) ;
+        if (this.currentListId !== firstEntry!.id) { 
+          this.currentListId = firstEntry!.id;
+          this.router.navigate(['personal', firstEntry!.id],  { relativeTo: this.route });
+        }
       }
     });
   }
-
-  retrackerListsResource = resource({
-    loader: () => {
-      return firstValueFrom(this.retrackerService.loadLists());
-    }
-  });
 
 
   openchanged(isOpen: boolean) {

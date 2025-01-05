@@ -35,11 +35,11 @@ public class RetrackerEntry {
     @NotBlank
     private String name;
 
-    private ZonedDateTime dueDate;
+    private LocalDate dueDate;
 
     private int postponedDays;
 
-    private ZonedDateTime lastEntryDate;
+    private LocalDate lastEntryDate;
 
     @Embedded
     private RecurrenceConfig recurrenceConfig;
@@ -55,15 +55,14 @@ public class RetrackerEntry {
                 .max(Comparator.comparing(EntryHistory::completionDate)) : Optional.empty();
     }
 
-    public void registerCompletion(ZonedDateTime completionDate) {
-        var lastHistoryEntry = determineLastEntryDate();
-        if (lastHistoryEntry.isPresent()) {
-            Assert.isTrue(completionDate.isAfter(lastHistoryEntry.get().completionDate()),"Completion date must be after last entry date");
-        }
-        history.add(new EntryHistory(completionDate, dueDate, postponedDays));
-        setLastEntryDate(completionDate);
+    public void registerCompletion(LocalDate dateOfCompletion) {
+        Assert.isTrue(getLastEntryDate() == null || dateOfCompletion.isAfter(getLastEntryDate()),"Completion date must be after last entry date");
+
+        history.add(new EntryHistory(dateOfCompletion, dueDate, postponedDays));
+        setLastEntryDate(dateOfCompletion);
+        setPostponedDays(0);
         if(recurrenceConfig != null) {
-            var neuDueDate = recurrenceConfig.calcRecurrenceDate(completionDate);
+            var neuDueDate = recurrenceConfig.calcRecurrenceDate(dateOfCompletion);
             setDueDate(neuDueDate);
         }else {
             setDueDate(null);
@@ -80,7 +79,7 @@ public class RetrackerEntry {
         }
     }
 
-    public void postponeUntil(ZonedDateTime newDueDate) {
+    public void postponeUntil(LocalDate newDueDate) {
         Assert.isTrue(newDueDate.isAfter(dueDate), "New due date must be after current due date");
         postponedDays += (int)newDueDate.until(dueDate, ChronoUnit.DAYS);
         dueDate = newDueDate;

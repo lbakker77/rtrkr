@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 @Embeddable
 public record RecurrenceConfig(int recurrenceInterval, @Enumerated RecurranceTimeUnit recurrenceTimeUnit) {
 
-    public ZonedDateTime calcRecurrenceDate(ZonedDateTime completionDate) {
+    public LocalDate calcRecurrenceDate(LocalDate completionDate) {
         return completionDate.plus(recurrenceInterval, recurrenceTimeUnit.toChronoUnit()) ;
     }
 }

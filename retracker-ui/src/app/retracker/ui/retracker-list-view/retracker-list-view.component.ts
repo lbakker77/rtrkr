@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal, viewChild, viewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, output, signal, viewChild, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ResponsivnessService } from '../../../shared/service/responsivness.service';
 import { RetrackerListViewStore } from './retracker-list-view.store';
@@ -13,6 +13,7 @@ import { MasterAbsolutePositionedDirective } from "../../../shared/component/res
 import { RetrackerOverviewEntry } from '../../data/retracker.model';
 import { RetrackerCreateComponent } from "../retracker-create/retracker-create.component";
 import { ViewportScroller } from '@angular/common';
+import { RetrackerListsNavStore } from '../retracker-lists-nav/retracker-lists-nav.store';
 
 @Component({
   selector: 'app-retracker-list-view',
@@ -29,8 +30,9 @@ export class RetrackerListViewComponent  {
   private route = inject(ActivatedRoute);
   title = signal("");
   store = inject(RetrackerListViewStore);
+  listsStore = inject(RetrackerListsNavStore);
   scroller = inject(ViewportScroller);
-  selectedId = signal<string | undefined>(undefined);
+  dueCount = output<number>();
 
   constructor () {
     this.route.paramMap.subscribe((paramMap) => {
@@ -39,7 +41,7 @@ export class RetrackerListViewComponent  {
         this.title.set(category);
         console.log("category: " + category);  // Debugging only, remove in production
         this.store.loadByListname(category);
-        this.selectedId.set(undefined);
+        this.store.unselectEntry();
       }
     });
 
@@ -58,6 +60,10 @@ export class RetrackerListViewComponent  {
         }
       }
     });
+
+    effect(() => {
+      this.listsStore.updateDueCount(this.store.id(), this.store.dueEntrieCount());
+    });
   }
 
   selected(retrackerId: string) {
@@ -66,7 +72,7 @@ export class RetrackerListViewComponent  {
   }
 
   entryChanged($event: RetrackerOverviewEntry|undefined) {
-    const idToDelete = this.selectedId();
+    const idToDelete = this.store.selectedId();
     if ($event && typeof $event.id ==='string') {
       this.store.updateEntry($event);
     }
@@ -74,7 +80,7 @@ export class RetrackerListViewComponent  {
 
   entryDeleted(id: string){
     this.store.removeSelected(id);
-    this.selectedId.set(undefined);
+    this.store.unselectEntry();
     this.responiveMasterDetailView()?.closeDetail(); 
   }
   

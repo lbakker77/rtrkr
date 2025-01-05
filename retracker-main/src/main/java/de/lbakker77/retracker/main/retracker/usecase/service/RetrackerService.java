@@ -23,7 +23,8 @@ public class RetrackerService {
         optionalEntry.orElseThrow(() -> new NotFoundException("Retracker entry with id " + entryId + " not found"));
         var entry = optionalEntry.get();
         var owner = entry.getRetrackerList().getOwnerId();
-        if (!owner.equals(userId)) {
+        var list = entry.getRetrackerList();
+        if (!owner.equals(userId) && list.getShareConfigEntries().stream().noneMatch(s -> s.sharedWithUserId().equals(userId))) {
             throw new ForbiddenException("User not authorized to change this retracker entry id: " + entryId);
         }
 
@@ -35,7 +36,7 @@ public class RetrackerService {
         optionalList.orElseThrow(() -> new NotFoundException("Retracker list with id " + listId + " not found"));
         var list = optionalList.get();
         var owner = list.getOwnerId();
-        if (!owner.equals(userId)) {
+        if (!owner.equals(userId) && list.getShareConfigEntries().stream().noneMatch(s -> s.sharedWithUserId().equals(userId))) {
             throw new ForbiddenException("User not authorized to change this retracker list id: " + listId);
         }
         return list;
