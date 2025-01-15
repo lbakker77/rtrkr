@@ -1,5 +1,10 @@
 
+@if(globalSearchService.searchEnabled()){
 <div class="search-input">
-    <mat-icon>search</mat-icon>
-    <input placeholder="Suche Einträge">
+    <mat-icon class="searchIcon">search</mat-icon>
+    <input placeholder="Suche Einträge" [(ngModel)]="value" (ngModelChange)="valChanged($event)">
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="clear()" [class.visible]="value !== ''">
+        <mat-icon>close</mat-icon>
+      </button>
 </div>
+}

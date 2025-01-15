@@ -4,10 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SecodaryNavService } from '../../shared/service/secodaryNav.service';
 import { GlobalSearchComponent } from "./global-search/global-search.component";
+import { UserComponent } from "./user/user.component";
 
 @Component({
   selector: 'app-mainnav',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, GlobalSearchComponent],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, GlobalSearchComponent, UserComponent],
   templateUrl: './mainnav.component.html',
   styleUrl: './mainnav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

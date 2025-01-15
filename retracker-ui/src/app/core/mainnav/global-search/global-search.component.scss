@@ -1,6 +1,6 @@
 :host {
   display: inline-block;
-  margin-left: 8px;
+  margin-left: 16px;
 }
 
 
@@ -10,14 +10,27 @@
   align-items: center;
   border-radius: 100px;
   background-color: var(--mat-sys-surface-container);
-  padding: 4px 8px;
+  padding-left: 8px;
   max-width: 300px;
+  column-gap: 10px;
+  
   input {
     flex: 1;
-    padding-left:4px;
+    padding-left:40px;
+    margin-left:-36px;
     border: none;
     outline: none;
     background-color: inherit;
     background-color: unset;
+    height: 40px;
+
+  }
+  .searchIcon {
+    color: var(--mat-text-primary-contrast);
+    cursor: text;
+  }
+
+  button:not(.visible){
+    visibility: hidden;
   }
 }

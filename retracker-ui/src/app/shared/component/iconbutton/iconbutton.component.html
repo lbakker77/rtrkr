@@ -1,7 +1,7 @@
 
 <div class="clickableArea" routerLinkActive="active" #trigger >
-    <div class="iconButton"  >
-        <span class="background" ></span> 
+    <div class="iconButton" [class.dotted]="dotted()" >
+        <span class="background"  ></span> 
         <span class="badgeHolder" [matBadge]="badgeCounter()" matBadgeSize="large" [matBadgeHidden]="badgeHidden()" ></span>
         <span class="rippleHolder"  matRipple [matRippleTrigger]="trigger" [matRippleCentered]="true" ></span>
         <mat-icon>{{icon()}}</mat-icon>

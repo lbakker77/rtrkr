@@ -15,5 +15,6 @@ export class IconbuttonComponent {
   icon = input("help");
   title = input("unknown");
   badgeCounter = input(0);
+  dotted = input(false);
   badgeHidden = computed(() => this.badgeCounter() == 0);
 }

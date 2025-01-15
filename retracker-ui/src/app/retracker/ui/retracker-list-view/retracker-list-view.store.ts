@@ -4,14 +4,15 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { CreateRetrackerEntryRequest, RetrackerEntry, RetrackerOverviewEntry } from '../../data/retracker.model';
 import { RetrackerService } from '../../data/retracker.service';
 import { computed, inject, Injectable } from '@angular/core';
-import { finalize, pipe, switchMap, tap } from 'rxjs';
+import { finalize, map, pipe, switchMap, tap } from 'rxjs';
+import { GlobalSearchService } from '../../../core/service/global-search.service';
 
 
 interface RetrackerStoreContent {
     id: string,
     retrackerEntries: RetrackerOverviewEntry[],
     isLoading: boolean,
-    search?: string,
+    search: string,
     createNewModeEnabled: boolean,
     selected: RetrackerOverviewEntry | undefined
 }
@@ -20,7 +21,7 @@ const initialState: RetrackerStoreContent = {
     id: "",
     retrackerEntries: [],
     isLoading: true,
-    search: undefined,
+    search: "",
     createNewModeEnabled: false,
     selected: undefined
   }
@@ -29,7 +30,13 @@ const initialState: RetrackerStoreContent = {
 export class RetrackerListViewStore extends signalStore(
   { protectedState: false },
   withState(initialState)) {
-    retrackerService = inject(RetrackerService);
+    private retrackerService = inject(RetrackerService);
+    private globalSearchService = inject(GlobalSearchService);
+
+    constructor() {
+      super();
+      this.globalSearchService.search.pipe(map(search => patchState(this, { search }))).subscribe();
+    }
 
     loadByListname = rxMethod<string>(pipe(
         tap((listId) => patchState(this, { isLoading: true, id: listId})), 
@@ -39,24 +46,28 @@ export class RetrackerListViewStore extends signalStore(
         )
     ));
 
+    entriesWithFilter = computed(() => {
+      return this.retrackerEntries().filter(e => e.name.toLocaleLowerCase().indexOf(this.search().toLocaleLowerCase()) >= 0);
+    });
+
     dueEntries = computed(() =>  {
-      const due =this.retrackerEntries().filter(e => e.dueDate != null && e.dueDate.getTime() < (new Date()).getTime())
+      const due =this.entriesWithFilter().filter(e => e.dueDate != null && e.dueDate.getTime() < (new Date()).getTime())
       return due;
     });
 
-    dueEntrieCount = computed(() => this.dueEntries().length);
+    dueEntriesCount = computed(() => this.dueEntries().length);
     
     dueNextSevenDays = computed(() => {
       const now = new Date();
       const inSevenDays = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
-      const dueSoon = this.retrackerEntries().filter(e => e.dueDate && e.dueDate.getTime() >= now.getTime() && e.dueDate.getTime() < inSevenDays.getTime())
+      const dueSoon = this.entriesWithFilter().filter(e => e.dueDate && e.dueDate.getTime() >= now.getTime() && e.dueDate.getTime() < inSevenDays.getTime())
       return dueSoon;
     });
 
     otherEntries = computed(() => {
       const now = new Date();
       const inSevenDays = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
-      return this.retrackerEntries().filter(e => (e.dueDate && e.dueDate.getTime() >= inSevenDays.getTime()) || e.dueDate == null);
+      return this.entriesWithFilter().filter(e => ((e.dueDate && e.dueDate.getTime() >= inSevenDays.getTime()) || e.dueDate == null) );
     });
 
     selectedId = computed(() => this.selected()?.id);

@@ -25,6 +25,17 @@ mat-sidenav-content {
   position: relative;
 }
 
-.navGroup {
+.navGroup { 
+  padding: 0;
+  margin-top: var(--spacing);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.navGroupEnd {
+  position: absolute;
+  bottom: 0;
   padding: 0 16px;
+
 }

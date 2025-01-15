@@ -1,0 +1,8 @@
+<h3 i18n>Historie</h3>
+
+@for(history of historyElements(); track history.completionDate) {
+    
+
+    <p>executed at {{history.lastDueDate}}   --- due : {{history.completionDate}}</p>
+
+}

@@ -58,10 +58,8 @@
                         <button mat-menu-item (click)="postponeChooseDate()" i18n>Datum wählen</button>
                     </mat-menu>
                 }
-
-
-
             </div>
+            <app-history-view [historyElements]="store.selectedEntry()?.history"></app-history-view>
         }@else {
             <app-retracker-editor-basedata ></app-retracker-editor-basedata>    
         }

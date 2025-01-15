@@ -25,8 +25,9 @@ export interface RetrackerEntry extends RetrackerOverviewEntry {
 }
 
 export interface RetrackerHistory {
-    dueDate?: Date;
-    executionDate: Date;
+    lastDueDate?: Date;
+    completionDate: Date;
+    postponedDays?: number;
 }
 
 export interface UserCategory {

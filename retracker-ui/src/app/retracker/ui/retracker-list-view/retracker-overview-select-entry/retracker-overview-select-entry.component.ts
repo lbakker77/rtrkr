@@ -1,24 +1,24 @@
 import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, output, signal } from '@angular/core';
-import { RetrackerOverviewEntry } from '../../data/retracker.model';
+import { RetrackerOverviewEntry } from '../../../data/retracker.model';
 import {MatCardModule} from '@angular/material/card';
 import { DatePipe, NgClass } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { FocusableOption, FocusOrigin } from '@angular/cdk/a11y';
-import { RecurranceConfigViewComponent } from "../shared/recurrance-config-view/recurrance-config-view.component";
-import { DueDateViewComponent } from "../shared/due-date-view/due-date-view.component";
+import { RecurranceConfigViewComponent } from "../../shared/recurrance-config-view/recurrance-config-view.component";
+import { DueDateViewComponent } from "../../shared/due-date-view/due-date-view.component";
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
-import { ResponsivnessService } from '../../../shared/service/responsivness.service';
-import { ResponsiveClassDirective } from '../../../shared/component/responsive-class.directive';
-import { CategoryIconComponent } from '../shared/category-icon/category-icon.component';
+import { ResponsivnessService } from '../../../../shared/service/responsivness.service';
+import { ResponsiveClassDirective } from '../../../../shared/component/responsive-class.directive';
+import { CategoryIconComponent } from '../../shared/category-icon/category-icon.component';
 
 @Component({
-  selector: 'app-retracker-overview-entry-select',
+  selector: 'app-retracker-overview-select-entry',
   imports: [MatCardModule, DatePipe,  RecurranceConfigViewComponent, DueDateViewComponent, ResponsiveClassDirective, CategoryIconComponent],
-  templateUrl: './retracker-overview-entry-select.component.html',
-  styleUrl: './retracker-overview-entry-select.component.scss',
+  templateUrl: './retracker-overview-select-entry.component.html',
+  styleUrl: './retracker-overview-select-entry.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RetrackerOverviewEntrySelectComponent {
+export class RetrackerOverviewSelectEntryComponent {
   responsivenessService = inject(ResponsivnessService);
   selectionDispatcher = inject(UniqueSelectionDispatcher);
   element = inject(ElementRef);
@@ -38,7 +38,7 @@ export class RetrackerOverviewEntrySelectComponent {
 
   constructor() {
     this.selectionDispatcher.listen((id, name) => {
-      if (id === RetrackerOverviewEntrySelectComponent.name){
+      if (id === RetrackerOverviewSelectEntryComponent.name){
         const itsMe = name === this.item().id;
         // this.imSelected.set(name === this.item().id);
       }

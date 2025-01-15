@@ -1,0 +1,46 @@
+# Use postgres/example user/password credentials
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - ./docker/init_additional_databases.sh:/docker-entrypoint-initdb.d/init_additional_databases.sh
+      - retracker-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: retracker
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: retracker
+      POSTGRES_DB1: keycloak
+      POSTGRES_USER1: keycloak
+      POSTGRES_PASSWORD1: retracker-keycloak
+    ports:
+        - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9090:8080
+
+  keycloak:
+    image: keycloak/keycloak:26.0.7
+    depends_on:
+      - db
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: retracker
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: retracker-keycloak
+      KC_DB: postgres
+    command:
+      - start-dev
+    ports:
+      - 8081:8080
+
+volumes:
+  retracker-db:

@@ -2,24 +2,27 @@
     <mat-sidenav-container class="container" autosize>
         <mat-sidenav [mode]="secodaryNavService.isToggleEnabled() ? 'over': 'side'" [opened]="secodaryNavService.isOpen()" (openedChange)="openchanged($event)" #sidenav>
             <div class="navGroup">
-                <h5>Eigene</h5>
+                <h3>Eigene</h3>
                 @if(!store.isLoading()){
                     @for (list of store.lists(); track list.id) {
                         @if (!list.shared) {
-                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="this.store.dueCountMap().get(list.id) || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
                         }
                     }
                 }
             </div>
             <div class="navGroup">
-                <h5>Geteilt</h5>
+                <h3>Geteilt</h3>
                 @if(!store.isLoading()){
                     @for (list of store.lists(); track list.id) {
                         @if (list.shared) {
-                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="this.store.dueCountMap().get(list.id) || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
                         }
                     }
                 }
+            </div>
+            <div class="navGroupEnd">
+                <a iconbutton icon="add" title="Hinzufügen" [dotted]="true" (click)="secodaryNavService.closeSidenav()"></a>         
             </div>
         </mat-sidenav>
         <mat-sidenav-content>

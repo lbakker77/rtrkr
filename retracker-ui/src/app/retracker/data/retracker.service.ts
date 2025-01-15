@@ -33,11 +33,11 @@ export class RetrackerService {
        }
        if(entry.history) {
          entry.history = entry.history.map(historyEntry => {
-           if (historyEntry.dueDate != null) {
-            historyEntry.dueDate = new Date(historyEntry.dueDate);
+           if (historyEntry.lastDueDate != null) {
+            historyEntry.lastDueDate = new Date(historyEntry.lastDueDate);
            }
-           if (historyEntry.executionDate!= null) {
-            historyEntry.executionDate = new Date(historyEntry.executionDate);
+           if (historyEntry.completionDate!= null) {
+            historyEntry.completionDate = new Date(historyEntry.completionDate);
            }
            return historyEntry;
          });

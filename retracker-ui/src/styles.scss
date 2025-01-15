@@ -1,7 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+/* These tokens are generated using https://themes.angular-material.dev/ */
+/* Preview: https://themes.angular-material.dev/?seed-error=%23ba1a1a&seed-neutral=%2376777b&seed-neutral-variant=%23737780&seed-primary=%236690c5&seed-secondary=%23505f75&seed-tertiary=%237c4d83 */
+/* Seed Colors: primary: #6690c5, secondary: #505f75, tertiary: #7c4d83, error: #ba1a1a, neutral: #76777b, neutral-variant: #737780 */
+
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 
 :root {
     --nav-side-background-color: var(--mat-sys-surface-container-high);
@@ -13,13 +63,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @media (max-width: 599.98px) {
     :root {
         --spacing: 16px;
-
     }
 }
-
-
-
-
 
 .action-bar {
     display: flex;
@@ -29,6 +74,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding-bottom: 16px;
   }
 
+
+  h1 {
+    font: var(--mat-sys-display-medium);
+    margin-block-start: 0;
+    margin-block-end: var(--spacing);
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+
+  h2 {
+    font: var(--mat-sys-display-small);
+    margin-block-start: 0;
+    margin-block-end: var(--spacing);
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
 
   h3 {
     font: var(--mat-sys-title-medium);

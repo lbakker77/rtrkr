@@ -4,28 +4,41 @@
             <span>Loading...</span>
         }
         @else {
+            <div class="master-panel">
+                <button mat-icon-button [matMenuTriggerFor]="listSettings"><mat-icon>more_vert</mat-icon></button>
+                <mat-menu #listSettings="matMenu">
+                    <ng-template matMenuContent>
+                      <button mat-menu-item i18n><mat-icon>share</mat-icon>Teilen</button>
+                      <button mat-menu-item i18n><mat-icon>delete</mat-icon>Löschen</button>
+                    </ng-template>
+                  </mat-menu>
+            </div>
+    
             <div class="master-part">
                 @if(store.dueEntries().length > 0) {
                     <span i18n>Fällig</span>
                     @for(item of store.dueEntries(); track item.id) {
-                        <app-retracker-overview-entry-select [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-entry-select>
+                        <app-retracker-overview-select-entry [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-select-entry>
                     }
                 }
                 @if(store.dueNextSevenDays().length > 0) {
                     <span i18n>Bald</span>
                     @for(item of store.dueNextSevenDays(); track item.id) {
-                        <app-retracker-overview-entry-select [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-entry-select>
+                        <app-retracker-overview-select-entry [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-select-entry>
                     }
                 }
-                <span i18n>Zukunft oder ungeplant</span>
-                @for(item of store.otherEntries(); track item.id) {
-                    <app-retracker-overview-entry-select [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-entry-select>
+                @if(store.otherEntries().length > 0) {
+                    <span i18n>Zukunft oder ungeplant</span>
+                    @for(item of store.otherEntries(); track item.id) {
+                        <app-retracker-overview-select-entry [id]="item.id" [item]="item" (selected)="selected($event)" [imSelected]="item.id === store.selectedId()"></app-retracker-overview-select-entry>
+                    }
                 }
             </div>
         }
 
     </app-master-part>
     <app-master-absolute-positioned>
+
         <button class="add-entry-button"mat-fab extended (click)="newEntry()"><mat-icon>add</mat-icon>Hinzufügen</button>
         @if(store.createNewModeEnabled()) {
             

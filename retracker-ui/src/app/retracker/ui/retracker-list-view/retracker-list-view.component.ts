@@ -1,23 +1,23 @@
 import { ChangeDetectionStrategy, Component, effect, inject, output, signal, viewChild, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ResponsivnessService } from '../../../shared/service/responsivness.service';
 import { RetrackerListViewStore } from './retracker-list-view.store';
-import { RetrackerOverviewEntrySelectComponent } from '../retracker-overview-entry-select/retracker-overview-entry-select.component';
+import { RetrackerOverviewSelectEntryComponent } from './retracker-overview-select-entry/retracker-overview-select-entry.component';
 import { RetrackerEditorComponent } from "../retracker-editor/retracker-editor.component";
 import { ResponsiveMasterDetailComponent } from "../../../shared/component/responsive-master-detail/responsive-master-detail.component";
 import { MasterPartDirective } from '../../../shared/component/responsive-master-detail/master-part.directive';
 import { DetailPartDirective } from '../../../shared/component/responsive-master-detail/detail-part.directive';
-import { MatFabButton } from '@angular/material/button';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MasterAbsolutePositionedDirective } from "../../../shared/component/responsive-master-detail/master-absolute-positioned.directive";
 import { RetrackerOverviewEntry } from '../../data/retracker.model';
 import { RetrackerCreateComponent } from "../retracker-create/retracker-create.component";
 import { ViewportScroller } from '@angular/common';
 import { RetrackerListsNavStore } from '../retracker-lists-nav/retracker-lists-nav.store';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-retracker-list-view',
-  imports: [RetrackerOverviewEntrySelectComponent, RetrackerEditorComponent, ResponsiveMasterDetailComponent, MasterPartDirective, DetailPartDirective, MatIcon, MatFabButton, MasterAbsolutePositionedDirective, MasterAbsolutePositionedDirective, RetrackerCreateComponent],
+  imports: [MatMenuModule, RetrackerOverviewSelectEntryComponent, RetrackerEditorComponent, ResponsiveMasterDetailComponent, MasterPartDirective, DetailPartDirective, MatIcon, MatFabButton, MasterAbsolutePositionedDirective, MasterAbsolutePositionedDirective, RetrackerCreateComponent, MatIconButton],
   templateUrl: './retracker-list-view.component.html',
   styleUrl: './retracker-list-view.component.scss',
   providers: [RetrackerListViewStore],
@@ -25,7 +25,7 @@ import { RetrackerListsNavStore } from '../retracker-lists-nav/retracker-lists-n
 }) 
 export class RetrackerListViewComponent  {
   private responiveMasterDetailView = viewChild(ResponsiveMasterDetailComponent);
-  private selectComponents = viewChildren(RetrackerOverviewEntrySelectComponent);
+  private selectComponents = viewChildren(RetrackerOverviewSelectEntryComponent);
 
   private route = inject(ActivatedRoute);
   title = signal("");
@@ -36,10 +36,10 @@ export class RetrackerListViewComponent  {
 
   constructor () {
     this.route.paramMap.subscribe((paramMap) => {
-      const category = paramMap.get("category");
+      const category = paramMap.get("listid");
       if (category) {
         this.title.set(category);
-        console.log("category: " + category);  // Debugging only, remove in production
+        console.log("listid: " + category);  
         this.store.loadByListname(category);
         this.store.unselectEntry();
       }
@@ -62,7 +62,11 @@ export class RetrackerListViewComponent  {
     });
 
     effect(() => {
-      this.listsStore.updateDueCount(this.store.id(), this.store.dueEntrieCount());
+
+      if (!this.store.isLoading() && this.listsStore.lists().filter(l => l.id === this.store.id())[0].dueCount !== this.store.dueEntriesCount()) {
+        this.listsStore.updateDueCount(this.store.id(), this.store.dueEntriesCount());
+
+      }
     });
   }
 

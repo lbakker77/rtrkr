@@ -15,10 +15,11 @@ import { RecurranceConfigViewComponent } from "../shared/recurrance-config-view/
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ManualCompletionDateComponent } from './manual-completion-date/manual-completion-date.component';
 import { DatePipe } from '@angular/common';
+import { HistoryViewComponent } from "./history-view/history-view.component";
 
 @Component({
   selector: 'app-retracker-editor',
-  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, DueDateViewComponent, RecurranceConfigViewComponent, MatDialogModule],
+  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, DueDateViewComponent, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent],
   templateUrl: './retracker-editor.component.html',
   styleUrl: './retracker-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -33,6 +33,7 @@ export class RetrackerListsNavComponent {
         const firstEntry = this.store.lists().at(0) ;
         if (this.currentListId !== firstEntry!.id) { 
           this.currentListId = firstEntry!.id;
+          console.log("Navigate to: " + firstEntry!.id);  // TODO: Update this to navigate to the selected list
           this.router.navigate(['personal', firstEntry!.id],  { relativeTo: this.route });
         }
       }

@@ -23,9 +23,14 @@
   background-color: rgba(0,0,0,0);
   color: var(--mdc-text-button-label-text-color, var(--mat-sys-primary));
   border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
+  border: 0.5px solid rgba(0,0,0,0.1);
+
 }
 
 .clickableArea   {
+  .dotted {
+    border: 1px dashed var(--mat-sys-on-surface-variant);
+  }
   .background {
     border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
     background-color: var(--mat-text-button-state-layer-color, var(--mat-sys-primary));
