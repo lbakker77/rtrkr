@@ -36,26 +36,26 @@
                 <app-display-value >
                     <app-display-label i18n>Fällig</app-display-label>
                     <app-display-content>
-                        <app-due-date-view [dueDate]="store.selectedEntry()!.dueDate" [showIcon]="false"></app-due-date-view>
+                        {{store.selectedEntry()!.dueDate | date}}
                     </app-display-content>    
                 </app-display-value>
             </div>    
             <div class="action-bar">
-                <button mat-flat-button [matMenuTriggerFor]="doneMenu" i18n>Erledigen</button>
+                <button mat-flat-button [matMenuTriggerFor]="doneMenu" i18n [disabled]="!canCompleteToday()">Erledigen</button>
                 <mat-menu #doneMenu="matMenu" >
-                <button mat-menu-item (click)="doneToday()" i18n>Heute</button>
-                <button mat-menu-item (click)="doneYesterday()" i18n>Gestern</button>
-                <button mat-menu-item (click)="doneChooseDate()" i18n>Datum wählen</button>
+                <button mat-menu-item (click)="completedToday()" i18n [disabled]="!canCompleteToday()">Heute</button>
+                <button mat-menu-item (click)="completedYesterday()" i18n [disabled]="!canCompleteYesterday()">Gestern</button>
+                <button mat-menu-item (click)="completedChooseDate()" i18n [disabled]="!canCompleteYesterday()">Datum wählen</button>
                 </mat-menu>
                 @if(! store.selectedEntry()?.dueDate) {
                     <button mat-button i18n>Planen</button>
                 }
                 @if(store.selectedEntry()?.dueDate ) {
-                    <button mat-button [matMenuTriggerFor]="postponeMenu" i18n>Verschieben</button>
+                    <button mat-button [matMenuTriggerFor]="postponeMenu" i18n [disabled]="!canPostpone()">Verschieben</button>
                     <mat-menu #postponeMenu="matMenu" >
                         <button mat-menu-item (click)="postponeOneDay()" i18n>ein Tag</button>
                         <button mat-menu-item (click)="postponeOneWeek()" i18n>eine Woche</button>
-                        <button mat-menu-item (click)="postponeChooseDate()" i18n>Datum wählen</button>
+                        <button mat-menu-item (click)="postponeChooseDate()" i18n>Auf Datum verschieben</button>
                     </mat-menu>
                 }
             </div>

@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.shared.usercase;
+package de.lbakker77.retracker.shared.usercase;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

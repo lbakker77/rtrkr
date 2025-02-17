@@ -1,6 +1,6 @@
-package de.lbakker77.retracker.main.user.entity;
+package de.lbakker77.retracker.user.entity;
 
-import de.lbakker77.retracker.main.user.entity.model.User;
+import de.lbakker77.retracker.user.entity.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;

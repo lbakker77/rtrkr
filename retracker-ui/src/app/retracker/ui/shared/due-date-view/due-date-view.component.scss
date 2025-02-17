@@ -10,3 +10,7 @@ mat-icon {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.alertColor {
+  color: var(--mat-sys-error);
+}

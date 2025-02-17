@@ -14,16 +14,18 @@ import { RetrackerCreateComponent } from "../retracker-create/retracker-create.c
 import { ViewportScroller } from '@angular/common';
 import { RetrackerListsNavStore } from '../retracker-lists-nav/retracker-lists-nav.store';
 import { MatMenuModule } from '@angular/material/menu';
+import { RetrackerListEditMenuComponent } from "../retracker-list-edit-menu/retracker-list-edit-menu.component";
 
 @Component({
   selector: 'app-retracker-list-view',
-  imports: [MatMenuModule, RetrackerOverviewSelectEntryComponent, RetrackerEditorComponent, ResponsiveMasterDetailComponent, MasterPartDirective, DetailPartDirective, MatIcon, MatFabButton, MasterAbsolutePositionedDirective, MasterAbsolutePositionedDirective, RetrackerCreateComponent, MatIconButton],
+  imports: [RetrackerListEditMenuComponent, MatMenuModule, RetrackerOverviewSelectEntryComponent, RetrackerEditorComponent, ResponsiveMasterDetailComponent, MasterPartDirective, DetailPartDirective, MatIcon, MatFabButton, MasterAbsolutePositionedDirective, MasterAbsolutePositionedDirective, RetrackerCreateComponent, RetrackerListEditMenuComponent],
   templateUrl: './retracker-list-view.component.html',
   styleUrl: './retracker-list-view.component.scss',
   providers: [RetrackerListViewStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 }) 
 export class RetrackerListViewComponent  {
+
   private responiveMasterDetailView = viewChild(ResponsiveMasterDetailComponent);
   private selectComponents = viewChildren(RetrackerOverviewSelectEntryComponent);
 
@@ -33,14 +35,21 @@ export class RetrackerListViewComponent  {
   listsStore = inject(RetrackerListsNavStore);
   scroller = inject(ViewportScroller);
   dueCount = output<number>();
+  listId = this.route.snapshot.paramMap.get('listId');
+
 
   constructor () {
     this.route.paramMap.subscribe((paramMap) => {
-      const category = paramMap.get("listid");
-      if (category) {
-        this.title.set(category);
-        console.log("listid: " + category);  
-        this.store.loadByListname(category);
+      const listId = paramMap.get("listid");
+      if (listId === "all") {
+        this.title.set("All Lists");
+        this.store.loadAll();
+        this.store.unselectEntry();
+      }
+      else if (listId) {
+        this.title.set(listId);
+        console.log("listid: " + listId);  
+        this.store.loadByListname(listId);
         this.store.unselectEntry();
       }
     });
@@ -53,7 +62,6 @@ export class RetrackerListViewComponent  {
           if (nativeElement.getBoundingClientRect().top > window.innerHeight) {
             nativeElement.scrollIntoView({ behavior:'smooth' });
           }
-      
           if (nativeElement.getBoundingClientRect().top < 0) {
             nativeElement.scrollIntoView({ behavior:'smooth' });
           }
@@ -62,10 +70,21 @@ export class RetrackerListViewComponent  {
     });
 
     effect(() => {
-
-      if (!this.store.isLoading() && this.listsStore.lists().filter(l => l.id === this.store.id())[0].dueCount !== this.store.dueEntriesCount()) {
-        this.listsStore.updateDueCount(this.store.id(), this.store.dueEntriesCount());
-
+      if (this.store.id()){
+        const currentList = this.listsStore.lists().filter(l => l.id === this.store.id());
+        if (!this.store.isLoading() && currentList.length && this.listsStore.lists().filter(l => l.id === this.store.id())[0].dueCount !== this.store.dueEntriesCount()) {
+          this.listsStore.updateDueCount(this.store.id(), this.store.dueEntriesCount());
+        }  
+      }else {
+        if (!this.store.isLoading() && this.listsStore.overallDueCount()!== this.store.dueEntriesCount()) {
+            console.log("update due count");
+            for (const list of this.listsStore.lists()) {
+              const dueCountOfEntries = this.store.getDueCountByListId(list.id);
+              if (dueCountOfEntries !== list.dueCount) {
+                this.listsStore.updateDueCount(list.id, dueCountOfEntries);
+              }
+            }
+        }
       }
     });
   }
@@ -87,7 +106,7 @@ export class RetrackerListViewComponent  {
     this.store.unselectEntry();
     this.responiveMasterDetailView()?.closeDetail(); 
   }
-  
+
   newEntry() {
     this.store.openNewEntryDialog();
   }
@@ -100,6 +119,6 @@ export class RetrackerListViewComponent  {
     this.store.addEntry($event);
     this.store.closeNewEntryDialog();
   }
-    
-    
+
+
 }

@@ -1,7 +1,7 @@
-package de.lbakker77.retracker.main.core.listener;
+package de.lbakker77.retracker.core.listener;
 
-import de.lbakker77.retracker.main.core.usecase.NewUserInitUseCase;
-import de.lbakker77.retracker.main.user.NewUserEvent;
+import de.lbakker77.retracker.core.usecase.NewUserInitUseCase;
+import de.lbakker77.retracker.user.NewUserEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,0 +1,8 @@
+<button mat-icon-button [matMenuTriggerFor]="listSettings"><mat-icon>more_vert</mat-icon></button>
+<mat-menu #listSettings="matMenu">
+    <ng-template matMenuContent>
+      <button mat-menu-item i18n (click)="editList()" [disabled]="!canEdit()"><mat-icon>edit</mat-icon>Editieren</button>
+      <button mat-menu-item i18n (click)="openShareConfigDialog()" ><mat-icon>share</mat-icon>Teilen</button>
+      <button mat-menu-item i18n (click)="deleteList()" [disabled]="!canEdit()"><mat-icon>delete</mat-icon>Löschen</button>
+    </ng-template>
+  </mat-menu>

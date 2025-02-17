@@ -1,11 +1,11 @@
-package de.lbakker77.retracker.main.core.usecase.task;
+package de.lbakker77.retracker.core.usecase.task;
 
-import de.lbakker77.retracker.main.core.domain.TaskCreator;
-import de.lbakker77.retracker.main.core.usecase.mapper.RetrackerMapper;
-import de.lbakker77.retracker.main.core.domain.RetrackerService;
-import de.lbakker77.retracker.main.shared.usercase.BaseUseCaseHandler;
-import de.lbakker77.retracker.main.shared.usercase.CommandContext;
-import de.lbakker77.retracker.main.shared.usercase.CreatedResponse;
+import de.lbakker77.retracker.core.domain.TaskCreator;
+import de.lbakker77.retracker.core.usecase.mapper.RetrackerMapper;
+import de.lbakker77.retracker.core.domain.RetrackerService;
+import de.lbakker77.retracker.shared.usercase.BaseUseCaseHandler;
+import de.lbakker77.retracker.shared.usercase.CommandContext;
+import de.lbakker77.retracker.shared.usercase.CreatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

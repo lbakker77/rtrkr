@@ -1,13 +1,21 @@
-package de.lbakker77.retracker.main.core.controller;
+package de.lbakker77.retracker.core.controller;
 
-import de.lbakker77.retracker.main.core.usecase.list.*;
-import de.lbakker77.retracker.main.core.usecase.dtos.RetrackerListDto;
-import de.lbakker77.retracker.main.core.usecase.dtos.ShareConfigDto;
-import de.lbakker77.retracker.main.core.usecase.sharing.*;
-import de.lbakker77.retracker.main.shared.usercase.BaseResponse;
-import de.lbakker77.retracker.main.shared.usercase.CreatedResponse;
-import de.lbakker77.retracker.main.shared.usercase.UseCaseExecutor;
-import de.lbakker77.retracker.main.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.core.usecase.list.ChangeRetrackerListRequest;
+import de.lbakker77.retracker.core.usecase.list.CreateRetrackerListRequest;
+import de.lbakker77.retracker.core.usecase.list.DeleteRetrackerListRequest;
+import de.lbakker77.retracker.core.usecase.list.RetrackerListReader;
+import de.lbakker77.retracker.core.usecase.sharing.AcceptInvitationRequest;
+import de.lbakker77.retracker.core.usecase.sharing.InviteToListRequest;
+import de.lbakker77.retracker.core.usecase.sharing.RetrackerShareReader;
+import de.lbakker77.retracker.core.usecase.sharing.ShareListRemoveRequest;
+import de.lbakker77.retracker.core.usecase.list.*;
+import de.lbakker77.retracker.core.usecase.dtos.RetrackerListDto;
+import de.lbakker77.retracker.core.usecase.dtos.ShareConfigDto;
+import de.lbakker77.retracker.core.usecase.sharing.*;
+import de.lbakker77.retracker.shared.usercase.BaseResponse;
+import de.lbakker77.retracker.shared.usercase.CreatedResponse;
+import de.lbakker77.retracker.shared.usercase.UseCaseExecutor;
+import de.lbakker77.retracker.user.usecase.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

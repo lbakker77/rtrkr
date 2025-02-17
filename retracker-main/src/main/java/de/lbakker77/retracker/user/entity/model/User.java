@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.user.entity.model;
+package de.lbakker77.retracker.user.entity.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -3,6 +3,33 @@
   margin-left: 16px;
 }
 
+.phone:not(:hover):not(:active):not(:focus):not(:has(input:focus)) {
+  .search-input {
+    input {
+      width:1px;
+    }
+    .search-input:hover {
+      input {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.phone:has(input:focus), .phone:hover {
+  position: absolute;
+  height: 55px;
+  left:0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  .search-input {
+    width: 90%;
+  }
+}
 
 .search-input {
   display: inline-flex;

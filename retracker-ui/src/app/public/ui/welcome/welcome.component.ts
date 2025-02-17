@@ -2,10 +2,12 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { AuthStore } from '../../../core/service/auth.store';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { ResponsiveClassDirective } from '../../../shared/component/responsive-class.directive';
+import { SimplePageViewComponent } from '../../../shared/component/simple-page-view/simple-page-view.component';
 
 @Component({
   selector: 'app-welcome',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule,ResponsiveClassDirective, SimplePageViewComponent], 
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

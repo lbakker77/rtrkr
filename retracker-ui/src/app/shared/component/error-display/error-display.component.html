@@ -1,0 +1,39 @@
+ @if(showError()){
+    <div class="error-display">
+        @switch (statusCode()) {
+            @case (400) {
+                <span class="global">Bitte überprüfen Sie Ihre Eingaben.</span>
+            }
+            @case (401) {
+                <span class="global">Sie sind nicht angemeldet. Bitte melden Sie sich an.</span>
+            }
+            @case (403) {
+                <span class="global">Zugriff verweigert. Bitte überprüfen Sie Ihre Berechtigungen.</span>
+            }
+            @case (408) {
+                <span class="global">Der Server hat Ihre Anfrage nicht erfolgreich bearbeitet. Bitte versuchen Sie es später noch einmal.</span>
+            }
+            @case (500) {
+                <span class="global">Es ist ein interner Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.</span>
+            }
+            @default {
+                <span class="global">Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten. </span>
+            }
+        }
+        @if (!showGlobalErrorsOnly()){
+
+            @for (item of violations(); track item) {
+                @if (!item.fieldName){
+                    <span class="global">{{item.message}}</span>
+                }
+                @else {
+                    <span class="field-name">{{item.fieldName}} </span> <span class="message">{{item.message}}</span>
+                }
+        }
+
+    }   
+
+    <button mat-icon-button (click)="showError.set(false)"><mat-icon>close</mat-icon></button>
+    </div>
+
+ }

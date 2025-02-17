@@ -1,3 +1,83 @@
 :host {
   display: block;
+  padding-top: var(--spacing);
+}
+
+
+.historySection {
+  grid-template-columns: auto 50px 1fr;
+  grid-template-rows: min-content min-content min-content min-content;
+  display: grid;
+  justify-items: start;
+  align-items: center;
+}
+
+.completionDate {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 12px;
+}
+.completionDateIndicator {
+  height: 14px;
+  width: 14px;
+  border-radius: 11px;
+  border: 1px solid var(--mat-sys-on-surface);
+  position: relative;
+  justify-self: center;
+}
+
+.completionDot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background-color: var(--mat-sys-on-surface);
+  border-radius: 50%;
+}
+
+.overdueSection, .postponedSection, .plannedSection, .unplannedSection {
+  justify-self: center;
+  width: 3px;
+  height: 100%;
+
+}
+
+.overdueSection {
+  background-color: red;
+  height: 50px;
+}
+
+.postponedSection {
+  background-color: goldenrod;
+  height: 50px;
+}
+
+.plannedSection {
+  background-color: green;
+  height: 110px;
+}
+
+.unplannedSection {
+  //background-color: grey;
+  background: repeating-linear-gradient(transparent, transparent 4px, var(--mat-sys-on-surface) 4px, var(--mat-sys-on-surface) 8px);
+  height: 60px;
+
+}
+
+.dayLabel {
+  align-self: center;
+  color: var(--mat-sys-on-surface-variant);
+  margin-left: 12px;
+}
+
+button {
+  top: -21px;
+  position: absolute;
+}
+
+.buttonWrapper {
+  position: relative;
+  
 }

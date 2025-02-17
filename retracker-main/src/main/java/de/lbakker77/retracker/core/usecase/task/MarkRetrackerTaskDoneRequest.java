@@ -1,6 +1,6 @@
-package de.lbakker77.retracker.main.core.usecase.task;
+package de.lbakker77.retracker.core.usecase.task;
 
-import de.lbakker77.retracker.main.shared.usercase.BaseRequest;
+import de.lbakker77.retracker.shared.usercase.BaseRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

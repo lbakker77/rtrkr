@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.shared.exception;
+package de.lbakker77.retracker.shared.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

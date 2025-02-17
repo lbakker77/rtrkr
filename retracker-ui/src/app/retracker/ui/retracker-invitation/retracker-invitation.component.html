@@ -1,0 +1,12 @@
+<app-simple-page-view>
+  <h2 i18n>Einladung zur Re-Tracker Liste</h2>
+  @if (list()) {
+    <p i18n>Du bist eingeladen worden, um an dieser Liste mitzuwirken: <strong>{{ list()?.name }}</strong></p>
+    <div class="button-group">
+        <button mat-button color="warn" (click)="refuseInvitation()">Ablehnen</button>
+        <button mat-flat-button (click)="acceptInvitation()">Annehmen</button>
+    </div>
+  } @else {
+    <p>Invalid invitation or list not found.</p>
+  }
+</app-simple-page-view>

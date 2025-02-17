@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="lars_ (generated)" id="1739530323171-1">
+    <changeSet author="lars" id="1">
         <createTable tableName="retracker_list_share_config_entries">
             <column name="status" type="SMALLINT">
                 <constraints nullable="false"/>
@@ -16,8 +16,19 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-2">
+    <changeSet author="lars" id="2">
+        <createIndex indexName="retracker_list_share_config_entries_list_id" tableName="retracker_list_share_config_entries">
+            <column name="retracker_list_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lars" id="3">
         <createTable tableName="task">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="task_pkey"/>
+            </column>
+            <column name="retracker_list_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
             <column name="due_date" type="date"/>
             <column name="last_entry_date" type="date"/>
             <column name="postponed_days" type="INTEGER">
@@ -26,24 +37,23 @@
             <column name="recurrence_interval" type="INTEGER"/>
             <column name="recurrence_time_unit" type="SMALLINT"/>
             <column name="version" type="INTEGER"/>
-            <column name="id" type="UUID">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="task_pkey"/>
-            </column>
-            <column name="retracker_list_id" type="UUID">
-                <constraints nullable="false"/>
-            </column>
             <column name="category_color" type="VARCHAR(255)"/>
             <column name="category_name" type="VARCHAR(255)"/>
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-3">
+    <changeSet author="lars" id="4">
+        <createIndex indexName="task_retracker_list_id" tableName="task">
+            <column name="retracker_list_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lars" id="5">
         <createTable tableName="user_info">
-            <column name="is_active" type="BOOLEAN">
-                <constraints nullable="false"/>
-            </column>
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="user_info_pkey"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
             </column>
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -52,23 +62,26 @@
             <column name="last_name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-4">
+    <changeSet author="lars" id="6">
         <addUniqueConstraint columnNames="email" constraintName="user_info_email_key" tableName="user_info"/>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-5">
+    <changeSet author="lars" id="7">
         <createTable tableName="event_publication">
-            <column name="completion_date" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="publication_date" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="event_publication_pkey"/>
             </column>
+            <column name="publication_date" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="completion_date" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="event_type" type="VARCHAR(255)"/>
             <column name="listener_id" type="VARCHAR(255)"/>
             <column name="serialized_event" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-6">
+    <changeSet author="lars" id="8">
         <createTable tableName="retracker_list">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="retracker_list_pkey"/>
+            </column>
             <column name="default_list" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
@@ -76,9 +89,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="INTEGER"/>
-            <column name="id" type="UUID">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="retracker_list_pkey"/>
-            </column>
             <column name="owner_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
@@ -90,7 +100,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-7">
+    <changeSet author="lars" id="9">
         <createTable tableName="task_history">
             <column name="completion_date" type="date">
                 <constraints nullable="false"/>
@@ -105,26 +115,39 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-8">
+    <changeSet author="lars" id="10">
+        <createIndex indexName="task_history_task_id" tableName="task_history">
+            <column name="task_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lars" id="11">
         <createTable tableName="user_notification">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_notification_pkey"/>
+            </column>
             <column name="seen" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
+            <column name="sent_at" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="user_id" type="UUID"/>
             <column name="action_url" type="VARCHAR(255)"/>
-            <column name="key" type="VARCHAR(255)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="user_notification_pkey"/>
-            </column>
+            <column name="key" type="VARCHAR(255)"/>
             <column name="message" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-9">
+    <changeSet author="lars" id="12">
         <addForeignKeyConstraint baseColumnNames="retracker_list_id" baseTableName="task" constraintName="fkc7ak15v9n0cca76opjlpbu7qf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="retracker_list" validate="true"/>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-10">
+    <changeSet author="lars" id="13">
         <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="task_history" constraintName="fker57q2libi1e9njpj6faoxd2i" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task" validate="true"/>
     </changeSet>
-    <changeSet author="lars_ (generated)" id="1739530323171-11">
+    <changeSet author="lars" id="15">
         <addForeignKeyConstraint baseColumnNames="retracker_list_id" baseTableName="retracker_list_share_config_entries" constraintName="fknof2fby6i0hmmlhgefnf0rsdf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="retracker_list" validate="true"/>
+    </changeSet>
+    <changeSet author="lars" id="16">
+        <modifyDataType tableName="user_notification"
+                          columnName="message"
+                          newDataType="TEXT"
+                          />
     </changeSet>
 </databaseChangeLog>

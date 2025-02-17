@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.shared.config;
+package de.lbakker77.retracker.shared.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

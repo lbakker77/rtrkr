@@ -1,15 +1,13 @@
-package de.lbakker77.retracker.main.shared.usercase;
+package de.lbakker77.retracker.shared.usercase;
 
-import de.lbakker77.retracker.main.shared.interceptor.UserTimeZoneService;
-import de.lbakker77.retracker.main.user.UserService;
+import de.lbakker77.retracker.shared.interceptor.UserTimeZoneService;
+import de.lbakker77.retracker.user.UserService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Set;
 import java.util.stream.Collectors;
 

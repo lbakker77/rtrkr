@@ -63,7 +63,7 @@
 .mobile .detail.opened {
   display: block;
   z-index: 1;
-  background-color: white;
+  background-color: var(--mat-sys-background);
 }
 
 .mobile .buttonOverlay {

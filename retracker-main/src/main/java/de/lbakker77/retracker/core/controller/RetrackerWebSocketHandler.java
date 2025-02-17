@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.core.controller;
+package de.lbakker77.retracker.core.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

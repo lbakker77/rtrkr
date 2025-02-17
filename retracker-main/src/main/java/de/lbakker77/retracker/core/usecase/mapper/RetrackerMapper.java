@@ -1,7 +1,9 @@
-package de.lbakker77.retracker.main.core.usecase.mapper;
+package de.lbakker77.retracker.core.usecase.mapper;
 
-import de.lbakker77.retracker.main.core.domain.*;
-import de.lbakker77.retracker.main.core.usecase.dtos.*;
+import de.lbakker77.retracker.core.domain.*;
+import de.lbakker77.retracker.core.usecase.dtos.*;
+import de.lbakker77.retracker.core.domain.*;
+import de.lbakker77.retracker.core.usecase.dtos.*;
 import org.mapstruct.*;
 
 import java.time.LocalDate;

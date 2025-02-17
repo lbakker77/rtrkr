@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface UserNotificationRepositor extends CrudRepository<UserNotification, UUID> {
+public interface UserNotificationRepository extends CrudRepository<UserNotification, UUID> {
+    public void deleteByKey(String key);
 }

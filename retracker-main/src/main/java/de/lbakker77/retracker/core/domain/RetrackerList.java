@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.core.domain;
+package de.lbakker77.retracker.core.domain;
 
 
 import jakarta.persistence.*;
@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 @Setter

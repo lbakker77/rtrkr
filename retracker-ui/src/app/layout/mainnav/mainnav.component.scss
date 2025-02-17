@@ -1,5 +1,6 @@
 :host {
   display: block;
+  transition: top 1s;
 }
 mat-toolbar {
   background-color: var(--nav-background-color);

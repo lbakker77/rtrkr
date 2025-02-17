@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.shared.interceptor;
+package de.lbakker77.retracker.shared.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

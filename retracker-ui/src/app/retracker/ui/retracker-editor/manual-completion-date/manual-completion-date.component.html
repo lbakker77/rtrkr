@@ -1,3 +1,8 @@
-<mat-card class="demo-inline-calendar-card">
-    <mat-calendar [(selected)]="selected" (selectedChange)="datePicked()" [maxDate]="maxDate" ></mat-calendar>
-  </mat-card>
+
+  <h2 mat-dialog-title i18n>Erledigungsdatum wählen</h2>
+  <mat-dialog-content>
+    <mat-calendar [(selected)]="selected" (selectedChange)="datePicked()" [maxDate]="maxDate" [minDate]="minDate" ></mat-calendar>
+  </mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button matDialogClose i18n>Abbrechen</button>
+</mat-dialog-actions>

@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.core.domain;
+package de.lbakker77.retracker.core.domain;
 
 import org.springframework.util.Assert;
 

@@ -6,37 +6,40 @@
   grid-row: 1 / span 2;
   grid-column: 1;
   border-radius: 1000px;
-  background-color: rgba(240,240,240,1);
-  height:60px;
+  height: 60px;
   width: 60px;
   text-align: center;
   vertical-align: middle;
   display: flex;
   align-items: center;
   align-content: center;
+  margin-right: 16px;
+  color: black;
   .category-text {
     flex: 1;
     font-weight: 200;
     font-size: 24px;
   }
-  margin-right: 16px;
 }
 
 .small.category {
-  height:30px;
+  height: 30px;
   width: 30px;
   .category-text {
     font-size: 16px;
   }
 }
 
-.category-blue {
-  background-color: rgba(230, 230, 250,1);
+.category-silver {
+  background-color: rgba(192, 192, 192, 1);
 }
-.category-red {
-  background-color: rgba(250, 230, 230,1);
+.category-blue {
+  background-color: rgba(230, 230, 250, 1);
 }
 
+.category-red {
+  background-color: rgba(250, 230, 230, 1);
+}
 
 .category-orange {
   background-color: rgb(247, 219, 171);
@@ -44,4 +47,29 @@
 
 .category-green {
   background-color: rgb(214, 240, 226);
+}
+
+.category-purple {
+  background-color: rgba(230, 190, 255, 1);
+}
+
+.category-teal {
+  background-color: rgba(160, 255, 230, 1);
+}
+
+.category-pink {
+  background-color: rgba(255, 182, 193, 1);
+}
+
+.category-yellow {
+  background-color: rgba(255, 255, 180, 1);
+}
+
+.category-brown {
+  background-color: rgba(210, 180, 140, 1);
+  color: white;
+}
+
+.category-gray {
+  background-color: rgba(220, 220, 220, 1);
 }

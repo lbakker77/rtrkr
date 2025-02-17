@@ -1,8 +1,44 @@
 <h3 i18n>Historie</h3>
 
-@for(history of historyElements(); track history.completionDate) {
-    
+@for(history of historyElements(); track history.completionDate; let index = $index) {
+    <div class="historySection">
+        <div class="completionDate">
+            <span>{{history.completionDate | date}}</span> 
+           
+        </div>
+        <div class="completionDateIndicator"><div class="completionDot"></div></div>
+        <div class="buttonWrapper"> 
+            @if(index === 0) {
+                <button mat-icon-button (click)="deleteLastEntry()"><mat-icon>delete-outlined</mat-icon></button>
+            }
+        </div>
+        @if(history.overdueDays > 0){
+            <div></div>
+            <div class="overdueSection"></div>
+            <div class="dayLabel">{{history.overdueDays}} Tage verspätet abgeschlossen</div>
+        } @else{
+            <div></div><div></div><div></div>
+        }
+        @if(history.postponedDays > 0){
+            <div></div>
+            <div class="postponedSection"></div>
+            <div class="dayLabel">{{history.postponedDays}} Tage verschoben</div>
+        } @else{
+            <div></div><div></div><div></div>
+        }
+        @if(history.plannedDays > 0){
+            <div></div>
+            <div class="plannedSection"></div><div class="dayLabel">{{history.plannedDays}} Tage geplant</div>
+        } @else{
+            <div></div><div></div><div></div>
+        }
 
-    <p>executed at {{history.lastDueDate}}   --- due : {{history.completionDate}}</p>
+        @if (history.plannedDays <= 0 && history.postponedDays <= 0 && history.overdueDays <= 0){
+            <div></div>
+            <div class="unplannedSection"></div><div class="dayLabel"></div>
+        }
+
+    </div>
+
 
 }

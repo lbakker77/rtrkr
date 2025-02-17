@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{dialogData.title}}</h2>
+<mat-dialog-content>
+  {{dialogData.message}}
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close i18n>Abbrechen</button>
+  <button mat-flat-button (click)="confirm()" i18n>Bestätigen</button>
+</mat-dialog-actions>

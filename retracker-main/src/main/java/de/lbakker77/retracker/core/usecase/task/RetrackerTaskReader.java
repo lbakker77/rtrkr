@@ -1,12 +1,12 @@
-package de.lbakker77.retracker.main.core.usecase.task;
+package de.lbakker77.retracker.core.usecase.task;
 
-import de.lbakker77.retracker.main.core.domain.RetrackerService;
-import de.lbakker77.retracker.main.core.domain.TaskRepository;
-import de.lbakker77.retracker.main.core.usecase.dtos.RetrackerTaskOverviewDto;
-import de.lbakker77.retracker.main.core.usecase.dtos.RetrackerTaskDto;
-import de.lbakker77.retracker.main.core.usecase.mapper.RetrackerMapper;
-import de.lbakker77.retracker.main.shared.interceptor.UserTimeZoneService;
-import de.lbakker77.retracker.main.user.UserService;
+import de.lbakker77.retracker.core.domain.RetrackerService;
+import de.lbakker77.retracker.core.domain.TaskRepository;
+import de.lbakker77.retracker.core.usecase.dtos.RetrackerTaskOverviewDto;
+import de.lbakker77.retracker.core.usecase.dtos.RetrackerTaskDto;
+import de.lbakker77.retracker.core.usecase.mapper.RetrackerMapper;
+import de.lbakker77.retracker.shared.interceptor.UserTimeZoneService;
+import de.lbakker77.retracker.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

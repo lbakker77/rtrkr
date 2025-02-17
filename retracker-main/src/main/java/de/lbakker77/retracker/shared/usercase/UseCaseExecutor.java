@@ -1,14 +1,11 @@
-package de.lbakker77.retracker.main.shared.usercase;
+package de.lbakker77.retracker.shared.usercase;
 
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.TypeVariable;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

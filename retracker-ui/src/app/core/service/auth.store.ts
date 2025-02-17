@@ -10,7 +10,8 @@ interface AuthStoreModel {
     email: string | undefined,
 }
 
-const initialState: AuthStoreModel = {
+const initialState: AuthStoreModel = 
+{
     isAuthenticated: false,
     firstName: undefined,
     lastName: undefined,

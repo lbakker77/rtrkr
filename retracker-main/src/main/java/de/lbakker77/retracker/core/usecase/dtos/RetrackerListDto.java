@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.core.usecase.dtos;
+package de.lbakker77.retracker.core.usecase.dtos;
 
 import java.util.UUID;
 

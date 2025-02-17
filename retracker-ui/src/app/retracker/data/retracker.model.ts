@@ -13,6 +13,7 @@ export interface RecurrenceConfig {
 
 export interface RetrackerOverviewEntry { 
     id: string;
+    listId: string;
     name: string;
     dueDate?: Date;
     lastEntryDate?: Date;
@@ -27,7 +28,9 @@ export interface RetrackerEntry extends RetrackerOverviewEntry {
 export interface RetrackerHistory {
     lastDueDate?: Date;
     completionDate: Date;
-    postponedDays?: number;
+    postponedDays: number;
+    plannedDays: number;
+    overdueDays: number;
 }
 
 export interface UserCategory {
@@ -37,10 +40,17 @@ export interface UserCategory {
 
 
 export enum CategoryColor {
-    RED = "RED",
-    BLUE = "BLUE",
-    GREEN = "GREEN",
-    ORANGE = "ORANGE"
+    SILVER = "silver",
+    BLUE = "blue",
+    RED = "red",
+    GREEN = "green",
+    ORANGE = "orange",
+    PURPLE = "purple",
+    TEAL = "teal",
+    PINK = "pink",
+    YELLOW = "yellow",
+    BROWN = "brown",
+    GRAY = "gray"
 }
 
 export interface RetrackerList {
@@ -49,6 +59,8 @@ export interface RetrackerList {
     shared: boolean;
     defaultList: boolean;
     dueCount: number;
+    isInvitation: boolean;
+    icon: string;
 }
 
 export interface RetrackerDataChangeRequest {
@@ -79,14 +91,50 @@ export interface CreateRetrackerEntryRequest {
 }
 
 export const TIMEUNITS: string[] = Object.keys(RecurrenceTimeUnit);
-export const CATEGORIES: UserCategory[] = [//+
-  { categoryName: 'Private', categoryColor: CategoryColor.BLUE },
-  { categoryName: 'Work', categoryColor: CategoryColor.RED },
-  { categoryName: 'Family', categoryColor: CategoryColor.GREEN },
-  { categoryName: 'Friends', categoryColor: CategoryColor.ORANGE }
-];
-
+export const CATEGORIES: UserCategory[] = [
+    { categoryName: 'General', categoryColor: CategoryColor.SILVER },
+    { categoryName: 'Administrative', categoryColor: CategoryColor.BLUE },
+    { categoryName: 'Personal', categoryColor: CategoryColor.GREEN },
+    { categoryName: 'Work/Professional', categoryColor: CategoryColor.RED },
+    { categoryName: 'Financial', categoryColor: CategoryColor.ORANGE },
+    { categoryName: 'Health & Wellness', categoryColor: CategoryColor.PURPLE },
+    { categoryName: 'Home & Maintenance', categoryColor: CategoryColor.TEAL },
+    { categoryName: 'Social & Relationships', categoryColor: CategoryColor.PINK },
+    { categoryName: 'Education & Learning', categoryColor: CategoryColor.YELLOW },
+    { categoryName: 'Creative', categoryColor: CategoryColor.BROWN },
+    { categoryName: 'Travel & Logistics', categoryColor: CategoryColor.GRAY }
+  ];
 
 export interface CreatedResponse {
     id: string;
+}
+
+
+export enum ShareStatus {
+    PENDING = "PENDING",
+    ACCEPTED = "ACCEPTED",
+    REJECTED = "REJECTED"
+}
+
+
+export interface ShareConfig {
+    userId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    status: ShareStatus;
+    sharedAt: Date;
+    isOwner: boolean;
+}
+
+export interface User {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+}
+
+export interface ShareListRequest {
+    listId: string;
+    email: string;
 }

@@ -36,7 +36,7 @@ export class RetrackerEditorBasedataComponent {
 
 
   retrackerForm = new FormGroup({
-    name: new FormControl('', Validators.required),
+    name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
     configureRecurrance: new FormControl(true),
     recurrenceConfig: new FormGroup({
       recurrenceInterval: new FormControl(1),

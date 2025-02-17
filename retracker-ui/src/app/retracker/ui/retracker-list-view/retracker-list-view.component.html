@@ -4,14 +4,15 @@
             <span>Loading...</span>
         }
         @else {
+
             <div class="master-panel">
-                <button mat-icon-button [matMenuTriggerFor]="listSettings"><mat-icon>more_vert</mat-icon></button>
-                <mat-menu #listSettings="matMenu">
-                    <ng-template matMenuContent>
-                      <button mat-menu-item i18n><mat-icon>share</mat-icon>Teilen</button>
-                      <button mat-menu-item i18n><mat-icon>delete</mat-icon>Löschen</button>
-                    </ng-template>
-                  </mat-menu>
+            @if (store.filterActive()) {
+                <span class="filter-info" i18n>Zeige {{store.filteredCount()}} von {{store.overallCount()}}</span>
+            }
+            @if (store.id()) {
+                <app-retracker-list-edit-menu [listId]="store.id()"></app-retracker-list-edit-menu>
+
+            }
             </div>
     
             <div class="master-part">
@@ -38,12 +39,14 @@
 
     </app-master-part>
     <app-master-absolute-positioned>
+    @if(!store.isLoading()){
 
         <button class="add-entry-button"mat-fab extended (click)="newEntry()"><mat-icon>add</mat-icon>Hinzufügen</button>
         @if(store.createNewModeEnabled()) {
             
-            <app-retracker-create (abort)="closeCreate()" (saved)="registerNewEntry($event)" [listId]="store.id()"></app-retracker-create>
+            <app-retracker-create (abort)="closeCreate()" (saved)="registerNewEntry($event)" [listId]="store.id()" [lists]="listsStore.lists()"></app-retracker-create>
         }
+    }
     </app-master-absolute-positioned>
     <app-detail-part > 
         <app-retracker-editor [id]="store.selectedId()" (entryChange)="entryChanged($event)" (deleted)="entryDeleted($event)"></app-retracker-editor>

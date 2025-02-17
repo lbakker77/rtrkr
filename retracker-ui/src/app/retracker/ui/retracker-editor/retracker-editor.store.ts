@@ -143,5 +143,18 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
         finalize(() => patchState(this, { updating: false })))
     ) ));
 
+
+    undoLastCompletion = rxMethod<void>(pipe(
+      tap(() => patchState(this, { updating: true })),
+      switchMap(() => this.retrackerService.undoLastCompletion(this.selectedEntry()!.id).pipe(
+        tap(() => {
+          patchState(this, { hasChanged: true });
+          this.notificationService.open($localize `Erledigung von ${this.selectedEntry()?.name} rückgängig gemacht` );
+          this.loadAndSelectById(this.selectedEntry()!.id); 
+
+        }),
+        finalize(() => patchState(this, { updating: false })))
+    ) ));
+
 }
 

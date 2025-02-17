@@ -1,0 +1,81 @@
+<app-simple-page-view>
+<h2><b>{{list().name === 'default' ? 'Meine Liste': list().name}}</b> teilen</h2>
+
+  <h3>Aktueller Zugriff</h3>
+  <table mat-table [dataSource]="store.shareConfigs()" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> E-Mail </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.isOwner ? 'Besitzer' : element.status}}  </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> - </th>
+      <td mat-cell *matCellDef="let element">
+        @if (!element.isOwner  && store.isAdmin() ) {
+          <button mat-icon-button (click)="delete(element)"><mat-icon>delete</mat-icon></button>
+        }
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+
+
+  @if (list().defaultList) {
+    <p><mat-icon class="icon-inline">info</mat-icon>Dies ist Ihre persönliche Re-Tracker-Liste. Diese Liste kann nicht geteilt werden. Legen Sie eine neue Liste an, die Sie mit Ihren Kollegen, Freunden oder Ihrer Familie teilen können</p>
+  } 
+  @else {
+    <h3>Liste teilen</h3>
+
+    <p>Arbeiten sie mit Re-Tracker im Team, mit der Familie oder mit Freunden</p>
+  <form [formGroup]="shareForm">
+    <mat-form-field>
+    <mat-label i18n>E-Mail</mat-label>
+
+      <input matInput type="email" cdkFocusInitial formControlName="email"
+             aria-label="Mail"
+             [matAutocomplete]="knownUsers" />
+      <mat-autocomplete #knownUsers="matAutocomplete">
+        @for (user of store.knownUsers(); track user.email) {
+          <mat-option [value]="user.email">
+            <mat-icon>account</mat-icon>
+            <span>{{user.email}}</span> |
+            <small>{{user.firstName}} {{user.lastName}}</small>
+          </mat-option>
+        }
+      </mat-autocomplete>
+
+    @if(shareForm.controls.email.hasError('required')){
+        <mat-error>E-Mail muss angegeben werden</mat-error>
+    }
+    @if(shareForm.controls.email.hasError('email')){
+        <mat-error>Keine gültige E-Mail-Adresse</mat-error> 
+    }
+  </mat-form-field>
+  <button mat-flat-button (click)=shareWithUser() [disabled]="!shareForm.valid">Teilen</button>
+</form>
+}
+<div class="page-actions">
+  <a mat-button [routerLink]="'../../' + listId">Zurück zur Liste</a>
+</div>
+</app-simple-page-view>

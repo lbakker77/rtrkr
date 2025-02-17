@@ -8,6 +8,9 @@ import { timezoneInterceptor } from './core/interceptor/timezone.interceptor';
 
 import { provideKeycloak, includeBearerTokenInterceptor, createInterceptorCondition, IncludeBearerTokenCondition, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG } from 'keycloak-angular';
 import { accessDeniedInterceptor } from './core/interceptor/access-denied.interceptor';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { RetrackerErrorStateMatcher } from './core/utils/retracker-error-state-matcher';
+import { errorHandlerInterceptor } from './core/interceptor/error-handler.interceptor';
 
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^http:\/\/localhost:4200\/.*/i,
@@ -23,7 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
     provideAnimationsAsync(), 
-    provideHttpClient(withInterceptors([timezoneInterceptor, includeBearerTokenInterceptor, accessDeniedInterceptor])),  
+    provideHttpClient(withInterceptors([timezoneInterceptor, includeBearerTokenInterceptor, accessDeniedInterceptor, errorHandlerInterceptor])),  
     {provide: LOCALE_ID, useValue: 'de-DE'},
     provideKeycloak({
       config: {
@@ -40,6 +43,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [urlCondition, urlCondition2]
-    }
+    }, 
+    {provide: ErrorStateMatcher, useClass: RetrackerErrorStateMatcher}
   ]
 };

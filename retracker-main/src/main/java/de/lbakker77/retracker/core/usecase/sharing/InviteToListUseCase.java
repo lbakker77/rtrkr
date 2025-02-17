@@ -1,10 +1,10 @@
-package de.lbakker77.retracker.main.core.usecase.sharing;
+package de.lbakker77.retracker.core.usecase.sharing;
 
-import de.lbakker77.retracker.main.core.domain.RetrackerService;
-import de.lbakker77.retracker.main.shared.usercase.BaseResponse;
-import de.lbakker77.retracker.main.shared.usercase.BaseUseCaseHandler;
-import de.lbakker77.retracker.main.shared.usercase.CommandContext;
-import de.lbakker77.retracker.main.user.UserService;
+import de.lbakker77.retracker.core.domain.RetrackerService;
+import de.lbakker77.retracker.shared.usercase.BaseResponse;
+import de.lbakker77.retracker.shared.usercase.BaseUseCaseHandler;
+import de.lbakker77.retracker.shared.usercase.CommandContext;
+import de.lbakker77.retracker.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

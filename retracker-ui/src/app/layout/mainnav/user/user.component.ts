@@ -3,7 +3,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import {  MatTooltipModule } from '@angular/material/tooltip';
-import { AuthStore } from '../../service/auth.store';
+import { AuthStore } from '../../../core/service/auth.store';
 
 @Component({
   selector: 'app-user',

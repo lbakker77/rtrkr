@@ -1,8 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-/* These tokens are generated using https://themes.angular-material.dev/ */
-/* Preview: https://themes.angular-material.dev/?seed-error=%23ba1a1a&seed-neutral=%2376777b&seed-neutral-variant=%23737780&seed-primary=%236690c5&seed-secondary=%23505f75&seed-tertiary=%237c4d83 */
-/* Seed Colors: primary: #6690c5, secondary: #505f75, tertiary: #7c4d83, error: #ba1a1a, neutral: #76777b, neutral-variant: #737780 */
-
+@use '@angular/material' as mat;
 
 
 html, body, div, span, applet, object, iframe,
@@ -50,8 +46,29 @@ table {
 
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
 
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+html {
+  color-scheme: light dark;
+  @include mat.theme((
+    color: mat.$azure-palette,
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+html:has(.light-theme) {
+  color-scheme: light;
+}
+html:has(.dark-theme) {
+  color-scheme: dark;
+}
 
 :root {
     --nav-side-background-color: var(--mat-sys-surface-container-high);
@@ -65,6 +82,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         --spacing: 16px;
     }
 }
+
+
 
 .action-bar {
     display: flex;
@@ -94,4 +113,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   h3 {
     font: var(--mat-sys-title-medium);
     margin: 0 0 16px 0;
+  }
+
+
+  p {
+    font: var(--mat-sys-body-large);
+
+  }
+  .full-screen-dialog {
+    height: 100%;
+    width: 100%;
+  }
+
+
+  mat-icon.icon-inline {
+    margin: 0;
+    margin-bottom: -5px;
+    margin-right: 5px;
   }

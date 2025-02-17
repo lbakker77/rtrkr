@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.error-display {
+  position: relative;
+  border: 1px solid var(--mat-sys-error);
+  background-color: var(--mat-sys-error-container);
+  padding: var(--spacing);
+  margin-bottom: var(--spacing);
+  button {
+    position:absolute;
+    top: 12px;
+    right: var(--spacing);
+  }
+}

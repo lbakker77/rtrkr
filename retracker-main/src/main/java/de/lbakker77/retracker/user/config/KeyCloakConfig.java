@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.user.config;
+package de.lbakker77.retracker.user.config;
 
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;

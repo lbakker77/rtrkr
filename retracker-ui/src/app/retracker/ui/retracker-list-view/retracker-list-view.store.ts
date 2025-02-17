@@ -5,7 +5,7 @@ import { CreateRetrackerEntryRequest, RetrackerEntry, RetrackerOverviewEntry } f
 import { RetrackerService } from '../../data/retracker.service';
 import { computed, inject, Injectable } from '@angular/core';
 import { finalize, map, pipe, switchMap, tap } from 'rxjs';
-import { GlobalSearchService } from '../../../core/service/global-search.service';
+import { GlobalSearchService } from '../../../layout/mainnav/global-search/global-search.service';
 
 
 interface RetrackerStoreContent {
@@ -46,6 +46,14 @@ export class RetrackerListViewStore extends signalStore(
         )
     ));
 
+    loadAll = rxMethod<void>(pipe(
+      tap(() => patchState(this, { isLoading: true, id: undefined})), 
+      switchMap(() => this.retrackerService.loadAll().pipe(
+          tap(entries =>   patchState(this, {  retrackerEntries: entries.sort((e1, e2) => (e1.dueDate ?? new Date(2200,1,1)) > (e2.dueDate ?? new Date(2200,1,1)) ? 1 : -1) })),
+          finalize(() => patchState(this, { isLoading: false })))
+      )
+    ));
+
     entriesWithFilter = computed(() => {
       return this.retrackerEntries().filter(e => e.name.toLocaleLowerCase().indexOf(this.search().toLocaleLowerCase()) >= 0);
     });
@@ -54,6 +62,10 @@ export class RetrackerListViewStore extends signalStore(
       const due =this.entriesWithFilter().filter(e => e.dueDate != null && e.dueDate.getTime() < (new Date()).getTime())
       return due;
     });
+
+    filterActive = computed(() => this.search().length > 0);
+    overallCount = computed(() => this.retrackerEntries().length);
+    filteredCount = computed(() => this.entriesWithFilter().length);
 
     dueEntriesCount = computed(() => this.dueEntries().length);
     
@@ -71,6 +83,11 @@ export class RetrackerListViewStore extends signalStore(
     });
 
     selectedId = computed(() => this.selected()?.id);
+
+    getDueCountByListId(listId: string): number {
+      return this.retrackerEntries().filter(e => e.listId === listId).filter(e => e.dueDate!= null && e.dueDate.getTime() < (new Date()).getTime()).length;
+    }
+
 
     removeSelected(id: string) {
       const entriesWithoutSelected = this.retrackerEntries().filter(e => e.id != id );

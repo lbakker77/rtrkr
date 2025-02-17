@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.core;
+package de.lbakker77.retracker.core;
 
 import java.time.LocalDate;
 import java.util.UUID;

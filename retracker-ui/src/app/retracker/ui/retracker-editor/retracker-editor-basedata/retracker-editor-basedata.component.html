@@ -2,9 +2,9 @@
     <div class="form-row">
         <mat-form-field>
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" required [errorStateMatcher]="matcher" />
+            <input matInput formControlName="name" required [errorStateMatcher]="matcher" maxlength="30"/>
             @if(retrackerForm.controls.name.hasError('required')){
-            <mat-error>Name muss angegeben werden</mat-error>
+               <mat-error>Name muss angegeben werden</mat-error>
             }
         </mat-form-field>
     </div>

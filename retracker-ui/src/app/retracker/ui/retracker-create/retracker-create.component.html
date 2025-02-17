@@ -1,10 +1,15 @@
 
+<!-- Add this at the top of your form or wherever you want the close button to appear -->
+<button mat-icon-button (click)="close()" class="close" aria-label="Close panel">
+  <mat-icon>close</mat-icon>
+</button>
 <h3>Neuen Eintrag erfassen</h3>
+<app-error-display [globalErrorsOnly]="true"></app-error-display>
 <form [formGroup]="retrackerForm" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" >
     <div class="form-row">
         <mat-form-field>
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" required cdkFocusInitial />
+            <input matInput formControlName="name" required cdkFocusInitial maxlength="30"/>
             @if(retrackerForm.controls.name.hasError('required')){
                 <mat-error>Name muss angegeben werden</mat-error>
             }
@@ -28,13 +33,34 @@
             </mat-select>
           </mat-form-field>
     </div>
+    @if (!listId()){      
+    <div class="form-row" >
+        <mat-form-field>
+            <mat-label i18n>Liste</mat-label>
+            <mat-select formControlName="list" >
+                <mat-select-trigger>
+                    {{retrackerForm.value.list?.name}}
+                  </mat-select-trigger>
+              @for (list of lists(); track list.id) {
+                <mat-option [value]="list"  >
+                    <div class="category-option">
+                        <mat-icon>{{list.icon}}</mat-icon>
+                        <span>{{list.name}}</span>
+                    </div>    
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+    </div>
+    }
+
     <div class="form-row">
-        <mat-checkbox formControlName="configureRecurrance" i18n>Regelmäßige Erinnerung konfigurieren</mat-checkbox>
+        <mat-checkbox formControlName="configureRecurrance" i18n>Neues Fälligkeitsdatum nach Erledigung automatisch erstellen</mat-checkbox>
     </div>
     @if (retrackerForm.controls.configureRecurrance.value){
         <div class="form-row" formGroupName="recurrenceConfig">
             <mat-form-field>
-                <mat-label i18n>Erinnere alle</mat-label>
+                <mat-label i18n>Erinnere nach</mat-label>
                 <input matInput  type="number"  formControlName="recurrenceInterval" min="1" >
                 @if(retrackerForm.controls.recurrenceConfig.controls.recurrenceInterval.hasError('required')){
                     <mat-error>Muss angegeben werden</mat-error>
@@ -88,8 +114,8 @@
     }
 
     <div class="action-bar">
-        <button mat-flat-button (click)="saveClicked()">Speichern</button>
         <button mat-button (click)="abortClicked()">Abbrechen</button>
+        <button mat-flat-button (click)="saveClicked()">Speichern</button>
     </div>
 
 

@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main;
+package de.lbakker77.retracker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

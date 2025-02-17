@@ -1,12 +1,12 @@
-package de.lbakker77.retracker.main.user;
+package de.lbakker77.retracker.user;
 
-import de.lbakker77.retracker.main.user.entity.UserRepository;
-import de.lbakker77.retracker.main.user.entity.model.User;
-import de.lbakker77.retracker.main.user.usecase.ActivateUserUseCase;
-import de.lbakker77.retracker.main.user.usecase.InviteUserUseCase;
-import de.lbakker77.retracker.main.user.usecase.dto.UserDto;
-import de.lbakker77.retracker.main.user.usecase.NewUserUseCase;
-import de.lbakker77.retracker.main.user.usecase.mapper.UserMapper;
+import de.lbakker77.retracker.user.entity.UserRepository;
+import de.lbakker77.retracker.user.entity.model.User;
+import de.lbakker77.retracker.user.usecase.ActivateUserUseCase;
+import de.lbakker77.retracker.user.usecase.InviteUserUseCase;
+import de.lbakker77.retracker.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.user.usecase.NewUserUseCase;
+import de.lbakker77.retracker.user.usecase.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;

@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.user;
+package de.lbakker77.retracker.user;
 
 import java.util.UUID;
 

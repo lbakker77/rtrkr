@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.shared.config;
+package de.lbakker77.retracker.shared.config;
 
 
 import io.swagger.v3.oas.models.Components;

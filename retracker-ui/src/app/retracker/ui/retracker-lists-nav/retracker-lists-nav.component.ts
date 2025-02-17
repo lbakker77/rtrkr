@@ -7,6 +7,9 @@ import { SecodaryNavService } from '../../../shared/service/secodaryNav.service'
 import { RetrackerService } from '../../data/retracker.service';
 import { firstValueFrom } from 'rxjs';
 import { RetrackerListsNavStore } from './retracker-lists-nav.store';
+import { MatDialog } from '@angular/material/dialog';
+import { ResponsiveDialogService } from '../../../shared/component/responsive-dialog.service';
+import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../retracker-list-create-edit/retracker-list-create-edit.component';
 
 @Component({
   selector: 'app-retracker-lists-nav',
@@ -18,11 +21,13 @@ import { RetrackerListsNavStore } from './retracker-lists-nav.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RetrackerListsNavComponent {
+
   secodaryNavService = inject(SecodaryNavService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private currentListId: string = '';
   store = inject(RetrackerListsNavStore);
+  private readonly dialogService = inject(ResponsiveDialogService);
   
 
   constructor() {
@@ -34,7 +39,7 @@ export class RetrackerListsNavComponent {
         if (this.currentListId !== firstEntry!.id) { 
           this.currentListId = firstEntry!.id;
           console.log("Navigate to: " + firstEntry!.id);  // TODO: Update this to navigate to the selected list
-          this.router.navigate(['personal', firstEntry!.id],  { relativeTo: this.route });
+          this.router.navigate([firstEntry!.id],  { relativeTo: this.route });
         }
       }
     });
@@ -46,6 +51,21 @@ export class RetrackerListsNavComponent {
       // from backdrop click..
       this.secodaryNavService.sideNavClosed();
     }
+  }
+
+  addNewList() {
+    this.secodaryNavService.closeSidenav();
+    const dialogRef =  this.dialogService.open(RetrackerListCreateEditComponent);
+    dialogRef.afterClosed().subscribe((result: RetrackerListCreateResult | null) => { 
+      if (result) {
+        this.store.loadLists();
+        if (result.configureShare) {
+          this.router.navigate(['share', result.listId],  { relativeTo: this.route });
+        } else {
+          this.router.navigate([result.listId],  { relativeTo: this.route });
+        }
+      }
+    });
   }
 
 }

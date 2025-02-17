@@ -1,11 +1,11 @@
-package de.lbakker77.retracker.main.core.usecase.sharing;
+package de.lbakker77.retracker.core.usecase.sharing;
 
-import de.lbakker77.retracker.main.core.domain.RetrackerService;
-import de.lbakker77.retracker.main.core.domain.ShareConfig;
-import de.lbakker77.retracker.main.core.domain.ShareStatus;
-import de.lbakker77.retracker.main.core.usecase.dtos.ShareConfigDto;
-import de.lbakker77.retracker.main.user.UserService;
-import de.lbakker77.retracker.main.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.core.domain.RetrackerService;
+import de.lbakker77.retracker.core.domain.ShareConfig;
+import de.lbakker77.retracker.core.domain.ShareStatus;
+import de.lbakker77.retracker.core.usecase.dtos.ShareConfigDto;
+import de.lbakker77.retracker.user.UserService;
+import de.lbakker77.retracker.user.usecase.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

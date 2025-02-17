@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { RetrackerListViewStore } from '../retracker-list-view/retracker-list-view.store';
 import { RetrackerEditorStore } from './retracker-editor.store';
 import { RetrackerOverviewEntry } from '../../data/retracker.model';
@@ -10,16 +10,18 @@ import { MatIcon } from '@angular/material/icon';
 import { RetrackerEditorBasedataComponent } from "./retracker-editor-basedata/retracker-editor-basedata.component";
 import { DisplayLabelDirective } from "../../../shared/component/display-value/display-label.directive";
 import { DisplayContentDirective } from "../../../shared/component/display-value/display-content.directive";
-import { DueDateViewComponent } from '../shared/due-date-view/due-date-view.component';
 import { RecurranceConfigViewComponent } from "../shared/recurrance-config-view/recurrance-config-view.component";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ManualCompletionDateComponent } from './manual-completion-date/manual-completion-date.component';
+import { ManualCompletionDateComponent, ManualCompletionDateDialogData } from './manual-completion-date/manual-completion-date.component';
 import { DatePipe } from '@angular/common';
 import { HistoryViewComponent } from "./history-view/history-view.component";
+import { ManualPostponeDateComponent } from './manual-postpone-date/manual-postpone-date.component';
+import { addDays, todayAsDate } from '../../../core/utils/date.utils';
+import { ResponsiveDialogService } from '../../../shared/component/responsive-dialog.service';
 
 @Component({
   selector: 'app-retracker-editor',
-  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, DueDateViewComponent, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent],
+  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent],
   templateUrl: './retracker-editor.component.html',
   styleUrl: './retracker-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,13 +29,34 @@ import { HistoryViewComponent } from "./history-view/history-view.component";
 })
 export class RetrackerEditorComponent {
   readonly dialog = inject(MatDialog);
+  readonly responsiveDialogService = inject(ResponsiveDialogService);
   store = inject(RetrackerEditorStore);
   overviewStore = inject(RetrackerListViewStore);
-
   id = input.required<string | undefined>();
-
   entryChange = output<RetrackerOverviewEntry>();
   deleted = output<string>();
+
+  canCompleteToday = computed(() => {
+    if (this.store.selectedEntry()?.lastEntryDate) {
+      const today = todayAsDate();
+      return this.store.selectedEntry()!.lastEntryDate!.getTime() < today.getTime();
+    } else {
+      return true;
+    }
+  });
+
+  canCompleteYesterday = computed(() => {
+    if (this.store.selectedEntry()?.lastEntryDate) {
+      const yesterday = addDays(todayAsDate(), -1);
+      return this.store.selectedEntry()!.lastEntryDate!.getTime() < yesterday.getTime();
+    } else {
+      return true;
+    }
+  });
+
+  canPostpone = computed(() => {
+    return !!this.store.selectedEntry()?.dueDate;
+  });
 
   constructor() {
     effect(() => {
@@ -67,24 +90,27 @@ export class RetrackerEditorComponent {
     this.store.enableEditMode();
   }
 
-  doneChooseDate() {
-    const dialogRef = this.dialog.open(ManualCompletionDateComponent);
-    dialogRef.afterClosed().subscribe((result: Date | null) => {
+  completedChooseDate() {
+    const lastEntryDate = this.store.selectedEntry()!.lastEntryDate;
+    const minDate = lastEntryDate  ? addDays(lastEntryDate,1): undefined;
+    const dialogRef = this.responsiveDialogService.open(ManualCompletionDateComponent, { data:  { minDate } as ManualCompletionDateDialogData  });
+    dialogRef.afterClosed().subscribe((result: Date | null) => { 
       if (result) {
         this.store.markDoneAt(result);
       }
     });
   }
 
-  doneYesterday() {
+  completedYesterday() {
     this.store.markDoneYesterDay();
   }
-  doneToday() {
+  completedToday() {
     this.store.markDoneToday();
   }
 
   postponeChooseDate() {
-    const dialogRef = this.dialog.open(ManualCompletionDateComponent);
+    const minDate = this.store.selectedEntry()!.dueDate  ? addDays(this.store.selectedEntry()!.dueDate!, 1): undefined;  // Start from the next day after due date.  // TODO: Consider adding a day delay based on the recurrence config.  // TODO: Add an option to choose a different postponement date.  // TODO: Add an option to choose a different postponement duration.  // TODO: Add
+    const dialogRef = this.responsiveDialogService.open(ManualPostponeDateComponent, { data:  { minDate } as ManualCompletionDateDialogData  });
     dialogRef.afterClosed().subscribe((result: Date | null) => {
       if (result) {
         this.store.postponeTil(result);

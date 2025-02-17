@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.main.shared.interceptor;
+package de.lbakker77.retracker.shared.interceptor;
 
 
 import org.springframework.context.annotation.Bean;

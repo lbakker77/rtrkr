@@ -1,4 +1,4 @@
-FROM maven:3-amazoncorreto
+FROM maven:3-amazoncorretto-23
 # Set the working directory in the container
 WORKDIR /app
 # Copy the pom.xml and the project files to the container
@@ -7,7 +7,7 @@ COPY src ./src
 # Build the application using Maven
 RUN mvn clean package -DskipTests
 # Use an official OpenJDK image as the base image
-FROM openjdk:11-jre-slim
+FROM amazoncorretto:23-headless
 # Set the working directory in the container
 WORKDIR /app
 # Copy the built JAR file from the previous stage to the container

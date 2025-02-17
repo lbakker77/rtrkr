@@ -2,27 +2,23 @@
     <mat-sidenav-container class="container" autosize>
         <mat-sidenav [mode]="secodaryNavService.isToggleEnabled() ? 'over': 'side'" [opened]="secodaryNavService.isOpen()" (openedChange)="openchanged($event)" #sidenav>
             <div class="navGroup">
-                <h3>Eigene</h3>
                 @if(!store.isLoading()){
+                    @if (store.lists().length >= 2) {
+                        <a iconbutton icon="folder_open" title="Alle Tasks" [routerLink]="'all'" [badgeCounter]="store.overallDueCount()" (click)="secodaryNavService.closeSidenav()"></a>         
+                    }
                     @for (list of store.lists(); track list.id) {
-                        @if (!list.shared) {
-                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                        @if(!list.isInvitation) {
+                            <a iconbutton [icon]="list.icon || 'schedule'" [title]="list.defaultList ? 'Meine Liste' : list.name" [routerLink]="list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                        } @else {
+                            <a iconbutton [icon]="list.icon || 'schedule'" [title]="list.name" class="invite" [routerLink]="'invitation/' + list.id" [badgeCounter]="0" (click)="secodaryNavService.closeSidenav()"></a>
                         }
+
                     }
                 }
             </div>
-            <div class="navGroup">
-                <h3>Geteilt</h3>
-                @if(!store.isLoading()){
-                    @for (list of store.lists(); track list.id) {
-                        @if (list.shared) {
-                            <a iconbutton icon="schedule" [title]="list.name" [routerLink]="'personal/' + list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
-                        }
-                    }
-                }
-            </div>
+           
             <div class="navGroupEnd">
-                <a iconbutton icon="add" title="Hinzufügen" [dotted]="true" (click)="secodaryNavService.closeSidenav()"></a>         
+                <a iconbutton icon="add" title="Neue Liste" [dotted]="true" (click)="addNewList()"></a>         
             </div>
         </mat-sidenav>
         <mat-sidenav-content>

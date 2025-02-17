@@ -1,5 +1,6 @@
 :host {
   display: block;
+  padding: 3px;
 }
 mat-card {
   background-color: transparent;
@@ -8,7 +9,15 @@ mat-card {
 }
 
 mat-card.desktop  {
-  border-width: 1px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+mat-card.desktop:hover {
+  box-shadow: rgba(3, 102, 214, 0.2) 0px 0px 0px 1px;
+}
+
+mat-card.desktop.selected, mat-card.desktop:active {
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 1px;
 }
 
 
@@ -16,7 +25,7 @@ mat-card.desktop  {
   cursor: pointer;
   overflow: hidden;
   .background {
-    background-color: var(--mat-sys-primary);
+
     position:absolute;
     top:0;
     right:0;

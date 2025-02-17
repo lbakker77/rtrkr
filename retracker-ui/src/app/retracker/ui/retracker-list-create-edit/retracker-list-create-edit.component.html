@@ -1,0 +1,47 @@
+<h2 mat-dialog-title i18n>
+@if (data) {
+    Liste bearbeiten
+}
+@else {
+    Neue Liste erstellen
+}
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="icon-select">
+        <mat-label>Symbol</mat-label>
+        <mat-select formControlName="icon" required>
+          <mat-select-trigger>
+            <mat-icon>{{form.get('icon')?.value}}</mat-icon>
+   
+          </mat-select-trigger>
+          @for (icon of filteredIcons; track icon) {
+            <mat-option [value]="icon">
+              <mat-icon>{{icon}}</mat-icon>
+            </mat-option>
+        }
+        </mat-select>
+        @if (form.get('icon')?.hasError('required')) {
+            <mat-error i18n>Bitte wählen sie ein Icon</mat-error>
+          }  
+        </mat-form-field>   
+        <mat-form-field >
+      <mat-label i18n>Listenname</mat-label>
+      <input matInput formControlName="name" maxlength="20" required >
+      @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+        <mat-error i18n>Name ist erforderlich</mat-error>
+      }
+      @if (form.get('name')?.hasError('maxlength')) {
+        <mat-error i18n>Name darf nicht länger als 20 Zeichen sein</mat-error>
+      }
+    </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close i18n>Abbrechen</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="!form.valid" i18n>Speichern</button>
+  @if (!data) {
+    <button mat-flat-button color="accent" (click)="save(true)" [disabled]="!form.valid" i18n>Speichern & Teilen</button>
+  } 
+</mat-dialog-actions>
