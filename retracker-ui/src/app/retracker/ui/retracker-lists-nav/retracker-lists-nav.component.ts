@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } fr
 import { SecodaryNavService } from '../../../shared/service/secodaryNav.service';
 import { RetrackerService } from '../../data/retracker.service';
 import { firstValueFrom } from 'rxjs';
-import { RetrackerListsNavStore } from './retracker-lists-nav.store';
+import { RetrackerListsStore } from '../../data/retracker-lists.store';
 import { MatDialog } from '@angular/material/dialog';
 import { ResponsiveDialogService } from '../../../shared/component/responsive-dialog.service';
 import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../retracker-list-create-edit/retracker-list-create-edit.component';
@@ -16,7 +16,7 @@ import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../
   imports: [MatSidenavModule, MatListModule, IconbuttonComponent, RouterLink, RouterOutlet],
   templateUrl: './retracker-lists-nav.component.html',
   styleUrl: './retracker-lists-nav.component.scss', 
-  providers: [RetrackerListsNavStore],
+  providers: [RetrackerListsStore],
   
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,7 +26,7 @@ export class RetrackerListsNavComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private currentListId: string = '';
-  store = inject(RetrackerListsNavStore);
+  store = inject(RetrackerListsStore);
   private readonly dialogService = inject(ResponsiveDialogService);
   
 
@@ -34,12 +34,13 @@ export class RetrackerListsNavComponent {
     this.store.loadLists();
 
     effect(() => {
-      if (this.store.lists() != null && this.store.lists().length > 0) {
-        const firstEntry = this.store.lists().at(0) ;
-        if (this.currentListId !== firstEntry!.id) { 
-          this.currentListId = firstEntry!.id;
-          console.log("Navigate to: " + firstEntry!.id);  // TODO: Update this to navigate to the selected list
+      if (this.store.isInitialized()) {
+        if (this.store.lists().length > 1) {
+          this.router.navigate(['all'],  { relativeTo: this.route });
+        }else {
+          const firstEntry = this.store.lists().at(0) ;
           this.router.navigate([firstEntry!.id],  { relativeTo: this.route });
+
         }
       }
     });

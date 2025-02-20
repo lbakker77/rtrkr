@@ -1,5 +1,5 @@
 <app-simple-page-view>
-<h2><b>{{list().name === 'default' ? 'Meine Liste': list().name}}</b> teilen</h2>
+<h2><b>{{list().name}}</b> teilen</h2>
 
   <h3>Aktueller Zugriff</h3>
   <table mat-table [dataSource]="store.shareConfigs()" class="mat-elevation-z8">

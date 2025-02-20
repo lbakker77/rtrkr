@@ -51,6 +51,16 @@ mat-radio-group {
 }
 
 
-mat-form-field {
-  width: 300px;
+
+
+.list-option {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  gap: 5px;
+  justify-content: center;
+}
+
+mat-radio-button {
+  margin-right: 8px;
 }

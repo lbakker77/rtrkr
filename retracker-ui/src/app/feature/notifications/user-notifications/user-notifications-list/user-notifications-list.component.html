@@ -1,0 +1,20 @@
+
+@if(store.count() > 0) {
+    <div class="notifications-area">
+        @for(notification of store.notifications(); track notification.id) {
+            <div class="notification-item">
+                <div class="notification-date">{{notification.sentAt | date}}</div>
+                <div class="notification-text">{{notification.message}}</div>
+                <div class="notification-buttons">
+                    @if (notification.action || true) {
+                        <button mat-button (click)="performAction(notification.action)">Zur Aktion</button>
+                    }
+                    <button mat-button (click)="markAsRead(notification.id)">Gelesen</button>
+                </div>
+            </div>
+        }
+    </div>
+} 
+@else {
+    <div class="no-notifications-text">Keine neuen Benachrichtigungen</div>
+}

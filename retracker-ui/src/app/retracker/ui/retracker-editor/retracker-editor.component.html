@@ -13,10 +13,13 @@
 
 
 @if(store.isLoading()){
-   
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
 @else {
     @if(store.hasSelectedEntry()){
+        @if(store.updating()) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
         @if(!store.isInEditMode()){
             <div class="display">
                 <app-display-value > 
@@ -36,22 +39,22 @@
                 <app-display-value >
                     <app-display-label i18n>Fällig</app-display-label>
                     <app-display-content>
-                        {{store.selectedEntry()!.dueDate | date}}
+                        {{store.selectedEntry()?.dueDate ? (store.selectedEntry()!.dueDate | date) : '-'}}
                     </app-display-content>    
                 </app-display-value>
             </div>    
             <div class="action-bar">
-                <button mat-flat-button [matMenuTriggerFor]="doneMenu" i18n [disabled]="!canCompleteToday()">Erledigen</button>
+                <button mat-flat-button [matMenuTriggerFor]="doneMenu" i18n [disabled]="!store.canCompleteToday()">Erledigen</button>
                 <mat-menu #doneMenu="matMenu" >
-                <button mat-menu-item (click)="completedToday()" i18n [disabled]="!canCompleteToday()">Heute</button>
-                <button mat-menu-item (click)="completedYesterday()" i18n [disabled]="!canCompleteYesterday()">Gestern</button>
-                <button mat-menu-item (click)="completedChooseDate()" i18n [disabled]="!canCompleteYesterday()">Datum wählen</button>
+                <button mat-menu-item (click)="completedToday()" i18n [disabled]="!store.canCompleteToday()">Heute</button>
+                <button mat-menu-item (click)="completedYesterday()" i18n [disabled]="!store.canCompleteYesterday()">Gestern</button>
+                <button mat-menu-item (click)="completedChooseDate()" i18n [disabled]="!store.canCompleteYesterday()">Datum wählen</button>
                 </mat-menu>
                 @if(! store.selectedEntry()?.dueDate) {
-                    <button mat-button i18n>Planen</button>
+                    <button mat-button i18n (click)="setManualDueDate()">Planen</button>
                 }
                 @if(store.selectedEntry()?.dueDate ) {
-                    <button mat-button [matMenuTriggerFor]="postponeMenu" i18n [disabled]="!canPostpone()">Verschieben</button>
+                    <button mat-button [matMenuTriggerFor]="postponeMenu" i18n [disabled]="!store.canPostpone()">Verschieben</button>
                     <mat-menu #postponeMenu="matMenu" >
                         <button mat-menu-item (click)="postponeOneDay()" i18n>ein Tag</button>
                         <button mat-menu-item (click)="postponeOneWeek()" i18n>eine Woche</button>

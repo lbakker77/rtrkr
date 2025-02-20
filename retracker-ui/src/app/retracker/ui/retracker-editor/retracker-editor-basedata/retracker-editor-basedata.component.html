@@ -32,11 +32,11 @@
     </div>
     @if (retrackerForm.controls.configureRecurrance.value){
         <div class="form-row" formGroupName="recurrenceConfig">
-            <mat-form-field>
+            <mat-form-field class="small">
                 <mat-label i18n>Erinnere alle</mat-label>
                 <input matInput  type="number"  formControlName="recurrenceInterval" min="1" >
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field  class="small">
                 <mat-label>Zeitraum</mat-label>
                 <mat-select formControlName="recurrenceTimeUnit" >
                   @for (unit of timeunits; track unit) {

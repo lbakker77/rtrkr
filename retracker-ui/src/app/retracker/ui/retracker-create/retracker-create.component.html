@@ -43,7 +43,7 @@
                   </mat-select-trigger>
               @for (list of lists(); track list.id) {
                 <mat-option [value]="list"  >
-                    <div class="category-option">
+                    <div class="list-option">
                         <mat-icon>{{list.icon}}</mat-icon>
                         <span>{{list.name}}</span>
                     </div>    
@@ -59,14 +59,14 @@
     </div>
     @if (retrackerForm.controls.configureRecurrance.value){
         <div class="form-row" formGroupName="recurrenceConfig">
-            <mat-form-field>
+            <mat-form-field class="small">
                 <mat-label i18n>Erinnere nach</mat-label>
                 <input matInput  type="number"  formControlName="recurrenceInterval" min="1" >
                 @if(retrackerForm.controls.recurrenceConfig.controls.recurrenceInterval.hasError('required')){
                     <mat-error>Muss angegeben werden</mat-error>
                 }
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field  class="small">
                 <mat-label>Zeitraum</mat-label>
                 <mat-select formControlName="recurrenceTimeUnit" >
                   @for (unit of timeunits; track unit) {
@@ -110,7 +110,7 @@
           </div>
     }
     @else {
-        <div class="placeholder">Später Erfassen</div>
+        <div class="placeholder"></div>
     }
 
     <div class="action-bar">

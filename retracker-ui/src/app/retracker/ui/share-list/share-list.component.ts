@@ -4,14 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ShareStore } from './share.store';
+import { ShareStore } from '../../data/share.store';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { AuthStore } from '../../../core/service/auth.store';
 import { ShareConfig } from '../../data/retracker.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { RetrackerListsNavStore } from '../retracker-lists-nav/retracker-lists-nav.store';
+import { RetrackerListsStore } from '../../data/retracker-lists.store';
 import { SimplePageViewComponent } from '../../../shared/component/simple-page-view/simple-page-view.component';
 
 export interface ShareListDialogData {
@@ -28,7 +28,7 @@ export interface ShareListDialogData {
   providers: [ShareStore]
 })
 export class ShareListComponent {
-  readonly listsStore = inject(RetrackerListsNavStore);
+  readonly listsStore = inject(RetrackerListsStore);
   store = inject(ShareStore);
   readonly listId = inject(ActivatedRoute).snapshot.paramMap.get('listId');
   displayedColumns: string[] = ['email', 'name', 'status', 'actions'];

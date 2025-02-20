@@ -10,7 +10,7 @@ import { MatAutocomplete } from '@angular/material/autocomplete';
 import { NgClass } from '@angular/common';
 import { CategoryIconComponent } from '../../shared/category-icon/category-icon.component';
 import { MatButtonModule } from '@angular/material/button';
-import { CATEGORIES, CategoryColor, RecurrenceTimeUnit, RetrackerDataChangeRequest, RetrackerEntry, TIMEUNITS, UserCategory } from '../../../data/retracker.model';
+import { CATEGORIES, CategoryColor, RecurrenceTimeUnit, RetrackerDataChangeRequest, RetrackerTask, TIMEUNITS, UserCategory } from '../../../data/retracker.model';
 import { delay, of } from 'rxjs';
 import { RetrackerEditorStore } from '../retracker-editor.store';
 

@@ -4,9 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.ZonedDateTime;
@@ -16,6 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,9 +28,9 @@ public class UserNotification {
 
     private String message;
 
-    private String actionUrl;
+    private String action;
 
-    private boolean seen;
+    private boolean read;
 
     private UUID userId;
 }

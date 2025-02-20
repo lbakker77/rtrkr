@@ -131,3 +131,34 @@ html:has(.dark-theme) {
     margin-bottom: -5px;
     margin-right: 5px;
   }
+
+
+
+  .side-dialog.cdk-overlay-pane {
+    position: absolute !important;
+    right: 0;
+    top: 65px;
+    bottom: 0;
+    background-color: var(--mat-sys-background);
+    min-width: 400px;
+  }
+
+
+  .phone .side-dialog.cdk-overlay-pane {
+    position: absolute !important;
+    right: 0;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--mat-sys-background);
+    min-width: 400px;
+  }
+
+  mat-form-field {
+    width: 300px;
+  }
+  
+  mat-form-field.small {
+    width: 142px;
+
+  }

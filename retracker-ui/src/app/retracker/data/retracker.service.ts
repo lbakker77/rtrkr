@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { CategoryColor, RetrackerDataChangeRequest, RetrackerEntry, RetrackerList, RetrackerOverviewEntry, RecurrenceTimeUnit, MarkRetrackerEntryDoneRequest, PostponeRetrackerRequest, CreateRetrackerEntryRequest, CreatedResponse, ShareConfig, User, ShareListRequest } from './retracker.model';
+import { CategoryColor, RetrackerDataChangeRequest, RetrackerTask, RetrackerList, RetrackerOverviewTask, RecurrenceTimeUnit, MarkRetrackerEntryDoneRequest, PostponeRetrackerRequest, CreateRetrackerEntryRequest, CreatedResponse, ShareConfig, User, ShareListRequest } from './retracker.model';
 import { map, Observable } from 'rxjs';
 import { toISOStringDateOnly } from '../../core/utils/date.utils';
 
@@ -12,21 +12,21 @@ export class RetrackerService {
 
   private httpClient = inject(HttpClient);
 
-  loadList(listname: string): Observable<RetrackerOverviewEntry[]>{ 
-    return this.httpClient.get<RetrackerOverviewEntry[]>(`/api/retracker/entry/overview/${listname}` ).pipe(map(entries => 
+  loadList(listname: string): Observable<RetrackerOverviewTask[]>{ 
+    return this.httpClient.get<RetrackerOverviewTask[]>(`/api/retracker/task/overview/${listname}` ).pipe(map(entries => 
        entries.map(entry => {
         return this.mapDates(entry);
        })));
   }
 
-  loadAll(): Observable<RetrackerOverviewEntry[]>{ 
-    return this.httpClient.get<RetrackerOverviewEntry[]>(`/api/retracker/entry/overview/all` ).pipe(map(entries => 
+  loadAll(): Observable<RetrackerOverviewTask[]>{ 
+    return this.httpClient.get<RetrackerOverviewTask[]>(`/api/retracker/task/overview/all` ).pipe(map(entries => 
        entries.map(entry => {
         return this.mapDates(entry);
        })));
   }
 
-  private mapDates(entry: RetrackerOverviewEntry) {
+  private mapDates(entry: RetrackerOverviewTask) {
     entry.dueDate = entry.dueDate ? new Date(entry.dueDate) : undefined;
     entry.lastEntryDate = entry.lastEntryDate ? new Date(entry.lastEntryDate) : undefined;
     if (entry.recurrenceConfig && entry.recurrenceConfig.recurrenceTimeUnit) {
@@ -36,8 +36,8 @@ export class RetrackerService {
     return entry;
   }
 
-  loadDetail(id: string): Observable<RetrackerEntry> {
-    return this.httpClient.get<RetrackerEntry>(`/api/retracker/entry/${id}` ).pipe(map(entry => {
+  loadDetail(id: string): Observable<RetrackerTask> {
+    return this.httpClient.get<RetrackerTask>(`/api/retracker/task/${id}` ).pipe(map(entry => {
        entry.dueDate = entry.dueDate? new Date(entry.dueDate) : undefined;
        entry.lastEntryDate = entry.lastEntryDate? new Date(entry.lastEntryDate) : undefined;
        if(entry.recurrenceConfig && entry.recurrenceConfig.recurrenceTimeUnit) {
@@ -68,15 +68,15 @@ export class RetrackerService {
   }
 
   updateEntry(request: RetrackerDataChangeRequest): Observable<void> {
-    return this.httpClient.put<void>("/api/retracker/entry", request);
+    return this.httpClient.put<void>("/api/retracker/task", request);
   }
 
   markDone(request: MarkRetrackerEntryDoneRequest): Observable<void> {
-    return this.httpClient.post<void>("/api/retracker/entry/done", request);
+    return this.httpClient.post<void>("/api/retracker/task/done", request);
   }
 
   postpone(request: PostponeRetrackerRequest): Observable<void> {
-    return this.httpClient.post<void>("/api/retracker/entry/postpone", request);
+    return this.httpClient.post<void>("/api/retracker/task/postpone", request);
   }
 
   delete(id: string): Observable<void> {
@@ -84,11 +84,11 @@ export class RetrackerService {
   }
 
   create(request: CreateRetrackerEntryRequest): Observable<CreatedResponse> {
-    return this.httpClient.post<CreatedResponse>("/api/retracker/entry", request);
+    return this.httpClient.post<CreatedResponse>("/api/retracker/task", request);
   }
 
   undoLastCompletion(id: string): Observable<void> {
-    return this.httpClient.post<void>(`/api/retracker/entry/${id}/undoLastCompletion`, {});
+    return this.httpClient.post<void>(`/api/retracker/task/${id}/undoLastCompletion`, {});
   }
 
   getShareInfos(listId: string): Observable<ShareConfig[]> {
@@ -122,4 +122,12 @@ export class RetrackerService {
   deleteList(listId: string) {
     return this.httpClient.delete(`/api/retracker/${listId}`);
   }
+
+
+  setManualDueDate(id: string, dueDate: Date) {
+    return this.httpClient.post<void>(`/api/retracker/task/${id}/set-manual-due-date`, dueDate);
+  }
+
+
+
 }

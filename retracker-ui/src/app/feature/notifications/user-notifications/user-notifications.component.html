@@ -1,0 +1,6 @@
+@if(authStore.isAuthenticated()){
+    <button mat-icon-button (click)="viewNotifications()" [matBadge]="store.count()" [matBadgeHidden]="store.count() === 0" ><mat-icon>notifications</mat-icon></button>
+
+}
+
+

@@ -5,13 +5,14 @@ export enum RecurrenceTimeUnit {
     MONTH = "MONTH",
     YEAR = "YEAR"
 }
+
 export interface RecurrenceConfig {
     recurrenceInterval: number;
     recurrenceTimeUnit: RecurrenceTimeUnit;
 }
 
 
-export interface RetrackerOverviewEntry { 
+export interface RetrackerOverviewTask { 
     id: string;
     listId: string;
     name: string;
@@ -21,7 +22,7 @@ export interface RetrackerOverviewEntry {
     userCategory: UserCategory
 }
 
-export interface RetrackerEntry extends RetrackerOverviewEntry {
+export interface RetrackerTask extends RetrackerOverviewTask {
     history: RetrackerHistory[];
 }
 
@@ -61,6 +62,7 @@ export interface RetrackerList {
     dueCount: number;
     isInvitation: boolean;
     icon: string;
+    isOwner: boolean
 }
 
 export interface RetrackerDataChangeRequest {

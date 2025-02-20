@@ -1,32 +1,33 @@
 import { computed, inject, Injectable } from "@angular/core";
-import { MarkRetrackerEntryDoneRequest, PostponeRetrackerRequest, RetrackerDataChangeRequest, RetrackerEntry } from "../../data/retracker.model";
+import { MarkRetrackerEntryDoneRequest, PostponeRetrackerRequest, RetrackerDataChangeRequest, RetrackerTask } from "../../data/retracker.model";
 import { patchState, signalStore, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { finalize, pipe, Subject, switchMap, takeUntil, tap } from "rxjs";
 import { RetrackerService } from "../../data/retracker.service";
 import { NotificationService } from "../../../shared/service/notification.service";
+import { addDays, todayAsDate } from "../../../core/utils/date.utils";
 
 
 interface RetrackerDetailStoreContent {
     isLoading: boolean,
-    selectedEntry: RetrackerEntry | undefined
+    selectedEntry: RetrackerTask | undefined
     updating: boolean;
     isInEditMode: boolean;
-    hasChanged: boolean;
+    lastChange: Date | undefined;
     isDeleted: boolean;
 }
 
 const initialState: RetrackerDetailStoreContent = {
-    isLoading: true,
+    isLoading: false,
     selectedEntry: undefined,
     updating: false,
     isInEditMode: false,
-    hasChanged: false,
+    lastChange: undefined,
     isDeleted: false
   }
 
 @Injectable()
-export class RetrackerEditorStore extends signalStore({ protectedState: false },withState(initialState)) {
+export class RetrackerEditorStore extends signalStore({ protectedState: false }, withState(initialState)) {
     private cancelPendigLoad$ = new Subject<void>();
     private retrackerService = inject(RetrackerService);
     private notificationService = inject(NotificationService);
@@ -35,12 +36,20 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
     loadAndSelectById = rxMethod<string>(pipe(
       tap(() => {
         this.cancelPendigLoad$.next();
-        patchState(this, { isLoading: true, isInEditMode: false, updating: false, hasChanged: false, isDeleted: false });
+        patchState(this, { isLoading: true, isInEditMode: false, updating: false, lastChange: undefined, isDeleted: false });
       }), 
       switchMap((id) => this.retrackerService.loadDetail(id).pipe(
         takeUntil(this.cancelPendigLoad$),
-        tap(entry => patchState(this, { selectedEntry: entry})),
-        finalize(() => patchState(this, { isLoading: false })))
+        tap(entry => {
+          if (entry.id === this.selectedEntry()?.id) {
+            patchState(this, { selectedEntry: entry, lastChange: new Date() });
+
+          } else {
+            patchState(this, { selectedEntry: entry})
+          }    
+        }
+        ),
+        finalize(() => patchState(this, { isLoading: false, updating: false })))
     ) ));
 
 
@@ -48,12 +57,57 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
       tap(() => patchState(this, { updating: true })),
       switchMap((request) => this.retrackerService.updateEntry(request).pipe(
         tap(() => {
-          patchState(this, { isInEditMode: false, hasChanged: true });
+          patchState(this, { isInEditMode: false });
           this.notificationService.open($localize `Eintrag erfolgreich aktualisiert` );
           this.loadAndSelectById(request.id); 
-        }),
-        finalize(() => patchState(this, { updating: false })))
-    ) ));
+        })
+      ) )));
+
+    setManualDueDate = rxMethod<Date>(pipe(
+      tap(() => patchState(this, { updating: true })),
+      switchMap((dueDate) => this.retrackerService.setManualDueDate(this.selectedEntry()!.id, dueDate).pipe(
+        tap(() => {
+          this.notificationService.open($localize `Manuelles Fälligkeitsdatum erfolgreich gesetzt` );
+          this.loadAndSelectById(this.selectedEntry()!.id); 
+        })
+    ) )));
+
+    private markDone = rxMethod<MarkRetrackerEntryDoneRequest>(pipe(
+      tap(() => patchState(this, { updating: true })),
+      switchMap((request) => this.retrackerService.markDone(request).pipe(
+        tap(() => {
+          this.notificationService.open($localize `${this.selectedEntry()?.name} erledigt` );
+          this.loadAndSelectById(request.id); 
+        })
+    ) )));
+
+    private postpone = rxMethod<PostponeRetrackerRequest>(pipe(
+      tap(() => patchState(this, { updating: true })),
+      switchMap((request) => this.retrackerService.postpone(request).pipe(
+        tap(() => {
+          this.notificationService.open($localize `${this.selectedEntry()?.name} erfolgreich verschoben` );
+          this.loadAndSelectById(request.id); 
+        })
+    ) )));
+
+    delete = rxMethod<string>(pipe(
+      tap(() => patchState(this, { updating: true })),
+      switchMap((id) => this.retrackerService.delete(id).pipe(
+        tap(() => {
+          patchState(this, { isDeleted: true });
+          this.notificationService.open($localize `${this.selectedEntry()?.name} erfolgtreich gelöscht` );
+        })
+    ) )));
+
+
+    undoLastCompletion = rxMethod<void>(pipe(
+      tap(() => patchState(this, { updating: true })),
+      switchMap(() => this.retrackerService.undoLastCompletion(this.selectedEntry()!.id).pipe(
+        tap(() => {
+          this.notificationService.open($localize `Erledigung von ${this.selectedEntry()?.name} rückgängig gemacht` );
+          this.loadAndSelectById(this.selectedEntry()!.id); 
+        })
+    ) )));
 
     hasSelectedEntry = computed(() => 
     {
@@ -61,20 +115,28 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
       return hasValue;
     });
 
-    unselect() {
-        patchState(this, { selectedEntry: undefined, isLoading: false, updating: false, isInEditMode: false  });
-    }
 
-    private markDone = rxMethod<MarkRetrackerEntryDoneRequest>(pipe(
-      tap(() => patchState(this, { updating: true })),
-      switchMap((request) => this.retrackerService.markDone(request).pipe(
-        tap(() => {
-          patchState(this, { isInEditMode: false, hasChanged: true });
-          this.notificationService.open($localize `${this.selectedEntry()?.name} erledigt` );
-          this.loadAndSelectById(request.id); 
-        }),
-        finalize(() => patchState(this, { updating: false })))
-    ) ));
+    canCompleteToday = computed(() => {
+      if (this.selectedEntry()?.lastEntryDate) {
+        const today = todayAsDate();
+        return this.selectedEntry()!.lastEntryDate!.getTime() < today.getTime();
+      } else {
+        return true;
+      }
+    });
+  
+    canCompleteYesterday = computed(() => {
+      if (this.selectedEntry()?.lastEntryDate) {
+        const yesterday = addDays(todayAsDate(), -1);
+        return this.selectedEntry()!.lastEntryDate!.getTime() < yesterday.getTime();
+      } else {
+        return true;
+      }
+    });
+  
+    canPostpone = computed(() => {
+      return !!this.selectedEntry()?.dueDate;
+    });
 
     markDoneToday() {
       const now = new Date();
@@ -91,18 +153,6 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
     markDoneAt(date: Date) {
       this.markDone({id: this.selectedEntry()!.id, doneAt: date  });
     }
-
-    private postpone = rxMethod<PostponeRetrackerRequest>(pipe(
-      tap(() => patchState(this, { updating: true })),
-      switchMap((request) => this.retrackerService.postpone(request).pipe(
-        tap(() => {
-          patchState(this, { isInEditMode: false, hasChanged: true });
-          this.notificationService.open($localize `${this.selectedEntry()?.name} erfolgreich verschoben` );
-          this.loadAndSelectById(request.id); 
-        }),
-        finalize(() => patchState(this, { updating: false })))
-    ) ));
-
 
     postponeOneDay() {
       const currentDueDate =  this.selectedEntry()?.dueDate;
@@ -124,7 +174,6 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
       this.postpone({id: this.selectedEntry()!.id, postponedDate: date  });
     }
 
-
     enableEditMode() {
       patchState(this, { isInEditMode: true});
     }
@@ -133,28 +182,8 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
       patchState(this, { isInEditMode: false});
     }
 
-    delete = rxMethod<string>(pipe(
-      tap(() => patchState(this, { updating: true })),
-      switchMap((id) => this.retrackerService.delete(id).pipe(
-        tap(() => {
-          patchState(this, { isInEditMode: false, hasChanged: true, isDeleted: true });
-          this.notificationService.open($localize `${this.selectedEntry()?.name} erfolgtreich gelöscht` );
-        }),
-        finalize(() => patchState(this, { updating: false })))
-    ) ));
-
-
-    undoLastCompletion = rxMethod<void>(pipe(
-      tap(() => patchState(this, { updating: true })),
-      switchMap(() => this.retrackerService.undoLastCompletion(this.selectedEntry()!.id).pipe(
-        tap(() => {
-          patchState(this, { hasChanged: true });
-          this.notificationService.open($localize `Erledigung von ${this.selectedEntry()?.name} rückgängig gemacht` );
-          this.loadAndSelectById(this.selectedEntry()!.id); 
-
-        }),
-        finalize(() => patchState(this, { updating: false })))
-    ) ));
-
+    unselect() {
+      patchState(this, initialState);
+  }
 }
 

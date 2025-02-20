@@ -1,4 +1,4 @@
-import { CATEGORIES, CreateRetrackerEntryRequest, RecurrenceTimeUnit, RetrackerList, RetrackerOverviewEntry, TIMEUNITS, UserCategory } from '../../data/retracker.model';
+import { CATEGORIES, CreateRetrackerEntryRequest, RecurrenceTimeUnit, RetrackerList, RetrackerOverviewTask, TIMEUNITS, UserCategory } from '../../data/retracker.model';
 import { ChangeDetectionStrategy, Component, effect, inject, input, model, OnInit, output, signal } from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -14,7 +14,7 @@ import { delay, of, take } from 'rxjs';
 import { CategoryIconComponent } from "../shared/category-icon/category-icon.component";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { RetrackerListViewStore } from '../retracker-list-view/retracker-list-view.store';
+import { RetrackerTaskStore } from '../../data/retracker-task.store';
 import { RetrackerService } from '../../data/retracker.service';
 import { A11yModule, CdkTrapFocus } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,7 +34,7 @@ export class RetrackerCreateComponent implements OnInit {
   listId = input.required<string>();
   lists = input.required<RetrackerList[]>();
   abort = output<void>();
-  saved = output<RetrackerOverviewEntry>();
+  saved = output<RetrackerOverviewTask>();
 
   retrackerForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
@@ -85,7 +85,7 @@ export class RetrackerCreateComponent implements OnInit {
       };
       this.service.create(request).pipe(take(1)).subscribe(
         (response) => {
-          const entry = Object.assign({id: response.id}, request) as RetrackerOverviewEntry;
+          const entry = Object.assign({id: response.id}, request) as RetrackerOverviewTask;
           this.saved.emit(entry);
         }
       );

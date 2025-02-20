@@ -10,15 +10,13 @@ import de.lbakker77.retracker.user.usecase.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -61,6 +59,20 @@ public class UserService {
         }
     }
 
+    public UserDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
+            String email = jwt.getClaimAsString("email");
+            var user = userRepository.findByEmail(email);
+            if (user.isEmpty()){
+                throw new IllegalStateException("User not found");
+            }
+            return userMapper.userToUserDto(user.get());
+        } else {
+            throw new IllegalStateException("User not authenticated or JWT not found");
+        }
+    }
+
     public Optional<UUID> getUserId(String email) {
         return userRepository.findByEmail(email).map(User::getId);
     }
@@ -91,5 +103,9 @@ public class UserService {
             }
         }
         return List.of();
+    }
+
+    public Locale getPreferredLocale() {
+        return LocaleContextHolder.getLocale(); // Load locale from request
     }
 }

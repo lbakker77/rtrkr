@@ -8,7 +8,7 @@
                     }
                     @for (list of store.lists(); track list.id) {
                         @if(!list.isInvitation) {
-                            <a iconbutton [icon]="list.icon || 'schedule'" [title]="list.defaultList ? 'Meine Liste' : list.name" [routerLink]="list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
+                            <a iconbutton [icon]="list.icon || 'schedule'" [title]="list.name" [routerLink]="list.id" [badgeCounter]="list.dueCount || 0" (click)="secodaryNavService.closeSidenav()"></a>         
                         } @else {
                             <a iconbutton [icon]="list.icon || 'schedule'" [title]="list.name" class="invite" [routerLink]="'invitation/' + list.id" [badgeCounter]="0" (click)="secodaryNavService.closeSidenav()"></a>
                         }

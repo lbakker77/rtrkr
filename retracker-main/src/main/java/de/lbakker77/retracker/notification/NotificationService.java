@@ -5,6 +5,7 @@ import de.lbakker77.retracker.notification.domain.UserNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Service
@@ -13,12 +14,19 @@ public class NotificationService {
     private final UserNotificationRepository notificationRepository;
 
     public void sendInAppNotification(String key, UUID userId, String message, String actionUrl) {
-        var notification = UserNotification.builder().key(key).userId(userId).message(message).actionUrl(actionUrl).build();
+        var notification = UserNotification.builder()
+                .key(key)
+                .userId(userId)
+                .message(message)
+                .action(actionUrl)
+                .read(false)
+                .sentAt(ZonedDateTime.now())
+                .build();
+
         notificationRepository.save(notification);
     }
 
     public void deleteInAppNotification(String key) {
         notificationRepository.deleteByKey(key);
     }
-
 }

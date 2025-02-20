@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
-import { RetrackerListViewStore } from '../retracker-list-view/retracker-list-view.store';
+import { RetrackerTaskStore } from '../../data/retracker-task.store';
 import { RetrackerEditorStore } from './retracker-editor.store';
-import { RetrackerOverviewEntry } from '../../data/retracker.model';
+import { RetrackerOverviewTask } from '../../data/retracker.model';
 import { DetailHeaderBarComponent } from '../../../shared/component/responsive-master-detail/detail-header-bar/detail-header-bar.component';
 import { DisplayValueComponent } from '../../../shared/component/display-value/display-value.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -18,45 +18,28 @@ import { HistoryViewComponent } from "./history-view/history-view.component";
 import { ManualPostponeDateComponent } from './manual-postpone-date/manual-postpone-date.component';
 import { addDays, todayAsDate } from '../../../core/utils/date.utils';
 import { ResponsiveDialogService } from '../../../shared/component/responsive-dialog.service';
+import { ManualDuedateComponent } from './manual-duedate/manual-duedate.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-retracker-editor',
-  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent],
+  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent, MatProgressBarModule],
   templateUrl: './retracker-editor.component.html',
   styleUrl: './retracker-editor.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RetrackerEditorStore]
+  changeDetection: ChangeDetectionStrategy.OnPush, 
+  providers: [RetrackerEditorStore] 
 })
 export class RetrackerEditorComponent {
+
   readonly dialog = inject(MatDialog);
   readonly responsiveDialogService = inject(ResponsiveDialogService);
   store = inject(RetrackerEditorStore);
-  overviewStore = inject(RetrackerListViewStore);
+  overviewStore = inject(RetrackerTaskStore);
   id = input.required<string | undefined>();
-  entryChange = output<RetrackerOverviewEntry>();
+  entryChange = output<RetrackerOverviewTask>();
   deleted = output<string>();
 
-  canCompleteToday = computed(() => {
-    if (this.store.selectedEntry()?.lastEntryDate) {
-      const today = todayAsDate();
-      return this.store.selectedEntry()!.lastEntryDate!.getTime() < today.getTime();
-    } else {
-      return true;
-    }
-  });
 
-  canCompleteYesterday = computed(() => {
-    if (this.store.selectedEntry()?.lastEntryDate) {
-      const yesterday = addDays(todayAsDate(), -1);
-      return this.store.selectedEntry()!.lastEntryDate!.getTime() < yesterday.getTime();
-    } else {
-      return true;
-    }
-  });
-
-  canPostpone = computed(() => {
-    return !!this.store.selectedEntry()?.dueDate;
-  });
 
   constructor() {
     effect(() => {
@@ -69,7 +52,7 @@ export class RetrackerEditorComponent {
     });
 
     effect(() => {
-      if (this.store.selectedEntry()) {
+      if (this.store.lastChange()) {
         this.entryChange.emit(this.store.selectedEntry()!);
       }
     });
@@ -124,5 +107,12 @@ export class RetrackerEditorComponent {
     this.store.postponeOneDay();
   }
 
-
+  setManualDueDate() {
+    const dialogRef = this.responsiveDialogService.open(ManualDuedateComponent);
+    dialogRef.afterClosed().subscribe((result: Date | null) => {
+      if (result) {
+        this.store.setManualDueDate(result);
+      }
+    });
+  }
 }

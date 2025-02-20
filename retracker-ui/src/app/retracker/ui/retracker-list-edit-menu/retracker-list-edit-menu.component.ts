@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RetrackerListViewStore } from '../retracker-list-view/retracker-list-view.store';
-import { RetrackerListsNavStore } from '../retracker-lists-nav/retracker-lists-nav.store';
+import { RetrackerTaskStore } from '../../data/retracker-task.store';
+import { RetrackerListsStore } from '../../data/retracker-lists.store';
 import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ShareListComponent, ShareListDialogData } from '../share-list/share-list.component';
@@ -18,14 +18,14 @@ import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RetrackerListEditMenuComponent {
-  private readonly store = inject(RetrackerListsNavStore);
+  private readonly store = inject(RetrackerListsStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly responsiveDialogService = inject(ResponsiveDialogService);
 
   listId = input.required<string>();
   list = computed(() => this.store.lists().filter((list) => list.id === this.listId())[0]);
-  canEdit = computed(() => !this.list().defaultList);
+  canEdit = computed(() => !this.list().defaultList && this.list().isOwner);
 
 
   editList() { 

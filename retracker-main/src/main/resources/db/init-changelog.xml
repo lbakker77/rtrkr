@@ -150,4 +150,20 @@
                           newDataType="TEXT"
                           />
     </changeSet>
+    <changeSet author="lars" id="17">
+        <createIndex indexName="retracker_list_owner_id.index" tableName="retracker_list">
+            <column name="owner_id" />
+        </createIndex>
+        <createIndex indexName="retracker_list_share_config_entries_shared_with_user_id.index" tableName="retracker_list_share_config_entries">
+            <column name="shared_with_user_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet author="lars" id="18">
+        <renameColumn newColumnName="action"
+                       oldColumnName="action_url"
+                       tableName="user_notification"/>
+        <renameColumn newColumnName="read"
+                       oldColumnName="seen"
+                       tableName="user_notification"/>
+    </changeSet>
 </databaseChangeLog>
