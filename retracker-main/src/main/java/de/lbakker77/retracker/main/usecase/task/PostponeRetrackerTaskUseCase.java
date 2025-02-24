@@ -4,28 +4,19 @@ import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.core.usercase.BaseResponse;
 import de.lbakker77.retracker.core.usercase.BaseUseCaseHandler;
 import de.lbakker77.retracker.core.usercase.CommandContext;
+import de.lbakker77.retracker.main.domain.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
-public class PostponeRetrackerTaskUseCase extends BaseUseCaseHandler<PostponeRetrackerTaskRequest, BaseResponse> {
-    private final ApplicationEventPublisher events;
-    private final RetrackerService retrackerService;
-
-
-
+public class PostponeRetrackerTaskUseCase extends BaseTaskChangeUseCase<PostponeRetrackerTaskRequest, BaseResponse> {
 
     @Override
-    protected BaseResponse handle(PostponeRetrackerTaskRequest request, CommandContext commandContext) {
-        var entry = retrackerService.loadTaskAndEnsureAccess(request.getId(), commandContext.userId());
-        var formerDueDate = entry.getDueDate();
-        var postponedDate = request.getPostponedDate().withZoneSameInstant(commandContext.userTimeZone().toZoneId()).toLocalDate();
+    protected BaseResponse handleTaskChange(Task entry, PostponeRetrackerTaskRequest request, CommandContext context) {
+        var postponedDate = request.getPostponedDate().withZoneSameInstant(context.userTimeZone().toZoneId()).toLocalDate();
         entry.postponeUntil(postponedDate);
         retrackerService.save(entry);
-        //events.publishEvent(new RetrackerDueDateChanged(entry, formerDueDate));
-
         return BaseResponse.ofSuccess();
     }
 }

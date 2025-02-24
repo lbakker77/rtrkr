@@ -77,7 +77,6 @@ export class RetrackerListViewComponent  {
         }  
       }else {
         if (!this.store.isLoading() && this.listsStore.overallDueCount()!== this.store.dueEntriesCount()) {
-            console.log("update due count");
             for (const list of this.listsStore.lists()) {
               const dueCountOfEntries = this.store.getDueCountByListId(list.id);
               if (dueCountOfEntries !== list.dueCount) {
@@ -89,8 +88,8 @@ export class RetrackerListViewComponent  {
     });
   }
 
-  selected(retrackerId: string) {
-    this.store.selectEntry(retrackerId);
+  selected(taskId: string) {
+    this.store.selectEntry(taskId);
     this.responiveMasterDetailView()?.openDetail();
   }
 
@@ -115,7 +114,7 @@ export class RetrackerListViewComponent  {
   }
 
   registerNewEntry($event: RetrackerOverviewTask) {
-    this.store.addEntry($event);
+    this.store.addEntryAndSelect($event);
     this.store.closeNewEntryDialog();
   }
 

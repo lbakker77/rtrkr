@@ -4,21 +4,17 @@ import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.core.usercase.BaseResponse;
 import de.lbakker77.retracker.core.usercase.BaseUseCaseHandler;
 import de.lbakker77.retracker.core.usercase.CommandContext;
+import de.lbakker77.retracker.main.domain.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
-public class MarkRetrackerTaskDoneUseCase extends BaseUseCaseHandler<MarkRetrackerTaskDoneRequest, BaseResponse> {
-    private final ApplicationEventPublisher events;
-    private final RetrackerService retrackerService;
-
+public class MarkRetrackerTaskDoneUseCase extends BaseTaskChangeUseCase<MarkRetrackerTaskDoneRequest, BaseResponse> {
 
     @Override
-    protected BaseResponse handle(MarkRetrackerTaskDoneRequest request, CommandContext commandContext) {
-        var entry = retrackerService.loadTaskAndEnsureAccess(request.getId(), commandContext.userId());
-        entry.registerCompletion(request.getDoneAt().withZoneSameInstant(commandContext.getZoneId()).toLocalDate());
+    protected BaseResponse handleTaskChange(Task entry, MarkRetrackerTaskDoneRequest request, CommandContext context) {
+        entry.registerCompletion(request.getDoneAt().withZoneSameInstant(context.getZoneId()).toLocalDate());
         retrackerService.save(entry);
 
         return BaseResponse.ofSuccess();

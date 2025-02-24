@@ -32,9 +32,9 @@ public class TaskController {
         return retrackerTaskReader.getRetrackerTasks(listId);
     }
 
-    @GetMapping("/{entryId}")
-    public RetrackerTaskDto getRetrackerEntryById(@PathVariable UUID entryId) {
-        return retrackerTaskReader.getRetrackerTaskById(entryId);
+    @GetMapping("/{id}")
+    public RetrackerTaskDto getRetrackerEntryById(@PathVariable UUID id) {
+        return retrackerTaskReader.getRetrackerTaskById(id);
     }
 
     @PutMapping()

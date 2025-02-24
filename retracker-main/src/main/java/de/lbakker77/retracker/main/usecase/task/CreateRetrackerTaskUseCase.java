@@ -1,5 +1,6 @@
 package de.lbakker77.retracker.main.usecase.task;
 
+import de.lbakker77.retracker.main.TaskCreatedEvent;
 import de.lbakker77.retracker.main.domain.TaskCreator;
 import de.lbakker77.retracker.main.usecase.mapper.RetrackerMapper;
 import de.lbakker77.retracker.main.domain.RetrackerService;
@@ -29,6 +30,7 @@ public class CreateRetrackerTaskUseCase extends BaseUseCaseHandler<CreateRetrack
         var task = TaskCreator.createTask(list, request.getName(), dueDate, lastEntryDate, userCategory, recurrenceConfig );
 
         retrackerService.save(task);
+        events.publishEvent(new TaskCreatedEvent(task.getRetrackerList(), task, commandContext.userId()));
 
         return new CreatedResponse(task.getId());
     }

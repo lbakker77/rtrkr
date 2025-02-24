@@ -140,3 +140,16 @@ export interface ShareListRequest {
     listId: string;
     email: string;
 }
+
+export enum ChangeType {
+    CHANGED = "CHANGED",
+    CREATED = "CREATED",
+    DELETED = "DELETED",
+}
+
+export interface TaskChangeEvent {
+    taskId: string;
+    changeType: ChangeType;
+    dueCountChanged: boolean;
+    userId: string;
+}

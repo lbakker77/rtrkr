@@ -5,16 +5,17 @@ import de.lbakker77.retracker.main.usecase.dtos.UserCategoryDto;
 import de.lbakker77.retracker.core.usercase.BaseRequest;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
 @Setter
-public class ChangeRetrackerDataRequest extends BaseRequest {
-    @NotNull
-    private UUID id;
+@AllArgsConstructor
+public class ChangeRetrackerDataRequest extends BaseTaskChangeRequest {
     @NotEmpty
     private String name;
     private RecurrenceConfigDto recurrenceConfig;

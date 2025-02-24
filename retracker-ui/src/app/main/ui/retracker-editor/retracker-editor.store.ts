@@ -2,7 +2,7 @@ import { computed, inject, Injectable } from "@angular/core";
 import { MarkRetrackerEntryDoneRequest, PostponeRetrackerRequest, RetrackerDataChangeRequest, RetrackerTask } from "../../data/retracker.model";
 import { patchState, signalStore, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { finalize, pipe, Subject, switchMap, takeUntil, tap } from "rxjs";
+import { catchError, finalize, of, pipe, Subject, switchMap, takeUntil, tap } from "rxjs";
 import { RetrackerService } from "../../data/retracker.service";
 import { NotificationService } from "../../../shared/service/notification.service";
 import { addDays, todayAsDate } from "../../../core/utils/date.utils";
@@ -47,8 +47,8 @@ export class RetrackerEditorStore extends signalStore({ protectedState: false },
           } else {
             patchState(this, { selectedEntry: entry})
           }    
-        }
-        ),
+        }),
+        catchError((e) => { patchState(this, { selectedEntry: undefined }); return of(undefined) }),
         finalize(() => patchState(this, { isLoading: false, updating: false })))
     ) ));
 

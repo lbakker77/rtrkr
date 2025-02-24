@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class DeleteRetrackerTaskRequest extends BaseRequest {
-    @NotNull
-    private UUID id;
+public class DeleteRetrackerTaskRequest extends BaseTaskChangeRequest {
+
 }

@@ -12,14 +12,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class BaseUseCaseHandler<Request extends BaseRequest, Response extends BaseResponse> {
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private UserTimeZoneService userTimeZoneService;
+    private Validator validator;
 
     @Autowired
-    private Validator validator;
+    private void setUserService(@NonNull UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    private void setValidator(@NonNull Validator validator) {
+        this.validator = validator;
+    }
+
+    @Autowired
+    private void setUserTimeZoneService(@NonNull UserTimeZoneService userTimeZoneService) {
+        this.userTimeZoneService = userTimeZoneService;
+    }
 
     private final Class<Response> responseClass;
 

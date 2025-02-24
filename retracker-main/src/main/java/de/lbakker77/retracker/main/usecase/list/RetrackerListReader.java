@@ -1,5 +1,6 @@
 package de.lbakker77.retracker.main.usecase.list;
 
+import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.main.domain.TaskRepository;
 import de.lbakker77.retracker.main.domain.RetrackerListRepository;
 import de.lbakker77.retracker.main.usecase.dtos.RetrackerListDto;
@@ -25,6 +26,7 @@ public class RetrackerListReader {
     private final UserTimeZoneService userTimeZoneService;
     private final UserService userService;
     private final MessageSource messageSource;
+    private final RetrackerService retrackerService;
 
 
 
@@ -48,6 +50,12 @@ public class RetrackerListReader {
             retrackerListDtos.add(dto);
         }
         return retrackerListDtos;
+    }
+
+    public long getDueCount(UUID listId) {
+        retrackerService.loadRetrackerListAndEnsureAccess(listId, userService.getCurrentUserId());
+        var usersCurrentDate = LocalDate.now(userTimeZoneService.getUserTimeZone().toZoneId());
+        return retrackerTaskRepository.countByRetrackerListIdAndDueDateLessThanEqual(listId, usersCurrentDate);
     }
 
 }

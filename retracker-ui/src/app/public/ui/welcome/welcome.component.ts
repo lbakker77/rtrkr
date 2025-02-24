@@ -22,4 +22,8 @@ export class WelcomeComponent {
       }
     }); 
   }
+
+  register() {
+    this.authStore.register();
+  }
  }

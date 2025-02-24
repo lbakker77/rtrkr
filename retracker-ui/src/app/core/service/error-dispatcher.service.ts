@@ -11,7 +11,7 @@ export interface ErrorConsumer {
 export class ErrorDispatcherService implements ErrorHandler {
 
   private consumers: ErrorConsumer[] = [];
-
+  
   registerConsumer(consumer: ErrorConsumer): void {
     this.consumers.push(consumer);
   }

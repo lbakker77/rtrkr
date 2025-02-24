@@ -31,9 +31,6 @@ export function errorHandlerInterceptor(req: HttpRequest<unknown>, next: HttpHan
           errorHandler.handleError(error.error, undefined);
         }
       }
-
-
-      // Rethrow the error to propagate it further
       throw error;
     })
   );

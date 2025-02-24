@@ -44,6 +44,11 @@ public class RetrackerListController {
         return useCaseExecutor.execute(new DeleteRetrackerListRequest(listId));
     }
 
+    @GetMapping("/{listId}/due-count")
+    public long getDueCount(@PathVariable UUID listId) {
+        return retrackerListReader.getDueCount(listId);
+    }
+
     @PutMapping
     public BaseResponse change(@RequestBody ChangeRetrackerListRequest request) {
         return useCaseExecutor.execute(request);

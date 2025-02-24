@@ -8,11 +8,10 @@ export function accessDeniedInterceptor(req: HttpRequest<unknown>, next: HttpHan
     return next(req).pipe(tap(event => {
 
       if (event.type === HttpEventType.ResponseHeader && event.status === HttpStatusCode.Unauthorized ) {
-
         const router = inject(Router);
         const notificationService = inject(NotificationService);
-        notificationService.open('Access Denied', true, 10  );
         router.navigate(['/']);
+        notificationService.open('Access Denied', true, 10  );
         console.log(req.url, 'returned a response with status', event.status);
       }
     }));

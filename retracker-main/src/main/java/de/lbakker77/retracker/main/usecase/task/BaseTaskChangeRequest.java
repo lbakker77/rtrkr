@@ -9,10 +9,12 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+
 @Getter
 @Setter
-public class UndoLastCompletionRequest extends BaseTaskChangeRequest {
-    public UndoLastCompletionRequest(UUID id) {
-        super(id);
-    }
+@AllArgsConstructor
+@NoArgsConstructor
+public class BaseTaskChangeRequest extends BaseRequest {
+    @NotNull
+    private UUID id;
 }

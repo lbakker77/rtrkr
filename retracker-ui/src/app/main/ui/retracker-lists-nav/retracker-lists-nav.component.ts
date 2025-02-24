@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, resource } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, resource, untracked } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { IconbuttonComponent } from '../../../shared/component/iconbutton/iconbutton.component';
@@ -35,13 +35,14 @@ export class RetrackerListsNavComponent {
 
     effect(() => {
       if (this.store.isInitialized()) {
-        if (this.store.lists().length > 1) {
-          this.router.navigate(['all'],  { relativeTo: this.route });
-        }else {
-          const firstEntry = this.store.lists().at(0) ;
-          this.router.navigate([firstEntry!.id],  { relativeTo: this.route });
-
-        }
+        untracked(() => {
+          if (this.store.lists().length > 1) {
+            this.router.navigate(['all'],  { relativeTo: this.route });
+          }else {
+            const firstEntry = this.store.lists().at(0) ;
+            this.router.navigate([firstEntry!.id],  { relativeTo: this.route });
+          }
+        });
       }
     });
   }

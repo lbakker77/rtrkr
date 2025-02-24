@@ -1,30 +1,40 @@
 import { patchState, signalStore, withState } from "@ngrx/signals";
 import { RetrackerList } from "./retracker.model";
-import { computed, inject, Injectable, signal, Signal, WritableSignal } from "@angular/core";
+import { computed, effect, inject, Injectable, signal, Signal, untracked, WritableSignal } from "@angular/core";
 import { RetrackerService } from "./retracker.service";
 import { finalize, pipe, switchMap, tap } from "rxjs";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { Router } from "@angular/router";
 import { NotificationService } from "../../shared/service/notification.service";
+import { WebsocketService } from "../../core/config/websockets.service";
+import { RetrackerUpdateService } from "./retracker-update.service";
 
 interface NavStoreContent {
     lists: RetrackerList[],
     isLoading: boolean,
-    isInitialized: boolean,
+    isInitialized: boolean
 }
 
 const initialState: NavStoreContent = {
     lists: [],
     isLoading: true,
-    isInitialized: false,
+    isInitialized: false
 }
-
 @Injectable()
 export class RetrackerListsStore extends signalStore(
   { protectedState: false },
   withState(initialState)) {
     retrackerService = inject(RetrackerService);
     nofificationService = inject(NotificationService);
+    retrackerUpdateService = inject(RetrackerUpdateService);
+
+    constructor() { 
+        super();
+        this.retrackerUpdateService.dueCountChanges.subscribe(update => {
+            this.updateDueCount(update.listId, update.dueCount);
+        });
+    }
+
     router = inject(Router);
 
     loadLists = rxMethod<void>(pipe(
@@ -33,10 +43,19 @@ export class RetrackerListsStore extends signalStore(
             tap(lists =>   {
                 const sortedLists = this.sortLists(lists);
                 patchState(this, { lists });
+                this.retrackerUpdateService.init(lists);
         }),
             finalize(() => patchState(this, { isLoading: false, isInitialized: true })))
         )
     ));
+
+    reloadDueCount = rxMethod<string>(pipe(
+        switchMap((listId) => this.retrackerService.getDueCount(listId).pipe(
+            tap((response) => {
+                this.updateDueCount(listId, response);
+            })
+        )
+    )));
 
     deleteList = rxMethod<string>(pipe(
         switchMap((listId) => this.retrackerService.deleteList(listId).pipe(

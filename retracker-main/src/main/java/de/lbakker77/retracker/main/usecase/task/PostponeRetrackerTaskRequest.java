@@ -10,9 +10,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class PostponeRetrackerTaskRequest extends BaseRequest {
-    @NotNull
-    private UUID id;
+public class PostponeRetrackerTaskRequest extends BaseTaskChangeRequest {
+
     @NotNull
     private ZonedDateTime postponedDate;
 }

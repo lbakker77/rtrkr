@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -19,5 +20,10 @@ public class UserController {
     @GetMapping("")
     public List<UserDto> findUser(@RequestParam("search") String exactName) {
         return userService.findUsersByFullNameOrEmail(exactName);
+    }
+
+    @GetMapping("/id")
+    public UUID getCurrentUserId() {
+        return userService.getUserIdOrCreateIfNew();
     }
 }

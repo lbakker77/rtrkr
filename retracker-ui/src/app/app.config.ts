@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -11,6 +11,8 @@ import { accessDeniedInterceptor } from './core/interceptor/access-denied.interc
 import { ErrorStateMatcher } from '@angular/material/core';
 import { RetrackerErrorStateMatcher } from './core/utils/retracker-error-state-matcher';
 import { errorHandlerInterceptor } from './core/interceptor/error-handler.interceptor';
+import { rxStompServiceFactory } from './core/config/websockets.factory';
+import { WebsocketService } from './core/config/websockets.service';
 
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^http:\/\/localhost:4200\/.*/i,
@@ -44,6 +46,11 @@ export const appConfig: ApplicationConfig = {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [urlCondition, urlCondition2]
     }, 
-    {provide: ErrorStateMatcher, useClass: RetrackerErrorStateMatcher}
+    {
+      provide: WebsocketService,
+      useFactory: rxStompServiceFactory,
+    },
+    {provide: ErrorStateMatcher, useClass: RetrackerErrorStateMatcher},
+    ErrorHandler 
   ]
 };

@@ -5,6 +5,7 @@
                 @if(!store.isLoading()){
                     @if (store.lists().length >= 2) {
                         <a iconbutton icon="folder_open" title="Alle Tasks" [routerLink]="'all'" [badgeCounter]="store.overallDueCount()" (click)="secodaryNavService.closeSidenav()"></a>         
+                        <div class="spacer"></div>
                     }
                     @for (list of store.lists(); track list.id) {
                         @if(!list.isInvitation) {

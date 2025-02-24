@@ -8,8 +8,6 @@ import { toISOStringDateOnly } from '../../core/utils/date.utils';
   providedIn: 'root'
 })
 export class RetrackerService {
-
-
   private httpClient = inject(HttpClient);
 
   loadList(listname: string): Observable<RetrackerOverviewTask[]>{ 
@@ -67,6 +65,10 @@ export class RetrackerService {
     return this.httpClient.get<RetrackerList[]>("/api/retracker", options);
   }
 
+  getDueCount(listId: string): Observable<number> {
+    return this.httpClient.get<number>(`/api/retracker/${listId}/due-count`);
+  }
+
   updateEntry(request: RetrackerDataChangeRequest): Observable<void> {
     return this.httpClient.put<void>("/api/retracker/task", request);
   }
@@ -80,7 +82,7 @@ export class RetrackerService {
   }
 
   delete(id: string): Observable<void> {
-    return this.httpClient.delete<void>(`/api/retracker/entry/${id}`);
+    return this.httpClient.delete<void>(`/api/retracker/task/${id}`);
   }
 
   create(request: CreateRetrackerEntryRequest): Observable<CreatedResponse> {
@@ -123,11 +125,7 @@ export class RetrackerService {
     return this.httpClient.delete(`/api/retracker/${listId}`);
   }
 
-
   setManualDueDate(id: string, dueDate: Date) {
     return this.httpClient.post<void>(`/api/retracker/task/${id}/set-manual-due-date`, dueDate);
   }
-
-
-
 }

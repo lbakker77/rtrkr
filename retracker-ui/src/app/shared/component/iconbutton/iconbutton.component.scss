@@ -1,6 +1,7 @@
 :host {
   text-decoration: none;
   color: inherit;
+  margin-bottom:20px;
 }
 
 .clickableArea {
@@ -8,7 +9,6 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-bottom:20px;
   text-align: center;
 }
 

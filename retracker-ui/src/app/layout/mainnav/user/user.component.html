@@ -1,6 +1,6 @@
 @if (!authStore.isAuthenticated()){
-    <button  mat-stroked-button class="register" (click)="register()">Register     </button>
-    <button  mat-stroked-button (click)="login()">Login     </button>
+    <button  mat-stroked-button class="register" (click)="register()">Registrieren     </button>
+    <button  mat-stroked-button (click)="login()">Einloggen</button>
 }
 @else {
     <button mat-icon-button  aria-label="icon-button with account icon" [matMenuTriggerFor]="userMenu" [matTooltip]="loginInfo()" > 

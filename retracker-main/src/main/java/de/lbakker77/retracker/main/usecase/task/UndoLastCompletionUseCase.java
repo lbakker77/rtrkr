@@ -4,17 +4,15 @@ import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.core.usercase.BaseResponse;
 import de.lbakker77.retracker.core.usercase.BaseUseCaseHandler;
 import de.lbakker77.retracker.core.usercase.CommandContext;
+import de.lbakker77.retracker.main.domain.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
-public class UndoLastCompletionUseCase extends BaseUseCaseHandler<UndoLastCompletionRequest, BaseResponse> {
-    private final RetrackerService retrackerService;
+public class UndoLastCompletionUseCase extends BaseTaskChangeUseCase<UndoLastCompletionRequest, BaseResponse> {
 
     @Override
-    protected BaseResponse handle(UndoLastCompletionRequest command, CommandContext commandContext) {
-        var task = retrackerService.loadTaskAndEnsureAccess(command.getId(), commandContext.userId());
+    protected BaseResponse handleTaskChange(Task task, UndoLastCompletionRequest request, CommandContext context) {
         task.undoLastCompletion();
         retrackerService.save(task);
         return BaseResponse.ofSuccess();
