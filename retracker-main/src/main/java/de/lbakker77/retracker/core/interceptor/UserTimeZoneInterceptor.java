@@ -9,7 +9,7 @@ import java.util.TimeZone;
 
 @AllArgsConstructor
 public class UserTimeZoneInterceptor implements HandlerInterceptor {
-    private final UserTimeZoneService userTimeZoneService;
+    private final UserTimeZoneServiceImpl userTimeZoneService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

@@ -1,7 +1,7 @@
 package de.lbakker77.retracker.main.domain;
 
-import de.lbakker77.retracker.core.exception.ForbiddenException;
-import de.lbakker77.retracker.core.exception.NotFoundException;
+import de.lbakker77.retracker.core.ForbiddenException;
+import de.lbakker77.retracker.core.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

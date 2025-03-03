@@ -1,9 +1,9 @@
 package de.lbakker77.retracker.main.controller;
 
 
-import de.lbakker77.retracker.core.usecase.BaseResponse;
-import de.lbakker77.retracker.core.usecase.CreatedResponse;
-import de.lbakker77.retracker.core.usecase.UseCaseExecutor;
+import de.lbakker77.retracker.core.BaseResponse;
+import de.lbakker77.retracker.core.CreatedResponse;
+import de.lbakker77.retracker.core.UseCaseExecutor;
 import de.lbakker77.retracker.main.usecase.dtos.RetrackerTaskDto;
 import de.lbakker77.retracker.main.usecase.dtos.RetrackerTaskOverviewDto;
 import de.lbakker77.retracker.main.usecase.dtos.TaskCategoryDto;

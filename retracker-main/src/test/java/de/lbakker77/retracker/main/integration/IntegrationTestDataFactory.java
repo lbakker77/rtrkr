@@ -3,7 +3,7 @@ package de.lbakker77.retracker.main.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.lbakker77.retracker.core.usecase.CreatedResponse;
+import de.lbakker77.retracker.core.CreatedResponse;
 import de.lbakker77.retracker.main.domain.RecurrenceTimeUnit;
 import de.lbakker77.retracker.main.domain.TaskCategory;
 import de.lbakker77.retracker.main.usecase.dtos.RecurrenceConfigDto;

@@ -1,7 +1,7 @@
 package de.lbakker77.retracker.user.controller;
 
 import de.lbakker77.retracker.user.UserService;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

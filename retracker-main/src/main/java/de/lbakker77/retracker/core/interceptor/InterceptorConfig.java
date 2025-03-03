@@ -22,7 +22,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Bean
     @RequestScope
-    public UserTimeZoneService userTimeZoneService() {
-        return new UserTimeZoneService();
+    public UserTimeZoneServiceImpl userTimeZoneService() {
+        return new UserTimeZoneServiceImpl();
     }
 }

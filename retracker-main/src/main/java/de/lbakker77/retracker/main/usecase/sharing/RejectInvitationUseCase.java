@@ -1,8 +1,8 @@
 package de.lbakker77.retracker.main.usecase.sharing;
 
-import de.lbakker77.retracker.core.usecase.BaseResponse;
-import de.lbakker77.retracker.core.usecase.BaseUseCaseHandler;
-import de.lbakker77.retracker.core.usecase.CommandContext;
+import de.lbakker77.retracker.core.BaseResponse;
+import de.lbakker77.retracker.core.BaseUseCaseHandler;
+import de.lbakker77.retracker.core.CommandContext;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.main.usecase.constants.NotificationConstants;
 import de.lbakker77.retracker.notification.NotificationService;

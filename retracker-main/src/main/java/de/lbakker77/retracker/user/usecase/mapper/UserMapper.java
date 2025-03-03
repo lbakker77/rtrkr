@@ -1,7 +1,7 @@
 package de.lbakker77.retracker.user.usecase.mapper;
 
 import de.lbakker77.retracker.user.entity.model.User;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.user.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

@@ -1,6 +1,6 @@
 package de.lbakker77.retracker.main.usecase.task;
 
-import de.lbakker77.retracker.core.usecase.CommandContext;
+import de.lbakker77.retracker.core.CommandContext;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.main.domain.Task;
 import org.junit.jupiter.api.Test;

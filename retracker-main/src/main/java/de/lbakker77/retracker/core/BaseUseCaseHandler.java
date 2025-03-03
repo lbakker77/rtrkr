@@ -1,6 +1,6 @@
-package de.lbakker77.retracker.core.usecase;
+package de.lbakker77.retracker.core;
 
-import de.lbakker77.retracker.core.interceptor.UserTimeZoneService;
+import de.lbakker77.retracker.core.interceptor.UserTimeZoneServiceImpl;
 import de.lbakker77.retracker.user.UserService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 public abstract class BaseUseCaseHandler<Request extends BaseRequest, Response extends BaseResponse> {
     private UserService userService;
-    private UserTimeZoneService userTimeZoneService;
+    private UserTimeZoneServiceImpl userTimeZoneService;
     private Validator validator;
 
     @Autowired
@@ -26,7 +26,7 @@ public abstract class BaseUseCaseHandler<Request extends BaseRequest, Response e
     }
 
     @Autowired
-    private void setUserTimeZoneService(@NonNull UserTimeZoneService userTimeZoneService) {
+    private void setUserTimeZoneService(@NonNull UserTimeZoneServiceImpl userTimeZoneService) {
         this.userTimeZoneService = userTimeZoneService;
     }
 

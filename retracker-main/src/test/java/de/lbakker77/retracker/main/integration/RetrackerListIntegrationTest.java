@@ -1,8 +1,8 @@
 package de.lbakker77.retracker.main.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import de.lbakker77.retracker.core.usecase.BaseResponse;
-import de.lbakker77.retracker.core.usecase.CreatedResponse;
+import de.lbakker77.retracker.core.BaseResponse;
+import de.lbakker77.retracker.core.CreatedResponse;
 import de.lbakker77.retracker.main.usecase.dtos.RetrackerListDto;
 import de.lbakker77.retracker.main.usecase.list.ChangeRetrackerListRequest;
 import de.lbakker77.retracker.main.usecase.list.CreateRetrackerListRequest;

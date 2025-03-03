@@ -1,8 +1,8 @@
 package de.lbakker77.retracker.main.controller;
 
-import de.lbakker77.retracker.core.usecase.BaseResponse;
-import de.lbakker77.retracker.core.usecase.CreatedResponse;
-import de.lbakker77.retracker.core.usecase.UseCaseExecutor;
+import de.lbakker77.retracker.core.BaseResponse;
+import de.lbakker77.retracker.core.CreatedResponse;
+import de.lbakker77.retracker.core.UseCaseExecutor;
 import de.lbakker77.retracker.main.usecase.dtos.RetrackerListDto;
 import de.lbakker77.retracker.main.usecase.dtos.ShareConfigDto;
 import de.lbakker77.retracker.main.usecase.list.ChangeRetrackerListRequest;
@@ -10,7 +10,7 @@ import de.lbakker77.retracker.main.usecase.list.CreateRetrackerListRequest;
 import de.lbakker77.retracker.main.usecase.list.DeleteRetrackerListRequest;
 import de.lbakker77.retracker.main.usecase.list.RetrackerListReader;
 import de.lbakker77.retracker.main.usecase.sharing.*;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

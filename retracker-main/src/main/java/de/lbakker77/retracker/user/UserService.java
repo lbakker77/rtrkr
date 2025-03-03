@@ -5,7 +5,6 @@ import de.lbakker77.retracker.user.entity.model.User;
 import de.lbakker77.retracker.user.usecase.ActivateUserUseCase;
 import de.lbakker77.retracker.user.usecase.InviteUserUseCase;
 import de.lbakker77.retracker.user.usecase.NewUserUseCase;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
 import de.lbakker77.retracker.user.usecase.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

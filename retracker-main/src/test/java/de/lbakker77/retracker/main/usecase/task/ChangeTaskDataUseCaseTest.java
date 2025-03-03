@@ -1,7 +1,7 @@
 package de.lbakker77.retracker.main.usecase.task;
 
-import de.lbakker77.retracker.core.usecase.BaseResponse;
-import de.lbakker77.retracker.core.usecase.CommandContext;
+import de.lbakker77.retracker.core.BaseResponse;
+import de.lbakker77.retracker.core.CommandContext;
 import de.lbakker77.retracker.main.domain.*;
 import de.lbakker77.retracker.main.usecase.dtos.RecurrenceConfigDto;
 import de.lbakker77.retracker.main.usecase.mapper.RetrackerMapper;

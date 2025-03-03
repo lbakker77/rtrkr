@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.core.exception;
+package de.lbakker77.retracker.core;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

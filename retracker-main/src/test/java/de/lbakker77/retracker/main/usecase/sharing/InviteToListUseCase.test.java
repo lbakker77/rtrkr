@@ -1,12 +1,12 @@
 package de.lbakker77.retracker.main.usecase.sharing;
 
-import de.lbakker77.retracker.core.usecase.BaseResponse;
-import de.lbakker77.retracker.core.usecase.CommandContext;
+import de.lbakker77.retracker.core.BaseResponse;
+import de.lbakker77.retracker.core.CommandContext;
 import de.lbakker77.retracker.main.domain.RetrackerList;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.notification.NotificationService;
 import de.lbakker77.retracker.user.UserService;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.user.UserDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

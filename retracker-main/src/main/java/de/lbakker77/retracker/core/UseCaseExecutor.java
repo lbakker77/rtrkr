@@ -1,4 +1,4 @@
-package de.lbakker77.retracker.core.usecase;
+package de.lbakker77.retracker.core;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

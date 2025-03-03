@@ -1,8 +1,8 @@
 package de.lbakker77.retracker.main.usecase.task;
 
-import de.lbakker77.retracker.core.usecase.BaseUseCaseHandler;
-import de.lbakker77.retracker.core.usecase.CommandContext;
-import de.lbakker77.retracker.core.usecase.CreatedResponse;
+import de.lbakker77.retracker.core.BaseUseCaseHandler;
+import de.lbakker77.retracker.core.CommandContext;
+import de.lbakker77.retracker.core.CreatedResponse;
 import de.lbakker77.retracker.main.TaskCreatedEvent;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.main.domain.TaskCreator;

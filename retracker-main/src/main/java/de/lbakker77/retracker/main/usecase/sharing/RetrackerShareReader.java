@@ -5,7 +5,7 @@ import de.lbakker77.retracker.main.domain.ShareConfig;
 import de.lbakker77.retracker.main.domain.ShareStatus;
 import de.lbakker77.retracker.main.usecase.dtos.ShareConfigDto;
 import de.lbakker77.retracker.user.UserService;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
+import de.lbakker77.retracker.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

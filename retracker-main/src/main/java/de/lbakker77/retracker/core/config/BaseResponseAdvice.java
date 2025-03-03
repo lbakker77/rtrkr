@@ -1,6 +1,6 @@
 package de.lbakker77.retracker.core.config;
 
-import de.lbakker77.retracker.core.usecase.BaseResponse;
+import de.lbakker77.retracker.core.BaseResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -11,6 +11,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import org.springframework.lang.NonNullApi;
+
 
 @ControllerAdvice
 @Hidden
