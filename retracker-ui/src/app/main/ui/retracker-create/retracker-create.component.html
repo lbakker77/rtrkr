@@ -1,6 +1,6 @@
 
 <!-- Add this at the top of your form or wherever you want the close button to appear -->
-<button mat-icon-button (click)="close()" class="close" aria-label="Close panel">
+<button mat-icon-button (click)="close()" class="close" aria-label="Close panel" type="button">
   <mat-icon>close</mat-icon>
 </button>
 <h3>Neuen Eintrag erfassen</h3>
@@ -22,7 +22,7 @@
                 <mat-select-trigger>
                     {{retrackerForm.controls.userCategory.value?.categoryName}}
                   </mat-select-trigger>
-              @for (category of categories; track category) {
+              @for (category of categories(); track category) {
                 <mat-option [value]="category"  >
                     <div class="category-option">
                         <app-category-icon [userCategory]="category" size="small"></app-category-icon>
@@ -114,7 +114,7 @@
     }
 
     <div class="action-bar">
-        <button mat-button (click)="abortClicked()">Abbrechen</button>
+        <button mat-button (click)="abortClicked()" type="button">Abbrechen</button>
         <button mat-flat-button (click)="saveClicked()">Speichern</button>
     </div>
 

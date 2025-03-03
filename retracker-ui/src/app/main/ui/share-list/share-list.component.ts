@@ -9,9 +9,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { AuthStore } from '../../../core/service/auth.store';
-import { ShareConfig } from '../../data/retracker.model';
+import { ShareConfig } from "../../data/list.model";
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { RetrackerListsStore } from '../../data/retracker-lists.store';
+import { ListStore } from '../../data/list.store';
 import { SimplePageViewComponent } from '../../../shared/component/simple-page-view/simple-page-view.component';
 
 export interface ShareListDialogData {
@@ -28,7 +28,7 @@ export interface ShareListDialogData {
   providers: [ShareStore]
 })
 export class ShareListComponent {
-  readonly listsStore = inject(RetrackerListsStore);
+  readonly listsStore = inject(ListStore);
   store = inject(ShareStore);
   readonly listId = inject(ActivatedRoute).snapshot.paramMap.get('listId');
   displayedColumns: string[] = ['email', 'name', 'status', 'actions'];

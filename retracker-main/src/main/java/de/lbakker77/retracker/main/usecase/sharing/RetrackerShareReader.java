@@ -21,7 +21,7 @@ public class RetrackerShareReader {
     private final RetrackerService retrackerService;
     private final UserService userService;
 
-    public List<ShareConfigDto> getShareInfo(UUID listId) {
+    public List<ShareConfigDto> getShareConfigs(UUID listId) {
         var currentUserId = userService.getUserIdOrCreateIfNew();
 
         var list = retrackerService.loadRetrackerListAndEnsureAccess(listId, currentUserId);

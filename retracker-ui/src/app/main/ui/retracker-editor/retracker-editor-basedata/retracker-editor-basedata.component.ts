@@ -6,13 +6,11 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ErrorStateMatcher, MatOption } from '@angular/material/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSelect, MatSelectTrigger } from '@angular/material/select';
-import { MatAutocomplete } from '@angular/material/autocomplete';
-import { NgClass } from '@angular/common';
 import { CategoryIconComponent } from '../../shared/category-icon/category-icon.component';
 import { MatButtonModule } from '@angular/material/button';
-import { CATEGORIES, CategoryColor, RecurrenceTimeUnit, RetrackerDataChangeRequest, RetrackerTask, TIMEUNITS, UserCategory } from '../../../data/retracker.model';
-import { delay, of } from 'rxjs';
-import { RetrackerEditorStore } from '../retracker-editor.store';
+import { CATEGORY_TO_COLOR, RecurrenceTimeUnit, ChangeTaskDataRequest, TIMEUNITS, UserCategory } from '../../../data/task.model';
+import { TaskEditorStore } from '../task-editor.store';
+import { UserCategoryService } from '../../../data/user-category.service';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -31,7 +29,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
  
 export class RetrackerEditorBasedataComponent {
-  private store = inject(RetrackerEditorStore);
+  private store = inject(TaskEditorStore);
+  userCategoryService = inject(UserCategoryService);
   editEnded = output<string | null>();
 
 
@@ -46,30 +45,31 @@ export class RetrackerEditorBasedataComponent {
   });
 
   timeunits = TIMEUNITS;
-  categories = CATEGORIES;
+  categories = this.userCategoryService.categories;
   matcher = new ErrorStateMatcher();
 
   constructor() {
     effect(() => {
       const entry = this.store.selectedEntry();
       if (!entry) return;
-      const category = this.categories.find(c => c.categoryName === entry.userCategory.categoryName);
+      if (!this.userCategoryService.isReady()) return;
 
+      const selectedCategory = this.categories()!.find(c => c.category === entry.category.category);
       this.retrackerForm.patchValue({
         name: entry.name,
-        userCategory: category,
+        userCategory: selectedCategory,
         recurrenceConfig: entry.recurrenceConfig,
         configureRecurrance: entry.recurrenceConfig != null
       });
     });
   }
 
-  formToRetrackerDataChangeRequest(): RetrackerDataChangeRequest {
+  formToRetrackerDataChangeRequest(): ChangeTaskDataRequest {
     const { name, configureRecurrance, recurrenceConfig, userCategory } = this.retrackerForm.value;
     return {
       id: this.store.selectedEntry()!.id,
       name: name!,
-      userCategory: userCategory!,
+      category: userCategory!.category,
       recurrenceConfig: configureRecurrance ? { recurrenceInterval: recurrenceConfig?.recurrenceInterval!, recurrenceTimeUnit: recurrenceConfig?.recurrenceTimeUnit!} : undefined
     };
   }

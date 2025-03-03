@@ -6,22 +6,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { timezoneInterceptor } from './core/interceptor/timezone.interceptor';
 
-import { provideKeycloak, includeBearerTokenInterceptor, createInterceptorCondition, IncludeBearerTokenCondition, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG } from 'keycloak-angular';
+import { includeBearerTokenInterceptor } from 'keycloak-angular';
 import { accessDeniedInterceptor } from './core/interceptor/access-denied.interceptor';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { RetrackerErrorStateMatcher } from './core/utils/retracker-error-state-matcher';
 import { errorHandlerInterceptor } from './core/interceptor/error-handler.interceptor';
 import { rxStompServiceFactory } from './core/config/websockets.factory';
 import { WebsocketService } from './core/config/websockets.service';
+import { provideHttpBearerInterceptor, provideKeycloakConfig } from './core/config/keycloak.config';
 
-const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
-  urlPattern: /^http:\/\/localhost:4200\/.*/i,
-  bearerPrefix: 'Bearer'
-});
-const urlCondition2 = createInterceptorCondition<IncludeBearerTokenCondition>({
-  urlPattern: /^.*/i,
-  bearerPrefix: 'Bearer'
-});
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,22 +24,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(), 
     provideHttpClient(withInterceptors([timezoneInterceptor, includeBearerTokenInterceptor, accessDeniedInterceptor, errorHandlerInterceptor])),  
     {provide: LOCALE_ID, useValue: 'de-DE'},
-    provideKeycloak({
-      config: {
-        url: 'http://localhost:8081',
-        realm: 'retracker',
-        clientId: 'retracker-web-ui'
-      },
-      initOptions: {
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
-        redirectUri: window.location.origin + '/'
-      }
-    }),
-    {
-      provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-      useValue: [urlCondition, urlCondition2]
-    }, 
+    provideKeycloakConfig(),
+    provideHttpBearerInterceptor(), 
     {
       provide: WebsocketService,
       useFactory: rxStompServiceFactory,

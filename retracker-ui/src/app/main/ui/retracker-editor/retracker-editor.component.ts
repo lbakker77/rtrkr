@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
-import { RetrackerTaskStore } from '../../data/retracker-task.store';
-import { RetrackerEditorStore } from './retracker-editor.store';
-import { RetrackerOverviewTask } from '../../data/retracker.model';
+import { TaskStore } from '../../data/task.store';
+import { TaskEditorStore } from './task-editor.store';
+import { OverviewTask } from '../../data/task.model';
 import { DetailHeaderBarComponent } from '../../../shared/component/responsive-master-detail/detail-header-bar/detail-header-bar.component';
 import { DisplayValueComponent } from '../../../shared/component/display-value/display-value.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -27,16 +27,17 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   templateUrl: './retracker-editor.component.html',
   styleUrl: './retracker-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush, 
-  providers: [RetrackerEditorStore] 
+  providers: [TaskEditorStore] 
 })
 export class RetrackerEditorComponent {
 
+
   readonly dialog = inject(MatDialog);
   readonly responsiveDialogService = inject(ResponsiveDialogService);
-  store = inject(RetrackerEditorStore);
-  overviewStore = inject(RetrackerTaskStore);
+  store = inject(TaskEditorStore);
+  overviewStore = inject(TaskStore);
   id = input.required<string | undefined>();
-  entryChange = output<RetrackerOverviewTask>();
+  entryChange = output<OverviewTask>();
   deleted = output<string>();
 
 

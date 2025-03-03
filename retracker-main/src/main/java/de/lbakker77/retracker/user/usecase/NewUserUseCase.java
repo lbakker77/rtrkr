@@ -1,8 +1,8 @@
 package de.lbakker77.retracker.user.usecase;
 
 import de.lbakker77.retracker.user.NewUserEvent;
-import de.lbakker77.retracker.user.entity.model.User;
 import de.lbakker77.retracker.user.entity.UserRepository;
+import de.lbakker77.retracker.user.entity.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

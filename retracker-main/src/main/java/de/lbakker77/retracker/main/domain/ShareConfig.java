@@ -31,6 +31,6 @@ public class ShareConfig {
 
     public void reject() {
         if (status == ShareStatus.ACCEPTED) throw new IllegalStateException("Cannot reject an accepted share");
+        this.status = ShareStatus.REJECTED;
     }
-
 }

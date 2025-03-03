@@ -1,11 +1,11 @@
 package de.lbakker77.retracker.main.usecase.list;
 
+import de.lbakker77.retracker.core.interceptor.UserTimeZoneService;
+import de.lbakker77.retracker.main.domain.RetrackerListRepository;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.main.domain.TaskRepository;
-import de.lbakker77.retracker.main.domain.RetrackerListRepository;
 import de.lbakker77.retracker.main.usecase.dtos.RetrackerListDto;
 import de.lbakker77.retracker.main.usecase.mapper.RetrackerMapper;
-import de.lbakker77.retracker.core.interceptor.UserTimeZoneService;
 import de.lbakker77.retracker.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -37,16 +37,14 @@ public class RetrackerListReader {
         var usersCurrentDate = LocalDate.now(userTimeZoneService.getUserTimeZone().toZoneId());
         for (var retrackerList : retrackerLists) {
             var dueCount = retrackerTaskRepository.countByRetrackerListIdAndDueDateLessThanEqual(retrackerList.getId(), usersCurrentDate);
-            if (retrackerList.isDefaultList()) {
-                retrackerList.setName(messageSource.getMessage("retracker-list.default-name", null, userService.getPreferredLocale()));
-            }
-            var dto = retrackerMapper.toRetrackerListDto(retrackerList, dueCount, false, userId.equals(retrackerList.getOwnerId()));
+            var name = retrackerList.isDefaultList() ? messageSource.getMessage("retracker-list.default-name", null, userService.getPreferredLocale()): retrackerList.getName();
+            var dto = retrackerMapper.toRetrackerListDto(retrackerList, dueCount, false, userId.equals(retrackerList.getOwnerId()), name);
             retrackerListDtos.add(dto);
         }
         var invitations = retrackerListRepository.findRetrackerInvitationsForUser(userId);
         for (var retrackerList : invitations) {
             var dueCount = 0L;
-            var dto = retrackerMapper.toRetrackerListDto(retrackerList, dueCount, true, false);
+            var dto = retrackerMapper.toRetrackerListDto(retrackerList, dueCount, true, false, retrackerList.getName());
             retrackerListDtos.add(dto);
         }
         return retrackerListDtos;

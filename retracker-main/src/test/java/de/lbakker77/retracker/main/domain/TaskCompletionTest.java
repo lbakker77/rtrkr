@@ -1,28 +1,29 @@
 package de.lbakker77.retracker.main.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+@ExtendWith(MockitoExtension.class)
 class TaskCompletionTest {
 
     @Mock
     private RetrackerList mockRetrackerList;
 
-    private UserCategory getUserCategory() {
-        return new UserCategory("test", "blue");
-    }
 
     @Test
     void shouldAcceptValidCompletionDateAfterLastEntryDate() {
         // Arrange
         LocalDate lastEntryDate = LocalDate.now().minusDays(1);
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", null, lastEntryDate , getUserCategory(), null);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", null, lastEntryDate ,TaskCategory.ADMINISTRATIVE, null);
         LocalDate completionDate = LocalDate.now();
 
         // Act
@@ -39,10 +40,11 @@ class TaskCompletionTest {
     void shouldDenyCompletionDateEqualToLastEntryDate() {
         // Arrange
         LocalDate lastEntryDate = LocalDate.now();
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", null, lastEntryDate , getUserCategory(), null);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", null, lastEntryDate , TaskCategory.CREATIVE, null);
         LocalDate completionDate = LocalDate.now();
 
-        // Act
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> task.registerCompletion(completionDate) );
     }
 
@@ -50,7 +52,8 @@ class TaskCompletionTest {
     void shouldCalculateNewDueDateAfterCompletion() {
         // Arrange
         var recurrenceConfig = new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK);
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", null, null, getUserCategory(), recurrenceConfig);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", null, null, TaskCategory.CREATIVE, recurrenceConfig);
         LocalDate completionDate = LocalDate.of(2025,1,1);
 
         // Act
@@ -64,11 +67,12 @@ class TaskCompletionTest {
     void shouldResetPostponedDayAfterCompletion() {
         // Arrange
         var recurrenceConfig = new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK);
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", LocalDate.of(2025,1,1), null, getUserCategory(), recurrenceConfig);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", LocalDate.of(2025,1,1), null, TaskCategory.CREATIVE, recurrenceConfig);
         task.postponeUntil(LocalDate.of(2025,1,2));
         LocalDate completionDate = LocalDate.of(2025,1,2);
-
         assertEquals(1, task.getPostponedDays());
+
         // Act
         task.registerCompletion(completionDate);
 
@@ -81,7 +85,8 @@ class TaskCompletionTest {
         // Arrange
         var recurrenceConfig = new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK);
         var dueDate = LocalDate.of(2025,1,1);
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", dueDate, null, getUserCategory(), recurrenceConfig);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", dueDate, null, TaskCategory.CREATIVE, recurrenceConfig);
         task.postponeUntil(LocalDate.of(2025,1,2));
         LocalDate completionDate = LocalDate.of(2025,1,3);
 
@@ -100,7 +105,8 @@ class TaskCompletionTest {
     void shouldSetDueDateToNullIfRecurrenceConfigIsNotPresent() {
         // Arrange
         LocalDate completionDate = LocalDate.now();
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", LocalDate.now().plusDays(1), null, getUserCategory(), null);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", LocalDate.now().plusDays(1), null, TaskCategory.CREATIVE, null);
 
         // Act
         task.registerCompletion(completionDate);
@@ -115,16 +121,16 @@ class TaskCompletionTest {
     void shouldWriteProperHistoryUponSecondCompletion() {
         // Arrange
         var recurrenceConfig = new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK);
-        LocalDate completionDate = LocalDate.now();
-        LocalDate formerCompletionDate = LocalDate.now().minusDays(7);
-        var task = TaskCreator.createTask(mockRetrackerList, "Task", formerCompletionDate, formerCompletionDate, getUserCategory(), recurrenceConfig);
+        var completionDate = LocalDate.now();
+        var formerCompletionDate = LocalDate.now().minusDays(7);
+        var taskCreator = new TaskCreator();
+        var task = taskCreator.createTask(mockRetrackerList, "Task", null, formerCompletionDate, TaskCategory.CREATIVE, recurrenceConfig);
 
         // Act
         task.registerCompletion(completionDate);
 
         // Assert
         assertThat(task.getHistory()).hasSize(2);
-
         var recentEntry = task.getHistory().first();
         assertThat(recentEntry.completionDate()).isEqualTo(completionDate);
         var formerEntry = task.getHistory().last();

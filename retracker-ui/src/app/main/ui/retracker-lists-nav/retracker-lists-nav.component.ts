@@ -4,9 +4,8 @@ import {MatListModule} from '@angular/material/list';
 import { IconbuttonComponent } from '../../../shared/component/iconbutton/iconbutton.component';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SecodaryNavService } from '../../../shared/service/secodaryNav.service';
-import { RetrackerService } from '../../data/retracker.service';
 import { firstValueFrom } from 'rxjs';
-import { RetrackerListsStore } from '../../data/retracker-lists.store';
+import { ListStore } from '../../data/list.store';
 import { MatDialog } from '@angular/material/dialog';
 import { ResponsiveDialogService } from '../../../shared/component/responsive-dialog.service';
 import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../retracker-list-create-edit/retracker-list-create-edit.component';
@@ -16,7 +15,7 @@ import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../
   imports: [MatSidenavModule, MatListModule, IconbuttonComponent, RouterLink, RouterOutlet],
   templateUrl: './retracker-lists-nav.component.html',
   styleUrl: './retracker-lists-nav.component.scss', 
-  providers: [RetrackerListsStore],
+  providers: [ListStore],
   
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,7 +25,7 @@ export class RetrackerListsNavComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private currentListId: string = '';
-  store = inject(RetrackerListsStore);
+  store = inject(ListStore);
   private readonly dialogService = inject(ResponsiveDialogService);
   
 

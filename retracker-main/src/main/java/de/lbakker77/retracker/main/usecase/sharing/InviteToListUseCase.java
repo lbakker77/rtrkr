@@ -1,10 +1,10 @@
 package de.lbakker77.retracker.main.usecase.sharing;
 
+import de.lbakker77.retracker.core.usecase.BaseResponse;
+import de.lbakker77.retracker.core.usecase.BaseUseCaseHandler;
+import de.lbakker77.retracker.core.usecase.CommandContext;
 import de.lbakker77.retracker.main.domain.RetrackerList;
 import de.lbakker77.retracker.main.domain.RetrackerService;
-import de.lbakker77.retracker.core.usercase.BaseResponse;
-import de.lbakker77.retracker.core.usercase.BaseUseCaseHandler;
-import de.lbakker77.retracker.core.usercase.CommandContext;
 import de.lbakker77.retracker.main.usecase.constants.NotificationConstants;
 import de.lbakker77.retracker.notification.NotificationService;
 import de.lbakker77.retracker.user.UserService;
@@ -28,15 +28,11 @@ public class InviteToListUseCase extends BaseUseCaseHandler<InviteToListRequest,
         var list = retrackerService.loadRetrackerListAndEnsureAccess(request.getListId(), commandContext.userId());
         var existingUser = userService.getUserId(request.getEmail());
         UUID userId;
-        userId = existingUser.orElseGet(() -> userService.InviteUser(request.getEmail()));
+        userId = existingUser.orElseGet(() -> userService.inviteUser(request.getEmail()));
 
         list.inviteUser(userId);
-
         sendNotification(list, userId);
 
-        if (!list.isShared()) {
-            list.setShared(true);
-        }
         retrackerService.save(list);
         return BaseResponse.ofSuccess();
     }
@@ -45,6 +41,8 @@ public class InviteToListUseCase extends BaseUseCaseHandler<InviteToListRequest,
         var user = userService.getCurrentUser();
         var name = user.firstName() + " " + user.lastName();
         var message = messageSource.getMessage("notification.invite_to_list", new Object[]{name, list.getName()}, userService.getPreferredLocale());
-        notificationService.sendInAppNotification(NotificationConstants.createInviteKey(list.getId(), userId), userId, message, NotificationConstants.createInviteActionCommand(list.getId()));
+        var notificationKey = NotificationConstants.createInviteKey(list.getId(), userId);
+        var commandString = NotificationConstants.createInviteActionCommand(list.getId());
+        notificationService.sendInAppNotification(notificationKey, userId, message, commandString);
     }
 }

@@ -2,7 +2,9 @@ package de.lbakker77.retracker.main.domain;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.util.Assert;
 
@@ -12,6 +14,7 @@ import java.util.*;
 
 @Entity
 @Getter
+@Setter(AccessLevel.PACKAGE)
 public class Task {
     protected Task() {}
 
@@ -42,8 +45,7 @@ public class Task {
     @Embedded
     private RecurrenceConfig recurrenceConfig;
 
-    @Embedded
-    private UserCategory userCategory;
+    private TaskCategory category;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private SortedSet<EntryHistory> history = new TreeSet<>();
@@ -52,24 +54,24 @@ public class Task {
         return Collections.unmodifiableSortedSet(history);
     }
 
-    Task( RetrackerList retrackerList, String name, LocalDate dueDate, RecurrenceConfig recurrenceConfig, UserCategory userCategory) {
+    Task( RetrackerList retrackerList, String name, LocalDate dueDate, RecurrenceConfig recurrenceConfig, TaskCategory category) {
         this.retrackerList = retrackerList;
         this.name = name;
         this.dueDate = dueDate;
         this.postponedDays = 0;
         this.recurrenceConfig = recurrenceConfig;
-        this.userCategory = userCategory;
+        this.category = category;
     }
 
 
     public void changeName(String newName) {
-        Assert.isTrue(!newName.isEmpty(), "Name cannot be empty");
+        Assert.isTrue(!newName.isEmpty(), "Name must not be empty");
         name = newName;
     }
 
-    public void changeUserCategory(String categoryName, String categoryColor) {
-        Assert.isTrue(!categoryName.isEmpty(), "Category name cannot be empty");
-        userCategory = new  UserCategory(categoryName, categoryColor);
+    public void changeCategory(TaskCategory newCategory) {
+        Assert.notNull(newCategory, "Category must not be null");
+        category = newCategory;
     }
 
     public void registerCompletion(LocalDate dateOfCompletion) {
@@ -91,19 +93,18 @@ public class Task {
     }
 
     public void undoLastCompletion() {
-        var lastHistoryEntry = determineLastEntry();
-        Assert.isTrue(lastHistoryEntry.isPresent(), "No history entries available");
-        history.remove(lastHistoryEntry.get());
-        dueDate = lastHistoryEntry.get().dueDate();
-        postponedDays = lastHistoryEntry.get().postponedDays();
-        lastEntryDate = lastHistoryEntry.get().lastCompletionDate();
+        var lastHistoryEntry = determineLastEntry().orElseThrow(() -> new IllegalStateException("The task has not been completed yet"));
+        history.remove(lastHistoryEntry);
+        dueDate = lastHistoryEntry.dueDate();
+        postponedDays = lastHistoryEntry.postponedDays();
+        lastEntryDate = lastHistoryEntry.lastCompletionDate();
     }
 
     public void postponeUntil(LocalDate newDueDate) {
         Assert.notNull(newDueDate, "New due date cannot be null");
-        Assert.notNull(dueDate, "Due date cannot be null");
+        Assert.notNull(dueDate, "Task must be planned");
         Assert.isTrue(newDueDate.isAfter(dueDate), "New due date must be after current due date");
-        postponedDays = (int)dueDate.until(newDueDate, ChronoUnit.DAYS);
+        postponedDays += (int)dueDate.until(newDueDate, ChronoUnit.DAYS);
         dueDate = newDueDate;
     }
 

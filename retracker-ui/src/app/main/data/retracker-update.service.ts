@@ -1,16 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
-import { RetrackerList, RetrackerTask, TaskChangeEvent } from './retracker.model';
+import { Task, TaskChangeEvent } from './task.model';
+import { RetrackerList } from "./list.model";
 import { WebsocketService } from '../../core/config/websockets.service';
-import { RetrackerService } from './retracker.service';
 import { AuthStore } from '../../core/service/auth.store';
+import { ListService } from './list.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RetrackerUpdateService {
   private websocketService = inject(WebsocketService);
-  private retrackerService = inject(RetrackerService);
+  private listService = inject(ListService);
   private authStore = inject(AuthStore);
   private subscriptions = new Map<string, Subscription>();
 
@@ -28,7 +29,7 @@ export class RetrackerUpdateService {
           if (this.listSelected && (this.selectedListId === l.id || this.selectedListId === null)) {
             this.taskChanges.next(taskChangeEvent);
           }else if (taskChangeEvent.dueCountChanged) {
-            this.retrackerService.getDueCount(l.id).subscribe(dueCount => {
+            this.listService.getDueCount(l.id).subscribe(dueCount => {
               this.dueCountChanges.next({ listId: l.id, dueCount: dueCount });
             });
           }

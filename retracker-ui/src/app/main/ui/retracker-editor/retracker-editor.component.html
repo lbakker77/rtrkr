@@ -10,8 +10,7 @@
     </div>
     }
 </app-detail-header-bar>
-
-
+ 
 @if(store.isLoading()){
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
@@ -24,14 +23,14 @@
             <div class="display">
                 <app-display-value > 
                     <app-display-label i18n>Kategorie</app-display-label>
-                    <app-display-content>{{store.selectedEntry()!.userCategory.categoryName}}</app-display-content>           
+                    <app-display-content>{{store.selectedEntry()!.category.categoryName}}</app-display-content>           
                 </app-display-value> 
                 <app-display-value > 
                     <app-display-label i18n>Letzte Eintragung am</app-display-label>
                     <app-display-content>{{store.selectedEntry()?.lastEntryDate != null ? (store.selectedEntry()?.lastEntryDate | date) : "Nie"}}</app-display-content>    
                 </app-display-value>
                 <app-display-value> 
-                    <app-display-label i18n>Erinnerung</app-display-label>
+                    <app-display-label i18n>Wiederholung</app-display-label>
                     <app-display-content>
                         <app-recurrance-config-view [recurrance]="store.selectedEntry()?.recurrenceConfig" [showIcon]="false"></app-recurrance-config-view>
                     </app-display-content>    

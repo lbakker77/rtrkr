@@ -1,7 +1,6 @@
 package de.lbakker77.retracker.main.usecase.task;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

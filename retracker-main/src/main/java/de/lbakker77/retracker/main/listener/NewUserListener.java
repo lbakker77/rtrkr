@@ -1,6 +1,6 @@
 package de.lbakker77.retracker.main.listener;
 
-import de.lbakker77.retracker.main.usecase.NewUserInitUseCase;
+import de.lbakker77.retracker.main.usecase.list.CreateDefaultRetrackerListUseCase;
 import de.lbakker77.retracker.user.NewUserEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +12,11 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 @Slf4j
 public class NewUserListener {
-    private final NewUserInitUseCase newUserInitUseCase;
+    private final CreateDefaultRetrackerListUseCase createDefaultRetrackerListUseCase;
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     void on(NewUserEvent event) {
         log.info("New user registered: {}", event.userId());
-        newUserInitUseCase.initDataForNewUser(event.userId());
+        createDefaultRetrackerListUseCase.initDataForNewUser(event.userId());
     }
 }

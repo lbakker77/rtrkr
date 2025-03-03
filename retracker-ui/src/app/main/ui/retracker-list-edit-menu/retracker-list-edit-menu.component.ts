@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RetrackerTaskStore } from '../../data/retracker-task.store';
-import { RetrackerListsStore } from '../../data/retracker-lists.store';
+import { TaskStore } from '../../data/task.store';
+import { ListStore } from '../../data/list.store';
 import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ShareListComponent, ShareListDialogData } from '../share-list/share-list.component';
@@ -18,7 +18,7 @@ import { RetrackerListCreateEditComponent, RetrackerListCreateResult } from '../
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RetrackerListEditMenuComponent {
-  private readonly store = inject(RetrackerListsStore);
+  private readonly store = inject(ListStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly responsiveDialogService = inject(ResponsiveDialogService);

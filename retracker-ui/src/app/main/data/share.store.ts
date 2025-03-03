@@ -1,7 +1,8 @@
 import { patchState, signalStore, withState } from "@ngrx/signals";
-import { ShareConfig, User } from "./retracker.model"
+import { User } from "../../shared/data/user.model";
+import { ShareConfig } from "./list.model";
 import { computed, inject, Injectable } from "@angular/core";
-import { RetrackerService } from "./retracker.service";
+import { ListService } from './list.service';
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { finalize, pipe, switchMap, tap } from "rxjs";
 import { AuthStore } from "../../core/service/auth.store";
@@ -30,14 +31,14 @@ const initialState: ShareStoreModel = {
 export class ShareStore extends signalStore(
   { protectedState: false },
   withState(initialState)) {
-    private retrackerService = inject(RetrackerService);
+    private listService = inject(ListService);
     private notificationService = inject(NotificationService);
     authStore = inject(AuthStore);
     
 
     loadShareConfig = rxMethod<string>(pipe(
             tap((listId) => patchState(this, { loading: true, shareConfigsLoaded: false, id: listId})), 
-            switchMap((listId) => this.retrackerService.getShareInfos(listId).pipe(
+            switchMap((listId) => this.listService.getShareInfos(listId).pipe(
                 tap(shareConfigs =>   patchState(this, { shareConfigs })),
                 finalize(() => patchState(this, { shareConfigsLoaded: true, loading: false })))
             )
@@ -46,7 +47,7 @@ export class ShareStore extends signalStore(
 
     loadKnowUsers = rxMethod<string>(pipe(
         tap((listId) => patchState(this, { loading: true, knownUsersLoaded: false, id: listId})), 
-        switchMap((listId) => this.retrackerService.getKnownUsersToShareWith(listId).pipe(
+        switchMap((listId) => this.listService.getKnownUsersToShareWith(listId).pipe(
             tap(knownUsers =>   patchState(this, { knownUsers })),
             finalize(() => patchState(this, { knownUsersLoaded: true, loading: false })))
         )
@@ -54,7 +55,7 @@ export class ShareStore extends signalStore(
 
     shareWithUser = rxMethod<string>(pipe(        
         tap((email) => patchState(this, { loading: true })), 
-        switchMap((email) => this.retrackerService.shareWithUser(this.id(), email).pipe(
+        switchMap((email) => this.listService.shareWithUser(this.id(), email).pipe(
             tap(() => {
                 this.notificationService.open($localize `List geteilt mit ${email}` );
                 this.loadShareConfig(this.id());
@@ -65,7 +66,7 @@ export class ShareStore extends signalStore(
 
     deleteAccess = rxMethod<string>(pipe(        
         tap((userId) => patchState(this, { loading: true })), 
-        switchMap((userId) => this.retrackerService.shareListDeleteAccess(this.id(), userId).pipe(
+        switchMap((userId) => this.listService.shareListDeleteAccess(this.id(), userId).pipe(
             tap(() => {
                 this.loadShareConfig(this.id());
                 this.notificationService.open($localize `Zugriff auf Liste entfernt` );

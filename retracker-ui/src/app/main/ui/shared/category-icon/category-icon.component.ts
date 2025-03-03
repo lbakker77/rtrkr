@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { UserCategory } from '../../../data/retracker.model';
+import { UserCategory } from '../../../data/task.model';
 
 @Component({
   selector: 'app-category-icon',

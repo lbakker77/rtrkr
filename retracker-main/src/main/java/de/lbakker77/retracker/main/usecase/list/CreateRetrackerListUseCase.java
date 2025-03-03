@@ -1,11 +1,11 @@
 package de.lbakker77.retracker.main.usecase.list;
 
+import de.lbakker77.retracker.core.usecase.BaseUseCaseHandler;
+import de.lbakker77.retracker.core.usecase.CommandContext;
+import de.lbakker77.retracker.core.usecase.CreatedResponse;
 import de.lbakker77.retracker.main.domain.RetrackerList;
+import de.lbakker77.retracker.main.domain.RetrackerListCreator;
 import de.lbakker77.retracker.main.domain.RetrackerListRepository;
-import de.lbakker77.retracker.core.usercase.BaseResponse;
-import de.lbakker77.retracker.core.usercase.BaseUseCaseHandler;
-import de.lbakker77.retracker.core.usercase.CommandContext;
-import de.lbakker77.retracker.core.usercase.CreatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +13,15 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CreateRetrackerListUseCase extends BaseUseCaseHandler<CreateRetrackerListRequest, BaseResponse> {
+public class CreateRetrackerListUseCase extends BaseUseCaseHandler<CreateRetrackerListRequest, CreatedResponse> {
 
     private final RetrackerListRepository retrackerListRepository;
+    private final RetrackerListCreator retrackerListCreator;
 
-    public BaseResponse handle(CreateRetrackerListRequest request, CommandContext commandContext) {
+    public CreatedResponse handle(CreateRetrackerListRequest request, CommandContext commandContext) {
         UUID userId = commandContext.userId();
 
-        RetrackerList newList = new RetrackerList();
-        newList.setName(request.getName());
-        newList.setShared(false);
-        newList.setDefaultList(false);
-        newList.setIcon(request.getIcon());
-        newList.setOwnerId(userId);
+        var newList = retrackerListCreator.createRetrackerList(request.getName(), userId, request.getIcon());
 
         RetrackerList savedList = retrackerListRepository.save(newList);
         return new CreatedResponse(savedList.getId());

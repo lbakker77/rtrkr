@@ -1,6 +1,6 @@
 package de.lbakker77.retracker.main.usecase.sharing;
 
-import de.lbakker77.retracker.core.usercase.BaseRequest;
+import de.lbakker77.retracker.core.usecase.BaseRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

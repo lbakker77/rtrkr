@@ -1,10 +1,10 @@
 package de.lbakker77.retracker.notification.controller;
 
-import de.lbakker77.retracker.core.usercase.UseCaseExecutor;
+import de.lbakker77.retracker.core.usecase.BaseResponse;
+import de.lbakker77.retracker.core.usecase.UseCaseExecutor;
 import de.lbakker77.retracker.notification.dto.UserNotificationDto;
-import de.lbakker77.retracker.notification.usecase.UserNotificationReader;
 import de.lbakker77.retracker.notification.usecase.MarkAsReadRequest;
-import de.lbakker77.retracker.core.usercase.BaseResponse;
+import de.lbakker77.retracker.notification.usecase.UserNotificationReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

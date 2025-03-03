@@ -1,12 +1,13 @@
 package de.lbakker77.retracker.main.usecase.list;
 
+import de.lbakker77.retracker.core.exception.ForbiddenException;
+import de.lbakker77.retracker.core.exception.NotFoundException;
+import de.lbakker77.retracker.core.usecase.BaseResponse;
+import de.lbakker77.retracker.core.usecase.BaseUseCaseHandler;
+import de.lbakker77.retracker.core.usecase.CommandContext;
+import de.lbakker77.retracker.core.usecase.Violation;
 import de.lbakker77.retracker.main.domain.RetrackerList;
 import de.lbakker77.retracker.main.domain.RetrackerListRepository;
-import de.lbakker77.retracker.core.exception.NotFoundException;
-import de.lbakker77.retracker.core.usercase.BaseResponse;
-import de.lbakker77.retracker.core.usercase.BaseUseCaseHandler;
-import de.lbakker77.retracker.core.usercase.CommandContext;
-import de.lbakker77.retracker.core.usercase.Violation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,16 @@ public class ChangeRetrackerListUseCase extends BaseUseCaseHandler<ChangeRetrack
         }
         RetrackerList existingList = optionalList.get();
 
-        if (!existingList.getOwnerId().equals(commandContext.userId())) {
-            return BaseResponse.ofFailure(List.of(new Violation("", "You don't have permission to modify this list")));
+        if (!existingList.mayChangeOrDelete(commandContext.userId())) {
+            throw new ForbiddenException("User not authorized to change this retracker list");
         }
 
-        existingList.setName(request.getName());
-        existingList.setIcon(request.getIcon());
+        if (existingList.isDefaultList()) {
+            return BaseResponse.ofFailure(List.of(new Violation("", "Default lists cannot be modified")));
+        }
+
+        existingList.changeName(request.getName());
+        existingList.changeIcon(request.getIcon());
 
         retrackerListRepository.save(existingList);
 

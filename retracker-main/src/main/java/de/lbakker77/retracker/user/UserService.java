@@ -4,8 +4,8 @@ import de.lbakker77.retracker.user.entity.UserRepository;
 import de.lbakker77.retracker.user.entity.model.User;
 import de.lbakker77.retracker.user.usecase.ActivateUserUseCase;
 import de.lbakker77.retracker.user.usecase.InviteUserUseCase;
-import de.lbakker77.retracker.user.usecase.dto.UserDto;
 import de.lbakker77.retracker.user.usecase.NewUserUseCase;
+import de.lbakker77.retracker.user.usecase.dto.UserDto;
 import de.lbakker77.retracker.user.usecase.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
+    public static final String EMAIL_CLAIM = "email";
     private final UserRepository userRepository;
     private final NewUserUseCase newUserUseCase;
     private final Keycloak keyCloak;
@@ -33,7 +34,8 @@ public class UserService {
     public UUID getUserIdOrCreateIfNew() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-            String email = jwt.getClaimAsString("email");
+            String email = jwt.getClaimAsString(EMAIL_CLAIM);
+
             String firstName = jwt.getClaimAsString("given_name");
             String lastName = jwt.getClaimAsString("family_name");
             var user = userRepository.findByEmail(email).orElseGet(() -> newUserUseCase.createNewUser(email, firstName, lastName));
@@ -42,27 +44,27 @@ public class UserService {
             }
             return user.getId();
         }
-        throw new IllegalStateException("User not authenticated or JWT not found");
+        throw new IllegalStateException("User not authenticated");
     }
 
     public UUID getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-            String email = jwt.getClaimAsString("email");
+            String email = jwt.getClaimAsString(EMAIL_CLAIM);
             var user = userRepository.findByEmail(email);
             if (user.isEmpty()){
                 throw new IllegalStateException("User not found");
             }
             return user.get().getId();
         } else {
-            throw new IllegalStateException("User not authenticated or JWT not found");
+            throw new IllegalStateException("User not authenticated");
         }
     }
 
     public UserDto getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-            String email = jwt.getClaimAsString("email");
+            String email = jwt.getClaimAsString(EMAIL_CLAIM);
             var user = userRepository.findByEmail(email);
             if (user.isEmpty()){
                 throw new IllegalStateException("User not found");
@@ -77,7 +79,7 @@ public class UserService {
         return userRepository.findByEmail(email).map(User::getId);
     }
 
-    public UUID InviteUser(String email) {
+    public UUID inviteUser(String email) {
         var id = userRepository.findByEmail(email).map(User::getId);
         if (id.isPresent()) throw new IllegalStateException("User already exists");
         var user = inviteUserUseCase.inviteUser(email);

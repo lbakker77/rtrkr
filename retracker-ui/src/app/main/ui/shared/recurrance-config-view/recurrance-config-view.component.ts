@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { RecurrenceConfig } from '../../../data/retracker.model';
+import { RecurrenceConfig } from '../../../data/task.model';
 
 @Component({
   selector: 'app-recurrance-config-view',

@@ -1,7 +1,9 @@
 package de.lbakker77.retracker.main.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
@@ -9,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@ExtendWith(MockitoExtension.class)
 class TaskRecurrenceUpdateTest {
 
     @Mock
@@ -18,7 +21,8 @@ class TaskRecurrenceUpdateTest {
     void shouldUpdateRecurrenceConfigWhenNewConfigIsDifferent() {
         // Arrange
         var firstCompletionDate = LocalDate.of(2025, 1, 1);
-        Task task = TaskCreator.createTask(mockRetrackerList, "Test Task", null, firstCompletionDate, new UserCategory("Test","red"), new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK));
+        var taskCreator = new TaskCreator();
+        Task task = taskCreator.createTask(mockRetrackerList, "Test Task", null, firstCompletionDate, TaskCategory.CREATIVE, new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK));
         var formerDueDate = task.getDueDate();
         task.postponeUntil(formerDueDate.plusDays(1));
         var postponedDueDate = task.getDueDate();
@@ -30,7 +34,7 @@ class TaskRecurrenceUpdateTest {
         assertEquals(new RecurrenceConfig(2, RecurrenceTimeUnit.WEEK), task.getRecurrenceConfig());
         assertNotEquals(task.getDueDate(), postponedDueDate, "Due date should be updated with new recurrence interval");
         assertThat(task.getDueDate()).isAfter(formerDueDate);
-        assertThat(task.getPostponedDays()).isEqualTo(0);
+        assertThat(task.getPostponedDays()).isZero();
     }
 
     @Test
@@ -38,7 +42,8 @@ class TaskRecurrenceUpdateTest {
         // Arrange
         var dueDate = LocalDate.of(2025, 1, 1);
         var recurrenceConfig = new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK);
-        Task task = TaskCreator.createTask(mockRetrackerList, "Test Task", dueDate, null, new UserCategory("Test","red"), recurrenceConfig);
+        var taskCreator = new TaskCreator();
+        Task task = taskCreator.createTask(mockRetrackerList, "Test Task", dueDate, null, TaskCategory.CREATIVE, recurrenceConfig);
         var initialRecurrenceConfig = task.getRecurrenceConfig();
         task.postponeUntil(dueDate.plusDays(1));
         var dueDateBeforeUpdate = task.getDueDate();
@@ -55,7 +60,8 @@ class TaskRecurrenceUpdateTest {
     @Test
     void shouldNotModifyDueDateWhenNoLastEntry() {
         // Arrange
-        Task task = TaskCreator.createTask(mockRetrackerList, "Test Task", LocalDate.of(2025, 1, 1), null, new UserCategory("Test","red"), new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK));
+        var taskCreator = new TaskCreator();
+        Task task = taskCreator.createTask(mockRetrackerList, "Test Task", LocalDate.of(2025, 1, 1), null, TaskCategory.CREATIVE, new RecurrenceConfig(1, RecurrenceTimeUnit.WEEK));
         task.postponeUntil(LocalDate.of(2025, 1, 2));
         LocalDate initialDueDate = task.getDueDate();
 

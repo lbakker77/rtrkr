@@ -1,4 +1,5 @@
-import { CATEGORIES, CreateRetrackerEntryRequest, RecurrenceTimeUnit, RetrackerList, RetrackerOverviewTask, TIMEUNITS, UserCategory } from '../../data/retracker.model';
+import { CATEGORY_TO_COLOR, CreateTaskRequest, RecurrenceTimeUnit, OverviewTask, TIMEUNITS, UserCategory } from '../../data/task.model';
+import { RetrackerList } from "../../data/list.model";
 import { ChangeDetectionStrategy, Component, effect, inject, input, model, OnInit, output, signal } from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -14,11 +15,12 @@ import { delay, of, take } from 'rxjs';
 import { CategoryIconComponent } from "../shared/category-icon/category-icon.component";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { RetrackerTaskStore } from '../../data/retracker-task.store';
-import { RetrackerService } from '../../data/retracker.service';
+import { TaskStore } from '../../data/task.store';
+import { TaskService } from '../../data/task.service';
 import { A11yModule, CdkTrapFocus } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
 import { ErrorDisplayComponent } from '../../../shared/component/error-display/error-display.component';
+import { UserCategoryService } from '../../data/user-category.service';
 
 @Component({
   selector: 'app-retracker-create',
@@ -29,12 +31,12 @@ import { ErrorDisplayComponent } from '../../../shared/component/error-display/e
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RetrackerCreateComponent implements OnInit {
-
-  service = inject(RetrackerService)
+  private userCategoryService = inject(UserCategoryService);
+  private service = inject(TaskService)
   listId = input.required<string>();
   lists = input.required<RetrackerList[]>();
   abort = output<void>();
-  saved = output<RetrackerOverviewTask>();
+  saved = output<OverviewTask>();
 
   retrackerForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
@@ -43,15 +45,24 @@ export class RetrackerCreateComponent implements OnInit {
       recurrenceInterval: new FormControl(1, Validators.required),
       recurrenceTimeUnit: new FormControl(RecurrenceTimeUnit.WEEK)
     }),
-    userCategory: new FormControl<UserCategory|undefined>(CATEGORIES[0]),
+    userCategory: new FormControl<UserCategory|undefined>(undefined),
     completionChoice: new FormControl<"logCompleted" | "logLater" | "plan">('logCompleted', Validators.required),
     dueDate: new FormControl<Date>(new Date(), Validators.required),
     lastEntryDate: new FormControl<Date>(new Date(), Validators.required),
     list: new FormControl<RetrackerList|undefined>(undefined),
   });
 
-  categories = CATEGORIES;
+  categories = this.userCategoryService.categories;
+  isReady = this.userCategoryService.isReady;
   timeunits = TIMEUNITS; 
+
+  constructor() { 
+    effect(() => {
+      if (this.isReady()) {
+        this.retrackerForm.patchValue({ userCategory: this.categories()![0] });
+      }
+    });
+  }
 
   ngOnInit(): void {
     if (this.listId()) {
@@ -72,10 +83,10 @@ export class RetrackerCreateComponent implements OnInit {
   saveClicked() {
     if (this.retrackerForm.valid) {
       const formValue = this.retrackerForm.value;
-      const request: CreateRetrackerEntryRequest = {
+      const request: CreateTaskRequest = {
         listId: formValue.list?.id!,
         name: formValue.name!,
-        userCategory: formValue.userCategory!, 
+        category: formValue.userCategory!.category, 
         recurrenceConfig: formValue.configureRecurrance ? {
           recurrenceInterval: formValue.recurrenceConfig?.recurrenceInterval!,
           recurrenceTimeUnit: formValue.recurrenceConfig?.recurrenceTimeUnit!
@@ -85,7 +96,11 @@ export class RetrackerCreateComponent implements OnInit {
       };
       this.service.create(request).pipe(take(1)).subscribe(
         (response) => {
-          const entry = Object.assign({id: response.id}, request) as RetrackerOverviewTask;
+          const entry = {
+            ...request,
+            id: response.id,
+            category: formValue.userCategory!,
+          } as OverviewTask;
           this.saved.emit(entry);
         }
       );

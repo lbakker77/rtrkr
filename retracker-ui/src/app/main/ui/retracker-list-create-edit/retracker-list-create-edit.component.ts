@@ -6,9 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { RetrackerService } from '../../data/retracker.service';
-import { CreatedResponse, RetrackerList } from '../../data/retracker.model';
+import { CreatedResponse } from "../../../shared/data/response.model";
+import { RetrackerList } from "../../data/list.model";
 import { CommonModule } from '@angular/common';
+import { ListService } from '../../data/list.service';
 
 export interface RetrackerListCreateResult {
     listId: string
@@ -34,7 +35,7 @@ export interface RetrackerListCreateResult {
 })
 export class RetrackerListCreateEditComponent {
   private fb = inject(FormBuilder);
-  private retrackerService = inject(RetrackerService);
+  private listService = inject(ListService);
   private dialogRef = inject(MatDialogRef<RetrackerListCreateEditComponent>);
   data: RetrackerList = inject(MAT_DIALOG_DATA);
 
@@ -73,11 +74,11 @@ export class RetrackerListCreateEditComponent {
       const name = this.form.get('name')!.value;
       const icon = this.form.get('icon')!.value;
       if (this.data) {
-        this.retrackerService.updateList(this.data.id, name, icon).subscribe(() => {
+        this.listService.updateList(this.data.id, name, icon).subscribe(() => {
           this.dialogRef.close({ configureShare: andShare });
         });
       } else {
-       this.retrackerService.createList(name, icon).subscribe((createdResponse: CreatedResponse) => {
+       this.listService.createList(name, icon).subscribe((createdResponse: CreatedResponse) => {
           this.dialogRef.close({configureShare: andShare, listId: createdResponse.id } );
         });
       }

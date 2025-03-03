@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { RetrackerListsStore } from '../../data/retracker-lists.store';
+import { ListStore } from '../../data/list.store';
 import { SimplePageViewComponent } from '../../../shared/component/simple-page-view/simple-page-view.component';
 
 @Component({
@@ -15,7 +15,7 @@ import { SimplePageViewComponent } from '../../../shared/component/simple-page-v
 })
 export class RetrackerInvitationComponent {
   private route = inject(ActivatedRoute);
-  private store = inject(RetrackerListsStore);
+  private store = inject(ListStore);
   private router = inject(Router);
 
   listId = this.route.snapshot.paramMap.get('listId');

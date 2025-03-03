@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { RetrackerHistory } from '../../../data/retracker.model';
+import { TaskHistory } from '../../../data/task.model';
 import { DatePipe } from '@angular/common';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { RetrackerEditorStore } from '../retracker-editor.store';
+import { TaskEditorStore } from '../task-editor.store';
 
 interface HistoryViewModel {
   dueDate?: Date;
@@ -27,9 +27,9 @@ interface HistoryViewModel {
 })
 export class HistoryViewComponent {
 
-  private store = inject(RetrackerEditorStore);
+  private store = inject(TaskEditorStore);
   
-  historyElements = input<RetrackerHistory[]>();
+  historyElements = input<TaskHistory[]>();
 
 
   deleteLastEntry() {

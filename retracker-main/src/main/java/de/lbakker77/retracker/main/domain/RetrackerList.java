@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Setter(AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class RetrackerList {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -54,9 +53,13 @@ public class RetrackerList {
         return shareConfigEntries.stream().anyMatch(s -> s.getSharedWithUserId().equals(userId) && s.getStatus() == ShareStatus.PENDING);
     }
 
+    public boolean mayChangeOrDelete(UUID userId) {
+        return ownerId.equals(userId);
+    }
+
     public void inviteUser(UUID userId) {
         if (shareConfigEntries.stream().anyMatch(s -> s.getSharedWithUserId().equals(userId))) {
-            throw new IllegalArgumentException("User is already invited to this list");
+            throw new IllegalStateException("User is already invited to this list");
         }
         if (userId == ownerId) {
             throw new IllegalArgumentException("Cannot invite the owner of the list");
@@ -84,5 +87,18 @@ public class RetrackerList {
         return shareConfigEntries.stream().filter(s -> s.getSharedWithUserId().equals(userId)).findFirst().orElseThrow(() -> new IllegalArgumentException("User is not invited to this list"));
     }
 
+    public void changeName(String newName) {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name must not be empty");
+        }
+        name = newName;
+    }
+
+    public void changeIcon(String newIcon) {
+        if (newIcon == null || newIcon.trim().isEmpty()) {
+            throw new IllegalArgumentException("Icom must not be empty");
+        }
+        icon = newIcon;
+    }
 
 }

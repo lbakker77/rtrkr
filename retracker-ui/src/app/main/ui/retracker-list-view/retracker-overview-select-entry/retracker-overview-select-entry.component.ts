@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, output, signal } from '@angular/core';
-import { RetrackerOverviewTask } from '../../../data/retracker.model';
+import { OverviewTask } from '../../../data/task.model';
 import {MatCardModule} from '@angular/material/card';
 import { DatePipe, NgClass } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +23,7 @@ export class RetrackerOverviewSelectEntryComponent {
   selectionDispatcher = inject(UniqueSelectionDispatcher);
   element = inject(ElementRef);
   
-  item = input.required<RetrackerOverviewTask>();
+  item = input.required<OverviewTask>();
   selected = output<string>();
   imSelected = input.required<boolean>();
 

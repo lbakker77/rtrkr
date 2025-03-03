@@ -18,7 +18,7 @@ public class UserNotificationReader {
     private final NotificationMapper notificationMapper;
 
     public List<UserNotificationDto> getUserNotifications() {
-        var notifications = userNotificationRepository.findByUserIdAndReadFalse(userService.getCurrentUserId());
+        var notifications = userNotificationRepository.findByUserIdAndReadFalse(userService.getUserIdOrCreateIfNew());
         return notificationMapper.toUserNotificationDtos(notifications);
     }
 }

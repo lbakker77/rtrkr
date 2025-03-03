@@ -19,11 +19,9 @@ public class RetrackerService {
 
     public Task loadTaskAndEnsureAccess(UUID entryId, UUID userId) {
         var optionalEntry = taskRepository.findById(entryId);
-        optionalEntry.orElseThrow(() -> new NotFoundException("Task with id " + entryId + " not found"));
-        var entry = optionalEntry.get();
-        var owner = entry.getRetrackerList().getOwnerId();
+        var entry = optionalEntry.orElseThrow(() -> new NotFoundException("Task with id " + entryId + " not found"));
         var list = entry.getRetrackerList();
-        if (!owner.equals(userId) && list.getShareConfigEntries().stream().noneMatch(s -> s.getSharedWithUserId().equals(userId))) {
+        if (!list.hasAccess(userId)){
             throw new ForbiddenException("User not authorized to change this Task id: " + entryId);
         }
 
@@ -32,12 +30,21 @@ public class RetrackerService {
 
     public RetrackerList loadRetrackerListAndEnsureAccess(UUID listId, UUID userId) {
         var list = retrackerListRepository.findById(listId).orElseThrow(() -> new NotFoundException("Retracker list with id " + listId + " not found"));
-        var owner = list.getOwnerId();
-        if (!owner.equals(userId) && list.getShareConfigEntries().stream().noneMatch(s -> s.getSharedWithUserId().equals(userId))) {
+        if (!list.hasAccess(userId)){
             throw new ForbiddenException("User not authorized to access this retracker list id: " + listId);
         }
         return list;
     }
+
+    public RetrackerList loadListAndEnsureUserIsInvited(UUID listId, UUID userId) {
+        var list = retrackerListRepository.findById(listId).orElseThrow(() -> new NotFoundException("Retracker list with id " + listId + " not found"));
+        if (!list.isInvited(userId) && !list.hasAccess(userId)){
+            throw new ForbiddenException("User not authorized to access this retracker list id: " + listId);
+        }
+        return list;
+    }
+
+
 
     public Set<UUID> getSharedUserIds(UUID userId) {
         List<RetrackerList> ownedLists = retrackerListRepository.findByOwnerId(userId);
@@ -56,12 +63,12 @@ public class RetrackerService {
                 .collect(Collectors.toSet());
     }
 
-    public void save(Task task) {
-        taskRepository.save(task);
+    public Task save(Task task) {
+        return taskRepository.save(task);
     }
 
-    public void save(RetrackerList list) {
-        retrackerListRepository.save(list);
+    public RetrackerList save(RetrackerList list) {
+        return retrackerListRepository.save(list);
     }
 
     public void delete(Task entry) {

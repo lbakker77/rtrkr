@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, effect, inject, output, signal, viewChild, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RetrackerTaskStore } from '../../data/retracker-task.store';
+import { TaskStore } from '../../data/task.store';
 import { RetrackerOverviewSelectEntryComponent } from './retracker-overview-select-entry/retracker-overview-select-entry.component';
 import { RetrackerEditorComponent } from "../retracker-editor/retracker-editor.component";
 import { ResponsiveMasterDetailComponent } from "../../../shared/component/responsive-master-detail/responsive-master-detail.component";
 import { MasterPartDirective } from '../../../shared/component/responsive-master-detail/master-part.directive';
 import { DetailPartDirective } from '../../../shared/component/responsive-master-detail/detail-part.directive';
-import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MasterAbsolutePositionedDirective } from "../../../shared/component/responsive-master-detail/master-absolute-positioned.directive";
-import { RetrackerOverviewTask } from '../../data/retracker.model';
+import { OverviewTask } from '../../data/task.model';
 import { RetrackerCreateComponent } from "../retracker-create/retracker-create.component";
 import { ViewportScroller } from '@angular/common';
-import { RetrackerListsStore } from '../../data/retracker-lists.store';
+import { ListStore } from '../../data/list.store';
 import { MatMenuModule } from '@angular/material/menu';
 import { RetrackerListEditMenuComponent } from "../retracker-list-edit-menu/retracker-list-edit-menu.component";
 
@@ -21,7 +21,7 @@ import { RetrackerListEditMenuComponent } from "../retracker-list-edit-menu/retr
   imports: [RetrackerListEditMenuComponent, MatMenuModule, RetrackerOverviewSelectEntryComponent, RetrackerEditorComponent, ResponsiveMasterDetailComponent, MasterPartDirective, DetailPartDirective, MatIcon, MatFabButton, MasterAbsolutePositionedDirective, MasterAbsolutePositionedDirective, RetrackerCreateComponent, RetrackerListEditMenuComponent],
   templateUrl: './retracker-list-view.component.html',
   styleUrl: './retracker-list-view.component.scss',
-  providers: [RetrackerTaskStore],
+  providers: [TaskStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 }) 
 export class RetrackerListViewComponent  {
@@ -31,8 +31,8 @@ export class RetrackerListViewComponent  {
 
   private route = inject(ActivatedRoute);
   title = signal("");
-  store = inject(RetrackerTaskStore);
-  listsStore = inject(RetrackerListsStore);
+  store = inject(TaskStore);
+  listsStore = inject(ListStore);
   scroller = inject(ViewportScroller);
   dueCount = output<number>();
   listId = this.route.snapshot.paramMap.get('listId');
@@ -93,7 +93,7 @@ export class RetrackerListViewComponent  {
     this.responiveMasterDetailView()?.openDetail();
   }
 
-  entryChanged($event: RetrackerOverviewTask|undefined) {
+  entryChanged($event: OverviewTask|undefined) {
     if ($event && typeof $event.id ==='string') {
       this.store.updateEntry($event);
     }
@@ -113,7 +113,7 @@ export class RetrackerListViewComponent  {
     this.store.closeNewEntryDialog();
   }
 
-  registerNewEntry($event: RetrackerOverviewTask) {
+  registerNewEntry($event: OverviewTask) {
     this.store.addEntryAndSelect($event);
     this.store.closeNewEntryDialog();
   }
