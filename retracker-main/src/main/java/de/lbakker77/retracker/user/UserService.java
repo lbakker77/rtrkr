@@ -30,7 +30,7 @@ public class UserService {
     private final ActivateUserUseCase activateUserUseCase;
     private final UserMapper userMapper;
 
-    public UUID getUserIdOrCreateIfNew() {
+    public UUID getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
             String email = jwt.getClaimAsString(EMAIL_CLAIM);
@@ -44,20 +44,6 @@ public class UserService {
             return user.getId();
         }
         throw new IllegalStateException("User not authenticated");
-    }
-
-    public UUID getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-            String email = jwt.getClaimAsString(EMAIL_CLAIM);
-            var user = userRepository.findByEmail(email);
-            if (user.isEmpty()){
-                throw new IllegalStateException("User not found");
-            }
-            return user.get().getId();
-        } else {
-            throw new IllegalStateException("User not authenticated");
-        }
     }
 
     public UserDto getCurrentUser() {
@@ -99,7 +85,7 @@ public class UserService {
             if (exactNameOrEmail.contains(" ")){
                 var names = exactNameOrEmail.split(" ");
                 var firstName = names[0];
-                var lastName = names.length > 1? names[1] : null;
+                var lastName = names.length > 1? names[names.length-1] : null;
                 return keyCloak.realm("retracker").users().searchByAttributes(String.format("firstName:%s lastName:%s", firstName, lastName),false).stream().map(u -> new UserDto(UUID.fromString(u.getId()), u.getEmail(), u.getFirstName(), u.getLastName())).toList();
             }
         }

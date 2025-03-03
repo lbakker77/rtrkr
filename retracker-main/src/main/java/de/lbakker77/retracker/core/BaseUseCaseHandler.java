@@ -48,7 +48,7 @@ public abstract class BaseUseCaseHandler<Request extends BaseRequest, Response e
         if (!validationResult.isEmpty()) {
             return createErrorResponse(validationResult);
         }
-        return handle(request, new CommandContext(userService.getUserIdOrCreateIfNew(), userTimeZoneService.getUserTimeZone()));
+        return handle(request, new CommandContext(userService.getUserId(), userTimeZoneService.getUserTimeZone()));
     }
 
     protected abstract Response handle(Request command, CommandContext commandContext);

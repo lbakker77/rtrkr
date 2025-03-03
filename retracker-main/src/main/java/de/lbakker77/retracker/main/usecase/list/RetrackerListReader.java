@@ -32,7 +32,7 @@ public class RetrackerListReader {
 
     public List<RetrackerListDto> getAllRetrackerLists() {
         var retrackerListDtos = new LinkedList<RetrackerListDto>();
-        UUID userId = userService.getUserIdOrCreateIfNew();
+        UUID userId = userService.getUserId();
         var retrackerLists = retrackerListRepository.findRetrackerListsForUser(userId);
         var usersCurrentDate = LocalDate.now(userTimeZoneService.getUserTimeZone().toZoneId());
         for (var retrackerList : retrackerLists) {
@@ -51,7 +51,7 @@ public class RetrackerListReader {
     }
 
     public long getDueCount(UUID listId) {
-        retrackerService.loadRetrackerListAndEnsureAccess(listId, userService.getCurrentUserId());
+        retrackerService.loadRetrackerListAndEnsureAccess(listId, userService.getUserId());
         var usersCurrentDate = LocalDate.now(userTimeZoneService.getUserTimeZone().toZoneId());
         return retrackerTaskRepository.countByRetrackerListIdAndDueDateLessThanEqual(listId, usersCurrentDate);
     }

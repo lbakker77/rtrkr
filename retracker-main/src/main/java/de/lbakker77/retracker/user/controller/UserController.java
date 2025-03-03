@@ -17,13 +17,8 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("")
-    public List<UserDto> findUser(@RequestParam("search") String exactName) {
-        return userService.findUsersByFullNameOrEmail(exactName);
-    }
-
     @GetMapping("/id")
     public UUID getCurrentUserId() {
-        return userService.getUserIdOrCreateIfNew();
+        return userService.getUserId();
     }
 }
