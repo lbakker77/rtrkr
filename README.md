@@ -1,26 +1,32 @@
-# Re-Tracker Project
+# Re-Tracker 
 
-ReTracker is a responsive web application designed to track the completion dates of activities and schedule reminders based on their execution dates. It uses Java Spring Boot for the backend and Angular for the frontend.
+---
 
-The main goal of ReTracker is to demonstrate technical expertise in web development.
+- [About](#about)
 
-Key Features:
+---
 
-Activity Logging: Users can log activities and mark them as completed, with automatic recording of completion dates.
+## About
+This project is mainly intended as a practice project to try out new things (e.g., Angular signals and signal store, Spring Modultih). Nevertheless, the project aims to be production-ready and will be deployed in the near future. Many smaller projects and articles written about technology and how to make things work often have a demo-ware character, which is not always helpful and can potentially be misleading.
 
-Reminder Scheduling: Users can set reminders based on actual execution dates, ensuring timely notifications.
+Re-Tracker is a responsive web application designed to track the completion dates of activities and schedule reminders based on their execution dates. It uses Java Spring Boot for the backend and Angular for the frontend.
 
-Group Lists: Manage Lists together with your family, work group, or friends
+### Key Features: 
 
-Responsive Design: The application is designed to work seamlessly on various devices, providing an optimal user experience on desktops, tablets, and mobile phones.
+- **Task Logging**: Users can log tasks and mark them as completed, with automatic recording of completion dates.
 
-Tech Stack:
+- **Reminder Scheduling**: Users can set recurrant reminders based on actual execution dates. Manual scheduling is also possible.
 
+- **Group Lists**: Manage Lists together with your family, work group, or friends. Changes are updates concurrently.
 
-Backend: Java Spring Boot, Spring Modultih, Rest, WebSockets/Stomp, Jpa/Spring Data
+- **Responsive Design**: The application is designed to work seamlessly on various devices, providing an optimal user experience on desktops, tablets, and mobile phones.
 
-Infrastructure: Docker, KeyCloak, PostgreSQL
+### Tech Stack
 
-Frontend: Angular
+- Backend: Java Spring Boot, Spring Modultih, Rest, WebSockets / Stomp, JPA / Spring Data
+
+- Infrastructure: Docker, KeyCloak, PostgreSQL
+
+- Frontend: Angular, Angular Material, RxJS Signal Store 
 
 Re-Tracker is a practical tool for task management and a showcase of technical know-how in using modern web technologies.
