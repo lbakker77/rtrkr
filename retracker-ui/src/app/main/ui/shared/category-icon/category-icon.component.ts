@@ -11,8 +11,9 @@ import { UserCategory } from '../../../data/task.model';
 })
 export class CategoryIconComponent { 
   userCategory = input.required<UserCategory>();
+  taskName = input.required<string>();
   size = input<"large" | "small">("large");
 
-  categorySingleLetter = computed(() => this.userCategory().categoryName ?? ''.length > 0 ? this.userCategory().categoryName[0].toUpperCase() : '?');
+  categorySingleLetter = computed(() => this.taskName() ?? ''.length > 0 ? this.taskName()[0].toUpperCase() : '?');
   
 }

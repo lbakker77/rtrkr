@@ -22,7 +22,7 @@ public class RetrackerShareReader {
     private final UserService userService;
 
     public List<ShareConfigDto> getShareConfigs(UUID listId) {
-        var currentUserId = userService.getUserId();
+        var currentUserId = userService.getOrCreateUserId();
 
         var list = retrackerService.loadRetrackerListAndEnsureAccess(listId, currentUserId);
 
@@ -70,7 +70,7 @@ public class RetrackerShareReader {
     }
 
     public List<UserDto> getKnownUsersToShareWith(UUID listId) {
-        var currentUserId = userService.getUserId();
+        var currentUserId = userService.getOrCreateUserId();
 
         var currentList = retrackerService.loadRetrackerListAndEnsureAccess(listId, currentUserId);
         var currentListSharedUserIds = currentList.getShareConfigEntries().stream().map(ShareConfig::getSharedWithUserId).toList();

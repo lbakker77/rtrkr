@@ -1,4 +1,4 @@
-name: retracker
+name: retracker-prod
 
 services:
   web:

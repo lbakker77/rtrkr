@@ -34,6 +34,7 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
     effect(() => {
         const keycloakEvent = this.keycloakSignal();
         if (keycloakEvent.type === KeycloakEventType.AuthSuccess) {
+            
             const keycloakUser = this.keycloak.idTokenParsed;
             patchState(this, {isAuthenticated: true, firstName: keycloakUser?.["given_name"], lastName: keycloakUser?.["family_name"], email: keycloakUser?.["email"]});
         }
@@ -55,10 +56,16 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
             patchState(this, {isAuthenticated: false, firstName: undefined, lastName: undefined, email: undefined});   
         }
       });
+      effect(() => {
+        if (this.userId()) {
+          console.log('User ID:', this.userId());
+          patchState(this, { isAuthenticated: true });
+        }});
     }
 
+
     getUserId = rxMethod<void>(pipe(
-      switchMap(() => this.userService.getUserId().pipe(
+      switchMap(() => this.userService.getOrCreateUserId().pipe(
         tap(userId => patchState(this, { userId })))
       )));
 

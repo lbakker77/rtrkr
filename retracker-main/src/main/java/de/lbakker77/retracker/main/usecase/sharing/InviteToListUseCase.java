@@ -26,7 +26,7 @@ public class InviteToListUseCase extends BaseUseCaseHandler<InviteToListRequest,
     @Override
     protected BaseResponse handle(InviteToListRequest request, CommandContext commandContext) {
         var list = retrackerService.loadRetrackerListAndEnsureAccess(request.getListId(), commandContext.userId());
-        var existingUser = userService.getUserId(request.getEmail());
+        var existingUser = userService.getOrCreateUserId(request.getEmail());
         UUID userId;
         userId = existingUser.orElseGet(() -> userService.inviteUser(request.getEmail()));
 

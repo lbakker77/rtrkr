@@ -27,17 +27,17 @@ public class TaskReader {
 
 
     public List<RetrackerTaskOverviewDto> getRetrackerTasks(UUID retrackerListId) {
-        retrackerService.loadRetrackerListAndEnsureAccess(retrackerListId, userService.getUserId());
+        retrackerService.loadRetrackerListAndEnsureAccess(retrackerListId, userService.getOrCreateUserId());
         return retrackerMapper.toRetrackerOverviewTaskDtos(retrackerTaskRepository.findByRetrackerListIdOrderByDueDateAscNameAsc(retrackerListId), userTimeZoneService.getUserTimeZone());
     }
 
     public RetrackerTaskDto getRetrackerTaskById(UUID retrackerEntryId) {
-        var task = retrackerService.loadTaskAndEnsureAccess(retrackerEntryId, userService.getUserId());
+        var task = retrackerService.loadTaskAndEnsureAccess(retrackerEntryId, userService.getOrCreateUserId());
         return retrackerMapper.toRetrackerTaskDto(task, userTimeZoneService.getUserTimeZone());
     }
 
     public List<RetrackerTaskOverviewDto> getAllRetrackerTasks() {
-        var userId = userService.getUserId();
+        var userId = userService.getOrCreateUserId();
         var allTasks = retrackerTaskRepository.findAllTasksOfUser(userId);
         return retrackerMapper.toRetrackerOverviewTaskDtos(allTasks, userTimeZoneService.getUserTimeZone());
     }

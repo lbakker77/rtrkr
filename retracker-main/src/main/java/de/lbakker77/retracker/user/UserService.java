@@ -30,7 +30,7 @@ public class UserService {
     private final ActivateUserUseCase activateUserUseCase;
     private final UserMapper userMapper;
 
-    public UUID getUserId() {
+    public UUID getOrCreateUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
             String email = jwt.getClaimAsString(EMAIL_CLAIM);
@@ -60,7 +60,7 @@ public class UserService {
         }
     }
 
-    public Optional<UUID> getUserId(String email) {
+    public Optional<UUID> getOrCreateUserId(String email) {
         return userRepository.findByEmail(email).map(User::getId);
     }
 

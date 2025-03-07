@@ -53,7 +53,7 @@ class InviteToListUseCaseTest {
         CommandContext commandContext = new CommandContext(currentUserId, TimeZone.getDefault());
 
         when(retrackerService.loadRetrackerListAndEnsureAccess(listId, currentUserId)).thenReturn(mockList);
-        when(userService.getUserId(email)).thenReturn(Optional.empty());
+        when(userService.getOrCreateUserId(email)).thenReturn(Optional.empty());
         when(userService.inviteUser(email)).thenReturn(newUserId);
         when(userService.getCurrentUser()).thenReturn(currentUser);
         when(mockList.getId()).thenReturn(listId);

@@ -9,7 +9,7 @@ import { StringLiteralType } from 'typescript';
 export class UserService {
   private httpClient = inject(HttpClient);
 
-  getUserId(): Observable<string>{ 
+  getOrCreateUserId(): Observable<string>{ 
     return this.httpClient.get<string>(`/api/user/id`);
   }
 

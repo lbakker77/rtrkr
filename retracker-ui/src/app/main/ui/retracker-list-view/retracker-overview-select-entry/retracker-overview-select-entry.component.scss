@@ -30,7 +30,7 @@ mat-card.desktop.selected, mat-card.desktop:active {
   opacity: 0;
 }
 
-.mat-mdc-card:hover, .mat-mdc-card:focus, mat-card.selected {
+.mat-mdc-card:hover, .mat-mdc-card:focus, .mat-mdc-card.selected {
   cursor: pointer;
   overflow: hidden;
   .background {

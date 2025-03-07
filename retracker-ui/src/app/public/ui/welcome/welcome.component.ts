@@ -17,7 +17,8 @@ export class WelcomeComponent {
   private readonly authStore = inject(AuthStore);
   constructor(){
     effect(() => {
-      if (this.authStore.isAuthenticated()) {
+      if (this.authStore.isAuthenticated() && this.authStore.userId() && this.router.url === '/welcome'  || this.router.url === '/') {
+        console.log('User is authenticated and is already on the welcome page');
         this.router.navigate(['/retracker']);
       }
     }); 
