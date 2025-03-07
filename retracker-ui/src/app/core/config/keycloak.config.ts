@@ -1,4 +1,5 @@
 import { AutoRefreshTokenService, createInterceptorCondition, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG, IncludeBearerTokenCondition, provideKeycloak, UserActivityService, withAutoRefreshToken } from "keycloak-angular";
+import { environment } from "../../../environments/environment";
 
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^http:\/\/localhost:4200\/.*/i,
@@ -11,7 +12,7 @@ const urlCondition2 = createInterceptorCondition<IncludeBearerTokenCondition>({
 
 export const provideKeycloakConfig = () => provideKeycloak({
     config: {
-      url: 'http://localhost:8081',
+      url: environment.keyCloakUrl,
       realm: 'retracker',
       clientId: 'retracker-web-ui'
     },

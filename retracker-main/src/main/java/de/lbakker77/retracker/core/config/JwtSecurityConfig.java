@@ -12,7 +12,6 @@ public class JwtSecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/ws/**"
-
     };
 
     @Bean

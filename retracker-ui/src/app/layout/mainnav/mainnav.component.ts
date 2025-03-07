@@ -7,6 +7,7 @@ import { GlobalSearchComponent } from "../global-search/global-search.component"
 import { UserComponent } from "./user/user.component";
 import { ThemeSwitcherComponent } from '../../shared/component/theme-switcher/theme-switcher.component';
 import { UserNotificationsComponent } from '../../feature/notifications/user-notifications/user-notifications.component';
+import { AuthStore } from '../../core/service/auth.store';
 
 @Component({
   selector: 'app-mainnav',
@@ -17,5 +18,5 @@ import { UserNotificationsComponent } from '../../feature/notifications/user-not
 })
 export class MainnavComponent { 
   secondaryNavService = inject(SecodaryNavService);
-
+  authStore = inject(AuthStore);
 }

@@ -9,51 +9,59 @@ mat-card {
 }
 
 mat-card.desktop  {
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  box-shadow: var(--mat-sys-surface-container-high) 0px 0px 0px 1px;
 }
 
-mat-card.desktop:hover {
-  box-shadow: rgba(3, 102, 214, 0.2) 0px 0px 0px 1px;
-}
 
 mat-card.desktop.selected, mat-card.desktop:active {
-  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 1px;
+  box-shadow: var(--mat-sys-surface-container-high) 0px 0px 0px 2px;
 }
 
+.background {
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  border-radius: inherit;
+  display: block;
+  z-index: -1;
+  background-color: var(--mat-sys-on-background);
+  opacity: 0;
+}
 
 .mat-mdc-card:hover, .mat-mdc-card:focus, mat-card.selected {
   cursor: pointer;
   overflow: hidden;
   .background {
-
-    position:absolute;
-    top:0;
-    right:0;
-    left:0;
-    bottom:0;
-    border-radius: inherit;
-    opacity: 0.05;
-    display: block;
-    z-index: -1;
+    opacity: 0.015;
   }
 }
 
-.mat-mdc-card:hover .background {
-  opacity: 0.08;
+mat-card.selected .background {
+  opacity: 0.00;  
+  animation: select-animation 0.5s;
+}
+
+@keyframes select-animation {
+  0% {
+    opacity: 0.015;
+  }
+  20% {
+    opacity: 0.025;;
+  }
+  100% {
+    opacity: 0.015;
+  }
 }
 
 .alertColor {
   color: var(--mat-sys-error);
 }
 
-mat-card.selected.phoneOrTablet .background{
-  background-color: unset;
-}
-
 .phoneOrTablet mat-card-content {
   padding: 8px;
 }
-
 
 .phoneOrTablet .selectableCard {
   font-size: 0.85em;
@@ -74,7 +82,6 @@ mat-card.selected.phoneOrTablet .background{
 .phone .selectableCard {
   font-size: 0.77em;
   gap: 2px 5px;
-  padding-bottom: 3px;
   grid-template-columns: max-content auto 110px;
   .repeat {
     display: none;
@@ -90,6 +97,7 @@ mat-card.selected.phoneOrTablet .background{
   display: grid;
   grid-template-columns: max-content max-content auto 150px;
   grid-template-rows: 50% 50%;
+  padding-bottom: 3px;
   gap: 6px 12px;
   align-items: center;
   h3 {

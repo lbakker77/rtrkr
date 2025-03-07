@@ -2,12 +2,12 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  padding-top: 64px;
+  padding-top: 32px;
 }
 
 .content {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   gap: var(--spacing);
 }
 
@@ -31,7 +31,7 @@ h1 {
 
 .text {
   flex: 1;
-  min-width:200px;
+  min-width:400px;
   animation: fly-in 1s;
   animation-fill-mode: forwards;
 }
@@ -59,6 +59,8 @@ h1 {
 .image {
   flex: 1;
   width: 100%;
+  min-width:400px;
+
   padding:  0;
   display: flex;
   flex-flow: column nowrap;
@@ -73,6 +75,3 @@ h1 {
   }
 }
 
-.phone .image {
-  display: none;
-}

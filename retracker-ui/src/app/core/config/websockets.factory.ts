@@ -4,6 +4,5 @@ import { WebsocketService } from "./websockets.service";
 export function rxStompServiceFactory() {
     const rxStomp = new WebsocketService();
     rxStomp.configure(rxStompConfig);
-    rxStomp.activate();
     return rxStomp;
   }

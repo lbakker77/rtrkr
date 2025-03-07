@@ -49,6 +49,7 @@ The text should be directly related to the tasks title
 2. The text should contain the tasks title
 3. The text must be in the users language (de, en, future: more languages)
 4. The text must only be related to the task execution. no other topics should appear. E.g. task "new video on politics) should not discuss political issures. Or task "sex" should not contain more advice.
+5. the response is save / not toxic / friendly.
 
 
 

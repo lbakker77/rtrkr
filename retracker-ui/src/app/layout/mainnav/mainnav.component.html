@@ -1,5 +1,5 @@
 <mat-toolbar >
-    @if(secondaryNavService.isToggleEnabled()) {
+    @if(secondaryNavService.isToggleEnabled() && authStore.isAuthenticated()) {
         <button mat-icon-button class="responsive-hamburger" aria-label="icon-button with menu icon" (click)="secondaryNavService.toogleSideNav()" [class.opened]="secondaryNavService.isOpen()">
             <mat-icon>menu</mat-icon>
           </button>
