@@ -11,8 +11,6 @@ This project is mainly intended as a practice project to try out new things (e.g
 
 Re-Tracker is a responsive web application designed to track the completion dates of activities and schedule reminders based on their execution dates. It uses Java Spring Boot for the backend and Angular for the frontend.
 
-The main goal of ReTracker is to demonstrate technical expertise in web development.
-
 ### Key Features: 
 
 - **Task Logging**: Users can log tasks and mark them as completed, with automatic recording of completion dates.
