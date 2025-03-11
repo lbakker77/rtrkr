@@ -1,3 +1,5 @@
+![Java CI workflow](https://github.com/lbakker77/retracker/actions/workflows/maven.yml/badge.svg)
+
 # Re-Tracker 
 
 ---
