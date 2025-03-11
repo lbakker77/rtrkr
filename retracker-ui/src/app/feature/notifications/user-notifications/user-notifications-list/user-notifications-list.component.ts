@@ -25,7 +25,6 @@ export class UserNotificationsListComponent {
     var command = action.split(':')[0];
     switch (command) {
       case 'show_invite':
-        console.log("invite to list: " + action.split(':')[1]);
         this.router.navigate(['retracker', "invitation", action.split(':')[1]]);
         this.dialogRef.close();
     }

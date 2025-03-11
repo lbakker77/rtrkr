@@ -59,7 +59,6 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
       });
       effect(() => {
         if (this.userId()) {
-          console.log('User ID:', this.userId());
           patchState(this, { isAuthenticated: true });
         }});
     }

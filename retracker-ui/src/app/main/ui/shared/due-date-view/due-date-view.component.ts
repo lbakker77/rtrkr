@@ -20,10 +20,9 @@ export class DueDateViewComponent {
       const msDiff = this.dueDate()!.getTime() - today.getTime();
       const dayFloat = msDiff / 1000 / 3600 / 24;
       const dueDays =  Math.floor(dayFloat);
-      console.log('dueDays: ' + dueDays);
       return dueDays;
     }  
-    return null;
+    return null; 
   });
 
   overDueDays = computed(() => this.dueIn() ? Math.abs(this.dueIn()!) : null);

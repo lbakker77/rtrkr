@@ -30,7 +30,6 @@ export class TaskService {
       entry.recurrenceConfig.recurrenceTimeUnit = RecurrenceTimeUnit[entry.recurrenceConfig.recurrenceTimeUnit];
     }
     entry.category.categoryColor = CATEGORY_TO_COLOR.find(category => category.category === entry.category.category)?.categoryColor || CategoryColor.SILVER;
-    console.log(entry.category.categoryColor);
     return entry;
   }
 

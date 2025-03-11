@@ -48,7 +48,6 @@ export class RetrackerListViewComponent  {
       }
       else if (listId) {
         this.title.set(listId);
-        console.log("listid: " + listId);  
         this.store.loadByListname(listId);
         this.store.unselectEntry();
       }

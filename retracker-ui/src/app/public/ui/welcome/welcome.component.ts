@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { AuthStore } from '../../../core/service/auth.store';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,13 +16,20 @@ import { ColorSchemeClassDirective } from '../../../shared/directives/color-sche
 export class WelcomeComponent {
   private readonly router = inject(Router);
   private readonly authStore = inject(AuthStore);
+  private readonly video: Signal<ElementRef | undefined> = viewChild("video");
+
   constructor(){
     effect(() => {
       if (this.authStore.isAuthenticated() && this.authStore.userId() && this.router.url === '/welcome'  || this.router.url === '/') {
-        console.log('User is authenticated and is already on the welcome page');
         this.router.navigate(['/retracker']);
       }
     }); 
+    effect(() => {
+      if (this.video()) {
+          this.video()!.nativeElement.muted = true;
+          this.video()!.nativeElement.play();
+      }
+      });;
   }
 
   register() {
