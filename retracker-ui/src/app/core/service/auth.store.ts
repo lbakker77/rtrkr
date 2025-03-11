@@ -12,6 +12,7 @@ interface AuthStoreModel {
     lastName: string | undefined,
     email: string | undefined,
     userId: string | undefined,
+    ready: boolean
 }
 
 const initialState: AuthStoreModel = 
@@ -21,6 +22,7 @@ const initialState: AuthStoreModel =
     lastName: undefined,
     email: undefined,
     userId: undefined,
+    ready: false
   }
 
 @Injectable({providedIn: "root"} )
@@ -45,11 +47,11 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
             if(authenticated){
                 const keycloakUser = this.keycloak.idTokenParsed;
                 
-                patchState(this, {firstName: keycloakUser?.["given_name"], lastName: keycloakUser?.["family_name"], email: keycloakUser?.["email"], isAuthenticated: true});
+                patchState(this, {firstName: keycloakUser?.["given_name"], lastName: keycloakUser?.["family_name"], email: keycloakUser?.["email"], isAuthenticated: false});
                 this.getUserId();
             }
             else {
-                patchState(this, {isAuthenticated: false, firstName: undefined, lastName: undefined, email: undefined});
+                patchState(this, {isAuthenticated: false, firstName: undefined, lastName: undefined, email: undefined, ready: true});
             }
 
         }
@@ -66,7 +68,7 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
 
     getUserId = rxMethod<void>(pipe(
       switchMap(() => this.userService.getOrCreateUserId().pipe(
-        tap(userId => patchState(this, { userId })))
+        tap(userId => patchState(this, { userId, ready: true })))
       )));
 
     login() 

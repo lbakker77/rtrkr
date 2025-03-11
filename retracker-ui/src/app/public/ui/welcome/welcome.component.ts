@@ -15,7 +15,7 @@ import { ColorSchemeClassDirective } from '../../../shared/directives/color-sche
 })
 export class WelcomeComponent {
   private readonly router = inject(Router);
-  private readonly authStore = inject(AuthStore);
+  readonly authStore = inject(AuthStore);
   private readonly video: Signal<ElementRef | undefined> = viewChild("video");
 
   constructor(){
