@@ -21,6 +21,7 @@ public class BaseResponse {
     }
 
     private boolean success = true;
+    @Builder.Default
     private List<Violation> violations = new LinkedList<>();
 
 }

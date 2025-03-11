@@ -44,6 +44,7 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
 
             if(authenticated){
                 const keycloakUser = this.keycloak.idTokenParsed;
+                
                 patchState(this, {firstName: keycloakUser?.["given_name"], lastName: keycloakUser?.["family_name"], email: keycloakUser?.["email"], isAuthenticated: true});
                 this.getUserId();
             }

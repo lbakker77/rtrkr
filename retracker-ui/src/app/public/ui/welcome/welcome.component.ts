@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { ResponsiveClassDirective } from '../../../shared/component/responsive-class.directive';
 import { SimplePageViewComponent } from '../../../shared/component/simple-page-view/simple-page-view.component';
+import { ColorSchemeClassDirective } from '../../../shared/directives/color-scheme-class.directive';
 
 @Component({
   selector: 'app-welcome',
-  imports: [MatButtonModule,ResponsiveClassDirective, SimplePageViewComponent], 
+  imports: [MatButtonModule,ResponsiveClassDirective, ColorSchemeClassDirective], 
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

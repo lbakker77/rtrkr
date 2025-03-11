@@ -8,10 +8,11 @@ import { UserComponent } from "./user/user.component";
 import { ThemeSwitcherComponent } from '../../shared/component/theme-switcher/theme-switcher.component';
 import { UserNotificationsComponent } from '../../feature/notifications/user-notifications/user-notifications.component';
 import { AuthStore } from '../../core/service/auth.store';
+import { ColorSchemeClassDirective } from '../../shared/directives/color-scheme-class.directive';
 
 @Component({
   selector: 'app-mainnav',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, GlobalSearchComponent, UserComponent, ThemeSwitcherComponent, UserNotificationsComponent],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, GlobalSearchComponent, UserComponent, ThemeSwitcherComponent, UserNotificationsComponent, ColorSchemeClassDirective],
   templateUrl: './mainnav.component.html',
   styleUrl: './mainnav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -9,7 +9,7 @@ import { ColorScheme, ColorSchemePreferenceService } from '../../directives/colo
   standalone: true,
   imports: [MatIconModule, MatButtonModule, MatMenuModule],
   template: `
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Theme switcher">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Theme switcher" title="configure dark of light mode">
       <mat-icon>palette</mat-icon>
     </button>
     <mat-menu #menu="matMenu">

@@ -1,11 +1,13 @@
-import { RxStompConfig } from '@stomp/rx-stomp';
+import { RxStomp, RxStompConfig, StompHeaders } from '@stomp/rx-stomp';
 import { environment } from '../../../environments/environment';
+import cli from '@angular/cli';
 
 
 export const rxStompConfig: RxStompConfig = {
     // Which server?
     brokerURL: environment.websocketBaseUrl,
   
+
 
     // How often to heartbeat?
     // Interval in milliseconds, set to 0 to disable
@@ -15,7 +17,7 @@ export const rxStompConfig: RxStompConfig = {
     // Wait in milliseconds before attempting auto reconnect
     // Set to 0 to disable
     // Typical value 500 (500 milli seconds)
-    reconnectDelay: 500,
+    reconnectDelay: 5000,
   
     // Will log diagnostics on console
     // It can be quite verbose, not recommended in production

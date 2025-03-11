@@ -24,7 +24,7 @@ export class RetrackerUpdateService {
   init(lists: RetrackerList[]) {
     lists.filter(l => l.shared && !this.subscriptions.has(l.id)).forEach(l => {
       if (! this.websocketService.active) {
-        this.websocketService.activate();
+        this.websocketService.activateWithToken();
       }
       const subscription = this.websocketService.watch(`/topic/retracker/${l.id}`).subscribe(data => {
         const taskChangeEvent: TaskChangeEvent = JSON.parse(data.body);

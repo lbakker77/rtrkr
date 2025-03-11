@@ -19,7 +19,7 @@
               @for (category of categories(); track category) {
                 <mat-option [value]="category"  >
                     <div class="category-option">
-                        <app-category-icon [userCategory]="category" size="small"></app-category-icon>
+                        <app-category-icon [userCategory]="category" [taskName]="category.categoryName" size="small"></app-category-icon>
                         <span>{{category.categoryName}}</span>
                     </div>    
                 </mat-option>

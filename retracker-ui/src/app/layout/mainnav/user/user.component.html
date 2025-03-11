@@ -1,6 +1,14 @@
 @if (!authStore.isAuthenticated()){
-    <button  mat-stroked-button class="register" (click)="register()">Registrieren     </button>
-    <button  mat-stroked-button (click)="login()">Einloggen</button>
+
+    <button  mat-stroked-button class="register" (click)="register()">Registrieren</button>
+    @if(responsivnessService.isPhone()) {
+        <button  mat-icon-button (click)="login()" title="Login"><mat-icon>login</mat-icon></button>
+
+    } 
+    @else {
+        <button  mat-stroked-button (click)="login()">Einloggen</button>
+
+    }
 }
 @else {
     <button mat-icon-button  aria-label="icon-button with account icon" [matMenuTriggerFor]="userMenu" [matTooltip]="loginInfo()" > 
@@ -11,3 +19,4 @@
         <button mat-menu-item (click)="logout()" i18n>Logout</button>
     </mat-menu>
 }
+ 

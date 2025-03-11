@@ -18,7 +18,7 @@ export class GlobalErrorNotifierService {
   }
 
   consume(error: ErrorResponse, status: number | undefined): void {
-    if (error.violations?.length > 0) {
+    if (error && error.violations?.length > 0) {
       this.notificationService.open("Es ist ein Fehler aufgetreten: " + error.violations.map(v => v.message).join(', '), true, 5);
     } else {
       this.notificationService.open("Es ist ein Fehler aufgetreten.", true, 5);

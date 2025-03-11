@@ -1,4 +1,5 @@
-<mat-toolbar >
+<mat-toolbar colorSchemeClass>
+  <div class="toolbar-content">
     @if(secondaryNavService.isToggleEnabled() && authStore.isAuthenticated()) {
         <button mat-icon-button class="responsive-hamburger" aria-label="icon-button with menu icon" (click)="secondaryNavService.toogleSideNav()" [class.opened]="secondaryNavService.isOpen()">
             <mat-icon>menu</mat-icon>
@@ -6,7 +7,7 @@
 
     }
     @else {
-      <span class="app-name">Re-Tracker</span>
+      <span class="app-name"><img src="/assets/logo_rtrkr.svg" alt="RTRKR Logo"></span>
     }
     <app-global-search></app-global-search>
     <span class="spacer"></span>
@@ -14,5 +15,5 @@
     <app-user-notifications></app-user-notifications> 
 
     <app-user></app-user>
-
+  </div>
 </mat-toolbar>

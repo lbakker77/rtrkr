@@ -1,13 +1,87 @@
-<app-simple-page-view [responsiveClass]="['phoneOrTablet']" class="content">
-    <div class="text">
-        <h1>Halte fest, was relevant ist <br/> Plane für dich selbst oder im Team</h1>
-        <p class="subheader"> Re-Tracker macht es leicht, festzuhalten, wann Du Dinge erledigt hast. Im Gegensatz zu klassischen Kalendern erinnern wir Dich an die erneute Erledigung von Aufgaben in Abhängigkeit von dem Datum der Durchführung.</p>
-        <div class="clickWrapper">
-            <button mat-flat-button (click)="register()">Ausprobieren</button>
-            <p class="small">Dauerhaft kostenlos. Keine Kreditkarte erfoderlich </p>
+<div [responsiveClass]="['phoneOrTablet']" colorSchemeClass  >
+    <div class="teaser1 boxed">
+        <div class="text">
+            <h1>Halte fest, was relevant ist - <br/> Plane für dich selbst oder im Team</h1>
+            <p class="subheader"> 
+                RTRKR (ausgesprochen: Re-Tracker) macht es leicht, Dinge im Blick zu haben, die du regelmäßig oder geplant erledigen und nicht vergessen willst. Im Gegensatz zu 
+                klassischen Kalendern erinnern wir Dich an die erneute Erledigung in Abhängigkeit des Datums der letzten Erledigung oder ermöglichen die manuelle Planung. 
+            </p>
+            <ul> 
+                <li>Immer die nächsten Aufgaben direkt im Blick</li>
+                <li>Nie wieder vergessen, was man sich regelmäßig vornimmt</li>
+                <li>Flexibel planen, Aufgaben verschieben</li>
+                <li>Genau festhalten und prüfen, wann man zuletzt eine Sache erledigt hat</li>
+                <li>Zusammen an einer Liste mit Familie und Freunden gleichzeitig arbeiten</li>
+                <li>Für Smartphone und Desktop. Keine Installation erforderlich</li>
+            </ul>
+            <div class="invisible-spacer"></div>
+            <div class="clickWrapper">
+                <button mat-flat-button (click)="register()">Ausprobieren</button>
+                <p class="small">Dauerhaft kostenlos. Keine Kreditkarte erfoderlich </p>
+            </div>
+        </div>
+        <div class="image">
+            <video loop autoplay muted preload="auto" oncanplay="this.play()">
+                <source src="/assets/app-walkthrough.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
-    <div class="image">
-        <img src="/assets/Retracker_Snapshot.png">
+    <div class="teaser2">
+        <div class="boxed">
+            <div class="text">
+                <h2>Übersichtliche Darstellung auf Desktop / Laptop oder auf dem Tablet</h2>
+                <p>RTRKR ist eine responsive Web-Applikation für alle Endgeräte. Arbeite auf deinem Desktop PC, Laptop oder Tablet über den Browser in einer übersichtlichen Darstellung. 
+                    Hier hast du alles im Blick. </p>
+                    <ul>
+                        <li>Alle Listen werden direkt angezeigt</li>
+                        <li>Über den Badge-Indikator sieht Du direkt, in welche Liste Aufgaben fällig sind</li>
+                        <li>Die Liste bleibt geöffnet während du einzelne Einträge bearbeitest</li>
+                        <li>Der Arbeitsbereich lässt sich flexibel anordnen</li>
+                    </ul>
+            </div>
+            <div class="image">
+                    <img src="/assets/Retracker_Desktop.png" alt="Rtrkr Desktop Screenshot">
+            </div>
+        </div>
     </div>
-</app-simple-page-view>
+
+    <div class="teaser3">
+        <div class="boxed">
+            <div class="image">
+                <img src="/assets/europe-germany.svg" alt="Deutschlandflagge in Europaflagge eingebettet">
+            </div>
+            <div class="text">
+                <h2>Open-Source und in Deutschland gehostet</h2>
+                <p>
+                    RTRKR ist Open-Source und wird in Deutschland gehostet. Der Source-Code unterliegt der Apache 2.0 Lizenz.  
+                </p>
+                <p>
+                    Der RTRKR Source Code befindet sich auf GitHub. Hier geht es zum Github Repository:  
+                </p>
+                <p>
+                    Mit <i class="heart">&#10084;</i>
+                    entwickelt von Lars Bakker.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="teaser2">
+        <div class="boxed">
+            <div class="text">
+                <h2>Unterstützung von Dark und Light Modus</h2>
+                <p>RTRKR zeigt sich gemäß der Benutzerpräferenz im Dark oder im Light Theme. Die Darstellung kann zusätzlich in der Anwendung umgeschaltet werden. 
+                    </p>
+            </div>
+            <div class="image">
+                    <img src="/assets/dark_light_theme.png" alt="Rtrkr Desktop Screenshot">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="boxed">
+            <p>&copy; 2025 RTRKR by Lars Bakker.</p>
+        </div>
+    </div>
+</div>

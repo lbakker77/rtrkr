@@ -1,9 +1,11 @@
 :host {
   display: block;
   transition: top 1s;
+  
 }
 mat-toolbar {
   background-color: var(--nav-background-color);
+  justify-content: center;
 }
 .spacer {
   flex: 1 1 auto;
@@ -20,5 +22,20 @@ mat-toolbar {
 }
 
 .app-name {
-  margin-left: 16px;
+  img {
+    height: 20px;
+    padding-top: 6px
+  }
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.light-theme img {
+  filter: invert(1);
+
 }

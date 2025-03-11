@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import {  MatTooltipModule } from '@angular/material/tooltip';
 import { AuthStore } from '../../../core/service/auth.store';
+import { ResponsivnessService } from '../../../shared/service/responsivness.service';
 
 @Component({
   selector: 'app-user',
@@ -13,6 +14,7 @@ import { AuthStore } from '../../../core/service/auth.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserComponent {
+  responsivnessService = inject(ResponsivnessService);
 
   authStore = inject(AuthStore);
 
