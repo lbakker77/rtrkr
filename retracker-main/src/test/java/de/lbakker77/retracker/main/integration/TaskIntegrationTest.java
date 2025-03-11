@@ -33,7 +33,7 @@ class TaskIntegrationTest extends BaseIntegrationTest {
     void shouldCreateAndReadTaskProperly() throws Exception {
         final var testUser = "task-create-user";
         var listId = dataFactory.createRetrackerList(testUser);
-        final var testDueDate = LocalDate.now().atStartOfDay(ZoneId.of("Europe/Berlin"));
+        final var testDueDate = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
         var request = new CreateTaskRequest();
         request.setListId(listId);
         request.setName("Test Task");
@@ -71,7 +71,7 @@ class TaskIntegrationTest extends BaseIntegrationTest {
     @Test
     void shouldCreateTaskAlreadyCompletedWithRecurrence() throws Exception {
         final var testUser = "task-create-completed-user";
-        final var completionDate = LocalDate.now().minusDays(1).atStartOfDay(ZoneId.of("Europe/Berlin"));
+        final var completionDate = LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault());
         var listId = dataFactory.createRetrackerList(testUser);
         var request = new CreateTaskRequest();
         request.setListId(listId);
@@ -103,7 +103,7 @@ class TaskIntegrationTest extends BaseIntegrationTest {
     @Test
     void canCompleteTask() throws Exception {
         final var testUser = "task-complete-user";
-        final var testDueDate = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.of("Europe/Berlin"));
+        final var testDueDate = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault());
         var listId = dataFactory.createRetrackerList(testUser);
 
         var taskId = dataFactory.createTask(listId , testUser, testDueDate);
@@ -127,7 +127,7 @@ class TaskIntegrationTest extends BaseIntegrationTest {
     @Test
     void canPostponeTask() throws Exception {
         final var testUser = "task-postpone-user";
-        final var testDueDate = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.of("Europe/Berlin"));
+        final var testDueDate = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault());
         final var testPostponedDate = testDueDate.plusDays(2);
         var listId = dataFactory.createRetrackerList(testUser);
 
@@ -198,7 +198,7 @@ class TaskIntegrationTest extends BaseIntegrationTest {
         var listId = dataFactory.createRetrackerList(testUser);
         var taskId = dataFactory.createTask(listId, testUser, null);
 
-        var newDueDate = LocalDate.now().plusDays(7).atStartOfDay(ZoneId.of("Europe/Berlin"));
+        var newDueDate = LocalDate.now().plusDays(7).atStartOfDay(ZoneId.systemDefault());
 
         mockMvc.perform(post("/api/retracker/task/{id}/set-manual-due-date", taskId)
                .with(getJwt(testUser))
