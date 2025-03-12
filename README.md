@@ -14,7 +14,7 @@ This project is mainly intended as a practice project to try out new things (e.g
 
 
 
-## Key Features
+## :sparkles: Key Features
 
 * Task Logging: Users can log tasks and mark them as completed, with automatic recording of completion dates.
 
@@ -24,7 +24,7 @@ This project is mainly intended as a practice project to try out new things (e.g
 
 * Responsive Design: The application is designed to work seamlessly on various devices, providing an optimal user experience on desktops, tablets, and mobile phones.
 
-## Tech Stack
+## :electric_plug: Tech Stack
 
 Backend: Java Spring Boot, Spring Modulith, Rest, WebSockets / Stomp, JPA / Spring Data
 
