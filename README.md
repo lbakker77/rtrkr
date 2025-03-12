@@ -1,4 +1,4 @@
-![Java CI workflow](https://github.com/lbakker77/retracker/actions/workflows/maven.yml/badge.svg)
+![Java CI workflow](https://github.com/lbakker77/retracker/actions/workflows/maven.yml/badge.svg) ![Angulare CI workflow](https://github.com/lbakker77/retracker/actions/workflows/node.js.yml/badge.svg)
 
 # RTRKR - modern and easy task manager
 
