@@ -11,7 +11,7 @@
         }
         <span class="due-date-text" i18n> {overDueDays(), plural, =1 {seit gestern} other {seit {{overDueDays()}} Tagen}}</span>
     }
-    @else if (dueIn()! < 14){
+    @else if (dueIn()! <= 14){
         @if(showIcon()){
             <mat-icon >schedule</mat-icon>
         }

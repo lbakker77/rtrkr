@@ -75,13 +75,6 @@ services:
       - server-key.pem
     command: ["--config-file=/run/secrets/keycloak.conf", "start", "--http-enabled=true"]
 
-  # mail:
-  #   image: mailhog/mailhog
-  #   ports:
-  #     - "8100:8025"
-  #   networks:
-  #     - backend
-
   vpn:
     image: lscr.io/linuxserver/wireguard:latest
     container_name: wireguard

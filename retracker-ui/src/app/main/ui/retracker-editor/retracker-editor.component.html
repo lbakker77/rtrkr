@@ -3,7 +3,7 @@
     @if(!store.isLoading() && store.hasSelectedEntry()) {
 
     <div class="toolbar">
-    <div>{{store.selectedEntry()?.name ?? ''}} </div>  
+    <div class="title" role="heading">{{store.selectedEntry()?.name ?? ''}} </div>  
     <button mat-icon-button (click)="delete()"  [disabled]="store.isInEditMode()"><mat-icon>delete</mat-icon></button>
 
     <button mat-icon-button (click)="edit()" [disabled]="store.isInEditMode()"><mat-icon>edit</mat-icon></button>
@@ -21,9 +21,16 @@
         }
         @if(!store.isInEditMode()){
             <div class="display">
+                @if(responsivnessService.isPhoneOrTablet()) {
+                    <app-display-value > 
+                        <app-display-label i18n>Name</app-display-label>
+                        <app-display-content> {{store.selectedEntry()?.name }} </app-display-content>
+                    </app-display-value> 
+                }
                 <app-display-value > 
                     <app-display-label i18n>Kategorie</app-display-label>
-                    <app-display-content>{{store.selectedEntry()!.category.categoryName}}</app-display-content>           
+                    <app-display-content>
+                        <app-category-icon [size]="'verysmall'" [showFullCategoryName]="true" [userCategory]="store.selectedEntry()!.category" [taskName]="store.selectedEntry()!.name"></app-category-icon></app-display-content>           
                 </app-display-value> 
                 <app-display-value > 
                     <app-display-label i18n>Letzte Eintragung am</app-display-label>
@@ -38,7 +45,8 @@
                 <app-display-value >
                     <app-display-label i18n>Fällig</app-display-label>
                     <app-display-content>
-                        {{store.selectedEntry()?.dueDate ? (store.selectedEntry()!.dueDate | date) : '-'}}
+                        {{store.selectedEntry()?.dueDate ? (store.selectedEntry()!.dueDate | date:'fullDate') : '-'}}
+                        (<app-due-date-view [dueDate]="store.selectedEntry()?.dueDate" [showIcon]="false"></app-due-date-view>)
                     </app-display-content>    
                 </app-display-value>
             </div>    

@@ -1,14 +1,13 @@
-# Use postgres/example user/password credentials
-version: '3.9'
+name: retracker
 
 services:
 
   db:
     image: postgres
-    restart: always
+    restart: unless-stopped
     shm_size: 128mb
     volumes:
-      - ./docker/init_additional_databases.sh:/docker-entrypoint-initdb.d/init_additional_databases.sh
+      - ./init_additional_databases.sh:/docker-entrypoint-initdb.d/init_additional_databases.sh
       - retracker-db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: retracker
@@ -22,12 +21,13 @@ services:
 
   adminer:
     image: adminer
-    restart: always
+    restart: unless-stopped
     ports:
       - 9090:8080
 
   keycloak:
     image: keycloak/keycloak:26.0.7
+    restart: unless-stopped
     depends_on:
       - db
     environment:
@@ -37,15 +37,38 @@ services:
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: retracker-keycloak
       KC_DB: postgres
+      KC_METRICS_ENABLED: true
     command:
       - start-dev
     ports:
       - 8081:8080
+      - 9000:9000
       
   mail:
     image: mailhog/mailhog
     ports:
       - "8100:8025"
 
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ./data/prometheus:/data
+    command: 
+      - '--storage.tsdb.path=/data'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+     - '3000:3000'
+    volumes:
+      - ./data/grafana:/var/lib/grafana
 volumes:
   retracker-db:

@@ -1,4 +1,5 @@
 
+<button mat-icon-button title="Schließen" (click)="closeDialog()"><mat-icon>chevron_right</mat-icon></button>
 @if(store.count() > 0) {
     <div class="notifications-area">
         @for(notification of store.notifications(); track notification.id) {

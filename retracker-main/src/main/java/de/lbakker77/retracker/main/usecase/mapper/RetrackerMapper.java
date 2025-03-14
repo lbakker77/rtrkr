@@ -31,7 +31,8 @@ public abstract class RetrackerMapper {
         this.messageSource = messageSource;
     }
 
-    public abstract RetrackerListDto toRetrackerListDto(RetrackerList retrackerList, long dueCount, boolean isInvitation, boolean isOwner, String name);
+    @Mapping(source = "nameOverride", target = "name" )
+    public abstract RetrackerListDto toRetrackerListDto(RetrackerList retrackerList, long dueCount, boolean isInvitation, boolean isOwner, String nameOverride);
 
     @Mapping(target = "history", expression = "java(toEntryHistoryDtos(task.getHistory(), timeZone))")
     public abstract RetrackerTaskDto toRetrackerTaskDto(Task task, @Context TimeZone timeZone);

@@ -73,8 +73,15 @@ export class AuthStore extends signalStore({ protectedState: false },withState(i
 
     login() 
     {
+      this.keycloak.login({redirectUri : window.location.origin + "/retracker/all"});
+    }
+
+    loginAndRedirectBack() 
+    {
       this.keycloak.login();
     }
+
+    
   
     logout() {
       this.keycloak.logout();

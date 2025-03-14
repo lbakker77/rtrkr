@@ -12,8 +12,15 @@ import { UserCategory } from '../../../data/task.model';
 export class CategoryIconComponent { 
   userCategory = input.required<UserCategory>();
   taskName = input.required<string>();
-  size = input<"large" | "small">("large");
+  showFullCategoryName = input(false);
+  size = input<"large" | "small" | "verysmall">("large");
 
-  categorySingleLetter = computed(() => this.taskName() ?? ''.length > 0 ? this.taskName()[0].toUpperCase() : '?');
+  text = computed(() => {
+    if (this.showFullCategoryName()) {
+      return this.userCategory().categoryName;
+    }else {
+      return this.taskName() ?? ''.length > 0 ? this.taskName()[0].toUpperCase() : '?'
+    }
+  });
   
 }

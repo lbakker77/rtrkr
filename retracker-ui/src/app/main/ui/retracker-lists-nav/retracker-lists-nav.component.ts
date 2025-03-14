@@ -24,7 +24,6 @@ export class RetrackerListsNavComponent {
   secodaryNavService = inject(SecodaryNavService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private currentListId: string = '';
   store = inject(ListStore);
   private readonly dialogService = inject(ResponsiveDialogService);
   
@@ -32,18 +31,7 @@ export class RetrackerListsNavComponent {
   constructor() {
     this.store.loadLists();
 
-    effect(() => {
-      if (this.store.isInitialized()) {
-        untracked(() => {
-          if (this.store.lists().length > 1) {
-            this.router.navigate(['all'],  { relativeTo: this.route });
-          }else {
-            const firstEntry = this.store.lists().at(0) ;
-            this.router.navigate([firstEntry!.id],  { relativeTo: this.route });
-          }
-        });
-      }
-    });
+    
   }
 
 

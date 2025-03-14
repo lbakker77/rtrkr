@@ -1,1 +1,4 @@
-<div [ngClass]="'category-' + userCategory().categoryColor.toLowerCase()" class="category" [class.small]="size() =='small'" [title]="userCategory().categoryName"><span class="category-text">{{categorySingleLetter()}}</span></div>
+
+<div [ngClass]="'category-' + userCategory().categoryColor.toLowerCase()" class="category" [class.small]="size() =='small'" [class.verysmall]="size() =='verysmall'" [title]="userCategory().categoryName">
+    <span class="category-text">{{text()}}</span>
+</div>

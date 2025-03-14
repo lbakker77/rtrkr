@@ -20,6 +20,7 @@ public class BaseResponse {
         return BaseResponse.builder().success(false).violations(violations).build();
     }
 
+    @Builder.Default
     private boolean success = true;
     @Builder.Default
     private List<Violation> violations = new LinkedList<>();

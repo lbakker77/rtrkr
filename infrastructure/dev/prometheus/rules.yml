@@ -1,0 +1,13 @@
+groups:
+- name: required-services-monitoring
+  rules:
+
+  # Alert for any instance that is unreachable for >5 minutes.
+  - alert: InstanceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Die Instanz {{ $labels.instance }} ist down"
+      description: "{{ $labels.instance }} ist seit 5 Minuten nicht erreichbar."

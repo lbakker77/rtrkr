@@ -4,10 +4,11 @@ import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { DialogRef } from '@angular/cdk/dialog';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-notifications-list',
-  imports: [DatePipe, MatButtonModule],
+  imports: [DatePipe, MatButtonModule, MatButtonModule, MatIcon],
   templateUrl: './user-notifications-list.component.html',
   styleUrl: './user-notifications-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +30,10 @@ export class UserNotificationsListComponent {
         this.dialogRef.close();
     }
   }
-    
+
+  
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }
  

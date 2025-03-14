@@ -16,7 +16,8 @@ public class JwtSecurityConfig {
     private static final String[] AUTH_WHITELIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/ws/**"
+            "/ws/**",
+            "/actuator/**",
     };
 
     @Bean

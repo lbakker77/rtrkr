@@ -20,10 +20,13 @@ import { addDays, todayAsDate } from '../../../core/utils/date.utils';
 import { ResponsiveDialogService } from '../../../shared/component/responsive-dialog.service';
 import { ManualDuedateComponent } from './manual-duedate/manual-duedate.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CategoryIconComponent } from '../shared/category-icon/category-icon.component';
+import { ResponsivnessService } from '../../../shared/service/responsivness.service';
+import { DueDateViewComponent } from "../shared/due-date-view/due-date-view.component";
 
 @Component({
   selector: 'app-retracker-editor',
-  imports: [DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent, MatProgressBarModule],
+  imports: [DueDateViewComponent,CategoryIconComponent, DatePipe, DetailHeaderBarComponent, DisplayValueComponent, MatButton, MatMenuModule, MatIcon, MatIconButton, RetrackerEditorBasedataComponent, DisplayLabelDirective, DisplayContentDirective, RecurranceConfigViewComponent, MatDialogModule, HistoryViewComponent, HistoryViewComponent, MatProgressBarModule, DueDateViewComponent],
   templateUrl: './retracker-editor.component.html',
   styleUrl: './retracker-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush, 
@@ -34,13 +37,11 @@ export class RetrackerEditorComponent {
 
   readonly dialog = inject(MatDialog);
   readonly responsiveDialogService = inject(ResponsiveDialogService);
+  readonly responsivnessService = inject(ResponsivnessService);
   store = inject(TaskEditorStore);
-  overviewStore = inject(TaskStore);
   id = input.required<string | undefined>();
   entryChange = output<OverviewTask>();
   deleted = output<string>();
-
-
 
   constructor() {
     effect(() => {

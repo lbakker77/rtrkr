@@ -21,11 +21,11 @@ export class WelcomeComponent {
   constructor(){
     effect(() => {
       if (this.authStore.isAuthenticated() && this.authStore.userId() && this.router.url === '/welcome'  || this.router.url === '/') {
-        this.router.navigate(['/retracker']);
+        this.router.navigate(['/retracker/all']);
       }
     }); 
     effect(() => {
-      if (this.video()) {
+      if (this.video() && this.authStore.ready() && !this.authStore.isAuthenticated()) {
           this.video()!.nativeElement.muted = true;
           this.video()!.nativeElement.play();
       }
