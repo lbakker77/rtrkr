@@ -3,12 +3,14 @@ package de.lbakker77.retracker.main.usecase.sharing;
 import de.lbakker77.retracker.core.*;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@ToString
 public class ShareListRemoveUseCase extends BaseUseCaseHandler<ShareListRemoveRequest, BaseResponse> {
     private final RetrackerService retrackerService;
 

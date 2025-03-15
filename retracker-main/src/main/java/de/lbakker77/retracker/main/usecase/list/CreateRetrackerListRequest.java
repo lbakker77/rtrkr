@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class CreateRetrackerListRequest extends BaseRequest {
     @NotNull
     @Size(min = 1, max = 20, message = "List name must be between 1 and 20 characters")

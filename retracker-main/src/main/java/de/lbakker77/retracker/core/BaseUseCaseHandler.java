@@ -4,12 +4,14 @@ import de.lbakker77.retracker.core.interceptor.UserTimeZoneServiceImpl;
 import de.lbakker77.retracker.user.UserService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Set;
 
+@Slf4j
 public abstract class BaseUseCaseHandler<Request extends BaseRequest, Response extends BaseResponse> {
     private UserService userService;
     private UserTimeZoneServiceImpl userTimeZoneService;
@@ -46,6 +48,7 @@ public abstract class BaseUseCaseHandler<Request extends BaseRequest, Response e
     public Response handle(Request request) {
         var validationResult = validator.validate(request);
         if (!validationResult.isEmpty()) {
+            log.debug("Static request validation failed for request of type: {} with content: {}", request.getClass(), request);
             return createErrorResponse(validationResult);
         }
         return handle(request, new CommandContext(userService.getOrCreateUserId(), userTimeZoneService.getUserTimeZone()));

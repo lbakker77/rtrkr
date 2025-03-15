@@ -5,12 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class AcceptInvitationRequest extends BaseRequest {
     public AcceptInvitationRequest(UUID listId) {
         this.listId = listId;

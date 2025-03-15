@@ -4,6 +4,7 @@ package de.lbakker77.retracker.core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -21,15 +22,17 @@ public class UseCaseExecutor {
 
     @Transactional
     public <Response extends BaseResponse, Request extends BaseRequest> Response execute(Request request) {
+        Assert.notNull(request, "Request must not be null");
         @SuppressWarnings("unchecked")
-
         BaseUseCaseHandler<Request, Response> useCaseHandler = (BaseUseCaseHandler<Request, Response>) useCaseHandlerMap.get(request.getClass());
         return useCaseHandler.handle(request);
-
     }
 
     @Transactional
     public <Response extends BaseResponse, Request extends BaseRequest> Response execute(Request request, Class<Response> ignoredC) {
-        return execute(request);
+        Assert.notNull(request, "Request must not be null");
+        @SuppressWarnings("unchecked")
+        BaseUseCaseHandler<Request, Response> useCaseHandler = (BaseUseCaseHandler<Request, Response>) useCaseHandlerMap.get(request.getClass());
+        return useCaseHandler.handle(request);
     }
 }

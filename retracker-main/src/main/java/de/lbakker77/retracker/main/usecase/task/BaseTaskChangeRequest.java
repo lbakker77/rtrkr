@@ -2,10 +2,7 @@ package de.lbakker77.retracker.main.usecase.task;
 
 import de.lbakker77.retracker.core.BaseRequest;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,6 +11,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class BaseTaskChangeRequest extends BaseRequest {
     @NotNull
     private UUID id;

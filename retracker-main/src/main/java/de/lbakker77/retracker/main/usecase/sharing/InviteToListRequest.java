@@ -3,10 +3,7 @@ package de.lbakker77.retracker.main.usecase.sharing;
 import de.lbakker77.retracker.core.BaseRequest;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,6 +11,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class InviteToListRequest extends BaseRequest {
     @NotNull
     private UUID listId;

@@ -181,4 +181,10 @@
                       oldColumnName="category_name"
                       tableName="task"/>
     </changeSet>
+    <changeSet author="lars" id="21">
+        <modifyDataType tableName="event_publication"
+                        columnName="serialized_event"
+                        newDataType="TEXT"
+        />
+    </changeSet>
 </databaseChangeLog>

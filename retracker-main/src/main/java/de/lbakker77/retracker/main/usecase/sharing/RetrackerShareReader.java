@@ -7,6 +7,7 @@ import de.lbakker77.retracker.main.usecase.dtos.ShareConfigDto;
 import de.lbakker77.retracker.user.UserService;
 import de.lbakker77.retracker.user.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@ToString
 public class RetrackerShareReader {
     private final RetrackerService retrackerService;
     private final UserService userService;

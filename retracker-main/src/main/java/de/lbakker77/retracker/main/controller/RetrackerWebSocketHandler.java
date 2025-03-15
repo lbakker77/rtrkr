@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.LocalDate;
 
@@ -18,7 +19,7 @@ public class RetrackerWebSocketHandler {
     private final SimpMessagingTemplate template;
     private final String TOPIC_BASE = "/topic/retracker/";
 
-    @EventListener
+    @TransactionalEventListener
     void on(TaskChangedEvent event) {
         // Check if the due date has changed by at least 2 days due to different time zones
         var dueCountChangePossible = false;
@@ -31,7 +32,7 @@ public class RetrackerWebSocketHandler {
         template.convertAndSend(TOPIC_BASE + event.list().getId(), new TaskChangeEventDto(event.task().getId(), ChangeType.CHANGED, dueCountChangePossible, event.userId() ));
     }
 
-    @EventListener
+    @TransactionalEventListener
     void on(TaskDeletedEvent event) {
         var dueCountChangePossible = event.deletedTask().getDueDate()!= null && event.deletedTask().getDueDate().isBefore(LocalDate.now().plusDays(2));
         template.convertAndSend(TOPIC_BASE + event.list().getId(), new TaskChangeEventDto(event.deletedTask().getId(), ChangeType.DELETED, dueCountChangePossible, event.userId()));

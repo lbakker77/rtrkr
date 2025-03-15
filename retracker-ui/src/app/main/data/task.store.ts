@@ -43,6 +43,7 @@ export class TaskStore  extends signalStore ({ protectedState: false },  withSta
           this.removeSelected(changes.taskId);
         } else if (changes.changeType === ChangeType.CHANGED) {
           this.retrackerService.loadDetail(changes.taskId).subscribe(entry => {
+            console.log('TaskStore: Task changed', entry);
             this.updateEntry(entry);
             if (entry.id === this.selected()?.id) {
               this.notificationService.open($localize `Der aktuelle Eintrag wurde von einem anderen Benutzer geändert` );
