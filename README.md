@@ -38,6 +38,9 @@ RTRKR is a responsive web application. It uses Java Spring Boot for the backend 
 <br/><br/>
 <br/><br/>
 
+![Notifications](assets/screenshot_notifications.png)<br/><br/>
+*Notifications*
+
 
 ## :electric_plug: Tech Stack
 
