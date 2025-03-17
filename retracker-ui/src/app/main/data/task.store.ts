@@ -82,7 +82,12 @@ export class TaskStore  extends signalStore ({ protectedState: false },  withSta
       if (e1.dueDate?.getTime() === e2.dueDate?.getTime()) {
         return e1.name.localeCompare(e2.name);
       }
-      return (e1.dueDate?.getTime() || 0 > (e2.dueDate?.getTime() || 0)) ? 1 : -1;
+      const e1Time = e1.dueDate ? e1.dueDate.getTime() : 0;
+      const e2Time = e2.dueDate ? e2.dueDate.getTime() : 0;
+
+      const result = e1Time > e2Time ? 1 : -1;
+      console.log(result + " comparing due dates: " + e1.dueDate + " and " + e2.dueDate + "of " + e1.name + " and " + e2.name );
+      return result;
     }
 
     entriesWithFilter = computed(() => {

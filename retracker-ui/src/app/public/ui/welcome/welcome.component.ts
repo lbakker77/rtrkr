@@ -20,7 +20,7 @@ export class WelcomeComponent {
 
   constructor(){
     effect(() => {
-      if (this.authStore.isAuthenticated() && this.authStore.userId() && this.router.url === '/welcome'  || this.router.url === '/') {
+      if (this.authStore.isAuthenticated() && this.authStore.userId() && (this.router.url === '/welcome'  || this.router.url === '/')) {
         this.router.navigate(['/retracker/all']);
       }
     }); 
