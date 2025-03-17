@@ -68,3 +68,5 @@ Infrastructure:
 
 ## :clipboard: Plans
 * complete internationalization german + english
+* automatic category leveraging ai
+* automatic ai based reminders before due date
