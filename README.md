@@ -6,7 +6,7 @@
 
 
 ## About
-This project is mainly intended as a personal practice project to try out new things (e.g. Angular Signals and NGRX Signal Store, Spring Modulith). Nevertheless, the project aims to be production-ready although I do not plan to deploy and run it. 
+This project is primarily a personal practice project to experiment with technologies (e.g., Angular Signals, NGRX Signal Store, Spring Modulith, and Websockets with STOMP, own architecture ideas). While I don’t plan to deploy and run it, the project is designed with production-readiness in mind.
 
 RTRKR (pronounced: retracker) was built around the idea of managing recurring tasks that require flexibility. Traditional calendar reminders often fall short for activities that don’t always happen on a strict schedule. For example, you might aim to get a haircut every four weeks, but if you delay it by a week, the next reminder should adapt accordingly. Regular calendar entries don’t accommodate these shifts, leading to reminders that feel out of sync. RTRKR addresses this by allowing reminders to be based on actual completion dates, ensuring that your schedule stays aligned with reality.
 
@@ -37,17 +37,31 @@ RTRKR is a responsive web application. It uses Java Spring Boot for the backend 
 *Real time synchronization of shared lists between users*
 <br/><br/>
 <br/><br/>
-![notifications](assets/screenshot_notifications.png)<br/><br/>
-*In app notifications*
-<br/><br/>
-<br/><br/>
 
 
 ## :electric_plug: Tech Stack
 
-Backend: Java Spring Boot, Spring Modulith, Rest, WebSockets / Stomp, JPA / Spring Data
+Backend: 
+* Java
+* Spring Boot
+* Spring Modulith
+* Rest
+* WebSockets / Stomp
+* JPA / Spring Data
 
-Infrastructure: Docker, KeyCloak, PostgreSQL
+Frontend: 
+* Typescript
+* Angular V19
+* Angular Material
+* NGRX Signal Store
 
-Frontend: Angular, Angular Material, NGRX Signal Store
+Infrastructure: 
+* Docker
+* KeyCloak
+* PostgreSQL
+* Prometheus
 
+
+
+## :clipboard: Plans
+* complete internationalization german + english
