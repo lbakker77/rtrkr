@@ -20,21 +20,22 @@ RTRKR is a responsive web application. It uses Java Spring Boot for the backend 
 
 ## Screenshots
 
-![basic desktop view](assets/screenshot1.png)
-
-Desktop view in light theme with multiple lists
-
-![add task mobile dark theme](assets/screenshot_add_task.png)
-
-Mobile view in dark theme adding a new task.
-
-![Search in mobile mode](assets/screenshot_search.png)
-
-Search feature
-
-![real time collaboration](assets/shared_lists.gif)
-
-Real time synchronization of shared lists between users. 
+![basic desktop view](assets/screenshot1.png)<br/><br/>
+*Desktop view in light theme with multiple lists*
+<br/><br/>
+<br/><br/>
+![add task mobile dark theme](assets/screenshot_add_task.png)<br/><br/>
+*Mobile view in dark theme adding a new task*
+<br/><br/>
+<br/><br/>
+![Search in mobile mode](assets/screenshot_search.png)<br/><br/>
+*Search feature*
+<br/><br/>
+<br/><br/>
+![real time collaboration](assets/shared_lists.gif)<br/><br/>
+*Real time synchronization of shared lists between users*
+<br/><br/>
+<br/><br/>
 
 
 ## :electric_plug: Tech Stack
