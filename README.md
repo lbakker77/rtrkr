@@ -7,6 +7,7 @@
 
 ## About
 This project is mainly intended as a personal practice project to try out new things (e.g. Angular Signals and NGRX Signal Store, Spring Modulith). Nevertheless, the project aims to be production-ready although I do not plan to deploy and run it. 
+
 RTRKR (pronounced: retracker) was built around the idea of managing recurring tasks that require flexibility. Traditional calendar reminders often fall short for activities that don’t always happen on a strict schedule. For example, you might aim to get a haircut every four weeks, but if you delay it by a week, the next reminder should adapt accordingly. Regular calendar entries don’t accommodate these shifts, leading to reminders that feel out of sync. RTRKR addresses this by allowing reminders to be based on actual completion dates, ensuring that your schedule stays aligned with reality.
 
 RTRKR is a responsive web application. It uses Java Spring Boot for the backend and Angular for the frontend.
