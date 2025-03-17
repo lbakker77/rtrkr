@@ -41,9 +41,28 @@ RTRKR is a responsive web application. It uses Java Spring Boot for the backend 
 
 ## :electric_plug: Tech Stack
 
-Backend: Java Spring Boot, Spring Modulith, Rest, WebSockets / Stomp, JPA / Spring Data
+Backend: 
+* Java
+* Spring Boot
+* Spring Modulith
+* Rest
+* WebSockets / Stomp
+* JPA / Spring Data
 
-Infrastructure: Docker, KeyCloak, PostgreSQL
+Frontend: 
+* Typescript
+* Angular V19
+* Angular Material
+* NGRX Signal Store
 
-Frontend: Angular, Angular Material, NGRX Signal Store
+Infrastructure: 
+* Docker
+* KeyCloak
+* PostgreSQL
+* Prometheus
+
+
+
+## :clipboard: Plans
+* complete internationalization german + english
 
