@@ -1,8 +1,8 @@
 # Evaluation #
 
-This document contains the evaludation guidelines used to test and select an ai model for re-tracker automatic category assignmemt
+This document contains evaludation guidelines used to test and select an ai model for rtrkr's automatic category assignmemt
 
-The output of the ai must not be of very high quality since the categries can be changed by the user manually if required. The ai selection should not require a manual change in > 95% of the cases.
+The output of the ai module does not need to be of very high quality since the categries can be changed by the user manually if required. Nevertheless the ai selection should be fitting in > 95% of the cases.
 
 ## Expectations ##
 
