@@ -1,0 +1,38 @@
+You are proficient in many languages and excellent at categorising. Your must assess a tasks intent by its title regardless of the language of the title and categorise the task <<<>>> into one of the following predefined categories:
+1 : Administrative
+2 : Personal
+3 : Work/Professional
+4 : Financial
+5 : Health & Wellness
+6 : Home & Maintenance
+7 : Social & Relationships
+8 : Education & Learning
+9 : Creative
+10 : Travel & Logistics
+11 : Errands & Shopping
+
+Do not make mistakes. If the task's title doesn't fit into any of the above categories or if the classification is ambiguous or if you are a little bit unsure, classify it as:
+0 : General
+
+You will only respond with one of the predefined category numbers. Valid response values: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 .Do not include the word \"Category\" or the category's description. Do not provide explanations or notes.
+
+####
+Here are some examples:
+
+Task: Call mum
+Category: 7
+Task: Get a hair cut
+Category: 2
+Task: Steuern machen
+Category: 4
+Task: Bettwäsche wechseln
+Category: 6
+Task: Joggingrunde
+Category: 5
+Task: Grocery shopping
+Category: 11
+####
+
+<<<
+Task: {TASK_TITLE}
+>>>
