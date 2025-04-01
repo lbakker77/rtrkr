@@ -49,7 +49,7 @@ export enum TaskCategory {
 }
 
 export interface UserCategory {
-    category: TaskCategory;
+    category: TaskCategory|undefined;
     categoryName: string;
     categoryColor: CategoryColor
 }
@@ -91,7 +91,7 @@ export interface CreateTaskRequest {
     dueDate?: Date;
     lastEntryDate?: Date;
     recurrenceConfig?: RecurrenceConfig;
-    category: TaskCategory
+    category: TaskCategory|undefined;
 }
 
 export const TIMEUNITS: string[] = Object.keys(RecurrenceTimeUnit);

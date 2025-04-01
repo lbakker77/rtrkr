@@ -18,6 +18,7 @@ RTRKR is a responsive web application. It uses Java Spring Boot for the backend 
 * Shared Lists: Manage lists together with your family, work group, or friends. Updates are automatically synchronized between users using websockets and stomp.
 * Responsive Design: The application is designed to work seamlessly on various devices, providing an optimal user experience on desktops, tablets, and mobile phones.
 * Light and Dark mode
+* AI categorization of tasks
 
 ## Screenshots
 
@@ -68,5 +69,4 @@ Infrastructure:
 
 ## :clipboard: Plans
 * complete internationalization german + english
-* automatic category leveraging ai
 * automatic ai based reminders before due date

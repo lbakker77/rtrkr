@@ -52,7 +52,7 @@ export class RetrackerCreateComponent implements OnInit {
     list: new FormControl<RetrackerList|undefined>(undefined),
   });
 
-  categories = this.userCategoryService.categories;
+  categories = this.userCategoryService.categoriesWithAuto;
   isReady = this.userCategoryService.isReady;
   timeunits = TIMEUNITS; 
 
