@@ -32,3 +32,9 @@ class Llama8BModel(Phi4MiniInstructModel):
     def __init__(self):
         super().__init__()
         self.model = "meta-llama-3.1-8b-instruct"
+
+
+class Gemma312BModel(Phi4MiniInstructModel):
+    def __init__(self):
+        super().__init__()
+        self.model = "gemma-3-12b-it"

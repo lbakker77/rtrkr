@@ -24,7 +24,6 @@ public class CreateTaskRequest extends BaseRequest {
     private String name;
     private ZonedDateTime dueDate;
     private ZonedDateTime lastEntryDate;
-    @NotNull
     private TaskCategory category;
     private RecurrenceConfigDto recurrenceConfig;
 }

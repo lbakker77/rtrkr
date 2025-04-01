@@ -4,6 +4,7 @@ import de.lbakker77.retracker.core.BaseUseCaseHandler;
 import de.lbakker77.retracker.core.CommandContext;
 import de.lbakker77.retracker.core.CreatedResponse;
 import de.lbakker77.retracker.main.TaskCreatedEvent;
+import de.lbakker77.retracker.main.ai.AutoCategoryService;
 import de.lbakker77.retracker.main.domain.RetrackerService;
 import de.lbakker77.retracker.main.domain.TaskCreator;
 import de.lbakker77.retracker.main.usecase.mapper.RetrackerMapper;
@@ -18,10 +19,16 @@ public class CreateTaskUseCase extends BaseUseCaseHandler<CreateTaskRequest, Cre
     private final RetrackerService retrackerService;
     private final RetrackerMapper retrackerMapper;
     private final TaskCreator taskCreator;
+    private final AutoCategoryService autoCategoryService;
 
     @Override
     protected CreatedResponse handle(CreateTaskRequest request, CommandContext commandContext) {
         var list = retrackerService.loadRetrackerListAndEnsureAccess(request.getListId(), commandContext.userId());
+
+        if (request.getCategory() == null) {
+            var autoCategory = autoCategoryService.getAutoCategory(request.getName());
+            request.setCategory(autoCategory);
+        }
 
         var dueDate = request.getDueDate() != null ? request.getDueDate().withZoneSameInstant(commandContext.getZoneId()).toLocalDate() : null;
         var lastEntryDate = request.getLastEntryDate() != null ? request.getLastEntryDate().withZoneSameInstant(commandContext.getZoneId()).toLocalDate() : null;

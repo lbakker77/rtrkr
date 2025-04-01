@@ -31,10 +31,10 @@ class TestResult:
         self.latencyMsList: list[float] = []
 
     def add_test_result(self, test_case: TestCase, responseText: str, latencyMs: float):
+        self.overallCount += 1
         try:
             retvalInt = int(responseText)
             category = TaskCategory(retvalInt)
-            self.overallCount += 1
             if category in test_case.categories:
                 self.successCount += 1
             elif (category == TaskCategory.GENERAL):

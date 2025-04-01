@@ -17,20 +17,35 @@ import java.nio.file.Files;
 @Slf4j
 public class AutoCategoryService {
     private final ChatModel chatModel;
+    private String template;
+
+    private String getTemplate() {
+        if (template == null) {
+            try {
+                File file = ResourceUtils.getFile("classpath:ai/auto-category-prompt-template.txt");
+                template = Files.readString(file.toPath());
+            } catch (IOException e) {
+                throw new IllegalStateException("Unable to load auto-category prompt template", e);
+            }
+        }
+        return template;
+    }
 
     public TaskCategory getAutoCategory(String taskTitle) {
-        String promptTemplate;
         try {
-            File file = ResourceUtils.getFile("classpath:ai/auto-category-prompt-template.txt");
-            promptTemplate = Files.readString(file.toPath());
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to load auto-category prompt template", e);
+            var promptTemplate = getTemplate();
+            var promptString = promptTemplate.replace("{TASK_TITLE}", taskTitle);
+            var response = chatModel.call(new Prompt(promptString));
+            var aiCategoryOrdinalAsString = response.getResult().getOutput().getText().trim();
+            log.debug("Detected AI category number: {} for task {}", aiCategoryOrdinalAsString, taskTitle);
+            return getCategory(taskTitle, aiCategoryOrdinalAsString);
+        } catch (Exception e) {
+            log.error("Error detecting AI category for task {}", taskTitle, e);
+            return TaskCategory.GENERAL;
         }
+    }
 
-        var promptString = promptTemplate.replace("{TASK_TITLE}", taskTitle);
-        var response = chatModel.call(new Prompt(promptString));
-        var aiCategoryOrdinalAsString = response.getResult().getOutput().getText().trim();
-        log.debug("Detected AI category number: {} for task {}", aiCategoryOrdinalAsString, taskTitle);
+    private static TaskCategory getCategory(String taskTitle, String aiCategoryOrdinalAsString) {
         try {
             var taskCategoryNo = Integer.parseInt(aiCategoryOrdinalAsString);
             return TaskCategory.values()[taskCategoryNo];

@@ -1,7 +1,7 @@
 from .base_model import BaseModel
 from .foomodel import FooModel
 from .gemini import GeminiFlashLightModel, GeminiFlashModel, Gemma3Model
-from .lmstudio import Phi4MiniInstructModel, Phi4Model,MistralSmallInstructModel, Llama8BModel
+from .lmstudio import Phi4MiniInstructModel, Phi4Model,MistralSmallInstructModel, Llama8BModel, Gemma312BModel
 from .mistral import MistralSmallLatestModel
 
 from enum import Enum
@@ -11,6 +11,7 @@ class Models(str, Enum):
     GEMINI2FLASHLIGHT = "Gemini2FlashLightModel"
     GEMINI2FLASH = "Gemini2FlashModel"
     GEMMA3 = "Gemma3Model"
+    GEMMA312B = "Gemma312BModel"
     MISTRALSMALL = "MistralSmallLatestModel"
     PHI4MINI = "Phi4MiniInstructModel"
     PHI4 = "Phi4Model"
@@ -38,5 +39,7 @@ def get_model_instance(model_name: str) -> BaseModel:
             return MistralSmallInstructModel()
         case Models.LLAMA8B:
             return Llama8BModel()
+        case Models.GEMMA312B:
+            return Gemma312BModel()
         case _:
             raise ValueError(f"Unsupported model: {model_name}")

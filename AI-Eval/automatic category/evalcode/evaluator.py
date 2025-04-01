@@ -41,7 +41,7 @@ def run_simulation(model_name: str):
 def main():
     model_choices = [model.value for model in Models]
     parser = argparse.ArgumentParser(description="Run AI model evaluation")
-    parser.add_argument("--model", default=Models.MISTRALSMALL.value, help=f"Name of the model to evaluate", choices=model_choices)
+    parser.add_argument("--model", default=Models.GEMINI2FLASHLIGHT.value, help=f"Name of the model to evaluate", choices=model_choices)
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)
     run_simulation(args.model)
