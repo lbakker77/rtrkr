@@ -69,7 +69,7 @@ export class RetrackerEditorBasedataComponent {
     return {
       id: this.store.selectedEntry()!.id,
       name: name!,
-      category: userCategory!.category,
+      category: userCategory!.category!,
       recurrenceConfig: configureRecurrance ? { recurrenceInterval: recurrenceConfig?.recurrenceInterval!, recurrenceTimeUnit: recurrenceConfig?.recurrenceTimeUnit!} : undefined
     };
   }
