@@ -10,6 +10,9 @@
     "analyze-bundle": "ng build --configuration=analyze-bundle && source-map-explorer dist/**/*.js --no-border-checks"
   },
   "private": true,
+  "overrides": {
+    "undici": "^7.24.4"
+  },
   "dependencies": {
     "@angular/animations": "^21.2.4",
     "@angular/cdk": "^21.2.2",
