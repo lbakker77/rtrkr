@@ -14,7 +14,7 @@
 
 .iconButton {
   padding: 0 24px;
-  height: var(--mdc-text-button-container-height, 40px);
+  height: var(--mat-button-text-container-height, 40px);
   position: relative;
   overflow: visible;
   vertical-align: middle;
@@ -22,8 +22,8 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(0,0,0,0);
-  color: var(--mdc-text-button-label-text-color, var(--mat-sys-primary));
-  border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
+  color: var(--mat-button-text-label-text-color, var(--mat-sys-primary));
+  border-radius: var(--mat-button-text-container-shape, var(--mat-sys-corner-full));
   border: 0.5px solid rgba(0,0,0,0.1);
 
 }
@@ -33,8 +33,8 @@
     border: 1px dashed var(--mat-sys-on-surface-variant);
   }
   .background {
-    border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
-    background-color: var(--mat-text-button-state-layer-color, var(--mat-sys-primary));
+    border-radius: var(--mat-button-text-container-shape, var(--mat-sys-corner-full));
+    background-color: var(--mat-button-text-state-layer-color, var(--mat-sys-primary));
     opacity: 0;
     position:absolute;
     left:0;
@@ -43,7 +43,7 @@
     bottom:0;
   }
   .rippleHolder {
-    border-radius: var(--mdc-text-button-container-shape, var(--mat-sys-corner-full));
+    border-radius: var(--mat-button-text-container-shape, var(--mat-sys-corner-full));
     position:absolute;
     left:0;
     right:0;
@@ -60,11 +60,11 @@
 }
 
 .clickableArea:hover .background {
-  opacity: var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
+  opacity: var(--mat-button-text-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
 }
 
 .clickableArea.active .background {
-  opacity: var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
+  opacity: var(--mat-button-text-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
   background-color: var(--mat-sys-tertiary);
 }
 
