@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { CreatedResponse } from "../../../shared/data/response.model";
 import { RetrackerList } from "../../data/list.model";
-import { CommonModule } from '@angular/common';
+
 import { ListService } from '../../data/list.service';
 
 export interface RetrackerListCreateResult {
@@ -20,7 +20,6 @@ export interface RetrackerListCreateResult {
   selector: 'app-retracker-list-create-edit',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -28,7 +27,7 @@ export interface RetrackerListCreateResult {
     MatButtonModule,
     MatSelectModule,
     MatIconModule
-  ],
+],
   templateUrl: './retracker-list-create-edit.component.html',
   styleUrls: ['./retracker-list-create-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
