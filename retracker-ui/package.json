@@ -24,7 +24,7 @@
     "@ngrx/signals": "^21.0.1",
     "@stomp/rx-stomp": "^2.0.1",
     "@stomp/stompjs": "^7.0.0",
-    "keycloak-angular": "^19.0.2",
+    "keycloak-angular": "^21.0.0",
     "keycloak-js": "^26.0.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
